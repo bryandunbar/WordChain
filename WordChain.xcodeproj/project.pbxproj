@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		84068EE114059F5B000387EE /* WordChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */; };
+		84068F061405A1E3000387EE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84068F051405A1E3000387EE /* CoreData.framework */; };
 		E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503121403D24000D96AE6 /* QuartzCore.framework */; };
 		E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503141403D24000D96AE6 /* OpenGLES.framework */; };
 		E3B503171403D24000D96AE6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503161403D24000D96AE6 /* OpenAL.framework */; };
@@ -127,6 +129,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84068EE014059F5B000387EE /* WordChain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordChain.xcdatamodel; sourceTree = "<group>"; };
+		84068EE31405A0BC000387EE /* WordChain 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WordChain 2.xcdatamodel"; sourceTree = "<group>"; };
+		84068F051405A1E3000387EE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		E3B5030E1403D24000D96AE6 /* WordChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B503121403D24000D96AE6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3B503141403D24000D96AE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -368,6 +373,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84068F061405A1E3000387EE /* CoreData.framework in Frameworks */,
 				E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */,
 				E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */,
 				E3B503171403D24000D96AE6 /* OpenAL.framework in Frameworks */,
@@ -402,6 +408,7 @@
 		E3B503111403D24000D96AE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				84068F051405A1E3000387EE /* CoreData.framework */,
 				E3B503121403D24000D96AE6 /* QuartzCore.framework */,
 				E3B503141403D24000D96AE6 /* OpenGLES.framework */,
 				E3B503161403D24000D96AE6 /* OpenAL.framework */,
@@ -431,6 +438,7 @@
 				E3B504401403D24200D96AE6 /* FontLabel */,
 				E3B504511403D24300D96AE6 /* TouchJSON */,
 				E3B5046A1403D24300D96AE6 /* Supporting Files */,
+				84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */,
 			);
 			path = WordChain;
 			sourceTree = "<group>";
@@ -728,6 +736,7 @@
 		E3B503051403D24000D96AE6 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Great American Insurance";
 			};
 			buildConfigurationList = E3B503081403D24000D96AE6 /* Build configuration list for PBXProject "WordChain" */;
@@ -871,6 +880,7 @@
 				E3B504701403D24300D96AE6 /* AppDelegate.m in Sources */,
 				E3B504731403D24300D96AE6 /* RootViewController.m in Sources */,
 				E3B504761403D24300D96AE6 /* HelloWorldLayer.m in Sources */,
+				84068EE114059F5B000387EE /* WordChain.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -964,8 +974,23 @@
 				E3B5047C1403D24300D96AE6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84068EE31405A0BC000387EE /* WordChain 2.xcdatamodel */,
+				84068EE014059F5B000387EE /* WordChain.xcdatamodel */,
+			);
+			currentVersion = 84068EE014059F5B000387EE /* WordChain.xcdatamodel */;
+			path = WordChain.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E3B503051403D24000D96AE6 /* Project object */;
 }
