@@ -17,6 +17,79 @@
 
 @synthesize window;
 
+#pragma mark -
+#pragma mark Core Data Accessors
+
+//Explicitly write Core Data accessors
+- (NSManagedObjectContext *) managedObjectContext {
+	if (managedObjectContext != nil) {
+		return managedObjectContext;
+	}
+	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+	if (coordinator != nil) {
+		managedObjectContext = [[NSManagedObjectContext alloc] init];
+		[managedObjectContext setPersistentStoreCoordinator: coordinator];
+	}
+	
+	return managedObjectContext;
+}
+
+
+//Added 2/11/11
+- (NSManagedObjectModel *)managedObjectModel {
+	
+	if (managedObjectModel != nil) {
+		return managedObjectModel;
+	}
+	
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"GAIC GIS Entry" ofType:@"momd"];
+	NSURL *momURL = [NSURL fileURLWithPath:path];
+	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
+	
+	return managedObjectModel;
+}
+
+- (NSString *)applicationDocumentsDirectory {
+	return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+}
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
+	if (persistentStoreCoordinator != nil) {
+		return persistentStoreCoordinator;
+	}
+	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
+											   stringByAppendingPathComponent: @"<Project Name>.sqlite"]];
+	
+	//handle db upgrade 2/11/11
+	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES],NSMigratePersistentStoresAutomaticallyOption,
+							 [NSNumber numberWithBool:YES],NSInferMappingModelAutomaticallyOption, nil];
+	
+	NSError *error = nil;
+	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc]
+								  initWithManagedObjectModel:[self managedObjectModel]];
+	if(![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
+												 configuration:nil URL:storeUrl options:options error:&error]) {
+		/*Error for store creation should be handled in here*/
+	}
+	
+	// Added 1/28/2011 to enable encryption...
+	NSDictionary *fileAttributes = [NSDictionary
+									dictionaryWithObject:NSFileProtectionComplete
+									forKey:NSFileProtectionKey];
+	if(![[NSFileManager defaultManager] setAttributes:fileAttributes
+										 ofItemAtPath:[storeUrl path] error: &error]) {
+		NSLog(@"Unresolved error with store encryption %@, %@",
+			  error, [error userInfo]);
+		abort();
+	}
+	// End: Added 1/28/2011 to enable encryption...
+	
+	return persistentStoreCoordinator;
+}
+
+
+
 - (void) removeStartupFlicker
 {
 	//
@@ -151,6 +224,9 @@
 }
 
 - (void)dealloc {
+    [managedObjectContext release];
+	[managedObjectModel release];
+	[persistentStoreCoordinator release];
 	[[CCDirector sharedDirector] release];
 	[window release];
 	[super dealloc];
