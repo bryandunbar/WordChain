@@ -8,7 +8,9 @@
 
 #import "Tile.h"
 
-
+@interface Tile()
+-(NSString*)frameName;
+@end
 
 @implementation Tile
 @synthesize tileState, letter, row, col;
@@ -16,8 +18,7 @@
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c {
 
     // TODO: This will change
-    NSString *fileName = [NSString stringWithFormat:@"%@.png", (letter == nil ? @"back" : letter)];
-    Tile *tile = [[Tile alloc] initWithSpriteFrameName:fileName];
+    Tile *tile = [[Tile alloc] initWithSpriteFrameName:@"back.png"];
     tile.letter = letter;
     tile.row = r;
     tile.col = c;
@@ -31,9 +32,31 @@
     return tile;
 }
 
+-(void)setTileState:(TileState)newState {
+    self->tileState = newState;
+    
+    // Set the frame based on this
+    if (newState == TileStatePlayed) {
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[self frameName]]];
+    } else if (newState == TileStateUnused) {
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+    }
+}
+
+-(NSString*)frameName {
+   return [NSString stringWithFormat:@"%@.png", (self.letter == nil ? @"back" : self.letter)];
+}
+
 -(void)dealloc {
     [super dealloc];
     [letter release];
+}
+
+-(void)draw {
+    if (tileState == TileStateSelectable) {
+        [self setOpacity:100]; // TODO: This is kind of a lame selectable state, but oh well
+    }
+    [super draw];
 }
 
 @end

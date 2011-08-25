@@ -131,6 +131,7 @@
 		E3F468FC14069D59003BFBBF /* Letters.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FA14069D58003BFBBF /* Letters.plist */; };
 		E3F468FD14069D59003BFBBF /* Letters.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FB14069D58003BFBBF /* Letters.png */; };
 		E3F4690014069E15003BFBBF /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468FF14069E15003BFBBF /* Tile.m */; };
+		E3F469051406DE9D003BFBBF /* Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F469041406DE9D003BFBBF /* Chain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -381,6 +382,8 @@
 		E3F468FE14069E15003BFBBF /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		E3F468FF14069E15003BFBBF /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		E3F469011406A0E1003BFBBF /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
+		E3F469031406DE9D003BFBBF /* Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chain.h; sourceTree = "<group>"; };
+		E3F469041406DE9D003BFBBF /* Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chain.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,6 +442,7 @@
 		E3B503221403D24000D96AE6 /* WordChain */ = {
 			isa = PBXGroup;
 			children = (
+				E3F469021406DE88003BFBBF /* Model */,
 				E3F468F5140689F0003BFBBF /* Constants */,
 				E3F468F4140689E1003BFBBF /* Game Objects */,
 				E3F468ED140688EB003BFBBF /* Scenes */,
@@ -775,6 +779,15 @@
 			name = Constants;
 			sourceTree = "<group>";
 		};
+		E3F469021406DE88003BFBBF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E3F469031406DE9D003BFBBF /* Chain.h */,
+				E3F469041406DE9D003BFBBF /* Chain.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -951,6 +964,7 @@
 				E3F468F31406894A003BFBBF /* GameplayLayer.m in Sources */,
 				E3F468F914068A36003BFBBF /* Board.m in Sources */,
 				E3F4690014069E15003BFBBF /* Tile.m in Sources */,
+				E3F469051406DE9D003BFBBF /* Chain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

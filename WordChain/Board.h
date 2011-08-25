@@ -9,6 +9,7 @@
 #import "cocos2d.h"
 #import "Constants.h"
 #import "Tile.h"
+#import "Chain.h"
 
 @interface Board : CCLayerColor {
     
@@ -16,15 +17,15 @@
     Tile *grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
     
     /** Current Word Chain **/
-    NSArray *chain;
+    Chain *chain;
+    
 }
     
 
-@property (nonatomic,retain) NSArray *chain;
-
+@property (nonatomic,retain) Chain *chain;
 
 -(void)newChain; 
--(NSString*)wordForRow:(NSUInteger)row;
--(NSString*)letterForRow:(NSUInteger)row col:(NSUInteger)c;
-
+-(void)updateSelectableTiles;
+-(void)updateTileStates;
+-(Tile*)tileForRow:(NSUInteger)row col:(NSUInteger)c;
 @end

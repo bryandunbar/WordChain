@@ -12,7 +12,7 @@
 
 typedef enum {
     TileStateInitialized,
-    TileStateActive,
+    TileStateSelectable,
     TileStatePlayed,
     TileStateUnused
 } TileState;
