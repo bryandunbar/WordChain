@@ -9,15 +9,19 @@
 #import "Board.h"
 
 @interface Board()
--(void)initGrid;
 -(void)findSelectableTiles;
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
+-(void)promptForGuess:(Tile*)tile;
+-(NSString*)visibleTextForRow:(NSUInteger)row;
 
 @property (nonatomic,retain) NSMutableArray *selectableTiles;
+@property (nonatomic,retain) GuessView *guessView;
+@property (nonatomic,retain) UITextField *hiddenTextField;
 @end
 
 @implementation Board
 @synthesize chain, selectableTiles;
+@synthesize guessView, hiddenTextField;
 
 #pragma mark -
 #pragma mark Initialization
@@ -134,13 +138,50 @@
 
 -(void)playTile:(Tile *)tile {
     [tile play];
-    [self updateTileStates];
+    
+    [self promptForGuess:tile];
+    //[self updateTileStates];
+}
+
+-(void)promptForGuess:(Tile*)tile {
+    
+    if (!guessView) {
+        self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
+        guessView.delegate = self;
+    }
+    
+    if (!hiddenTextField) {
+        self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
+        hiddenTextField.inputAccessoryView = guessView;
+    }
+    
+    // Set the text and show the keyboard
+    guessView.textField.text = [self visibleTextForRow:tile.row];
+    [hiddenTextField becomeFirstResponder];
+    [guessView.textField becomeFirstResponder];
+}
+-(void)didGuess:(GuessView*)gv guess:(NSString *)g {
+    [gv.textField resignFirstResponder];
+    [hiddenTextField resignFirstResponder];
+}
+-(NSString*)visibleTextForRow:(NSUInteger)row {
+    NSString *word = [chain wordAtIndex:row];
+    
+    int count = 0;
+    for (int i = 0; i < [word length]; i++) {
+        Tile *tile = grid[row][i];
+        if (tile.tileState == TileStatePlayed) count++;
+    }
+    return [word substringToIndex:count];
 }
                           
 -(void)dealloc {
     [super dealloc];
     [chain release];
     [selectableTiles release];
+    [guessView release];
+    [hiddenTextField release];
 }
                                  
 

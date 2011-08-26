@@ -132,6 +132,8 @@
 		E3F468FD14069D59003BFBBF /* Letters.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FB14069D58003BFBBF /* Letters.png */; };
 		E3F4690014069E15003BFBBF /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468FF14069E15003BFBBF /* Tile.m */; };
 		E3F469051406DE9D003BFBBF /* Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F469041406DE9D003BFBBF /* Chain.m */; };
+		E3F4690B1407DC06003BFBBF /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E3F4690A1407DC06003BFBBF /* GuessView.xib */; };
+		E3F469181407F688003BFBBF /* GuessView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F469171407F688003BFBBF /* GuessView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -384,6 +386,9 @@
 		E3F469011406A0E1003BFBBF /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
 		E3F469031406DE9D003BFBBF /* Chain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Chain.h; sourceTree = "<group>"; };
 		E3F469041406DE9D003BFBBF /* Chain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Chain.m; sourceTree = "<group>"; };
+		E3F4690A1407DC06003BFBBF /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuessView.xib; sourceTree = "<group>"; };
+		E3F469161407F688003BFBBF /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessView.h; sourceTree = "<group>"; };
+		E3F469171407F688003BFBBF /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -442,6 +447,7 @@
 		E3B503221403D24000D96AE6 /* WordChain */ = {
 			isa = PBXGroup;
 			children = (
+				E3F469151407F665003BFBBF /* UIViews */,
 				E3F469021406DE88003BFBBF /* Model */,
 				E3F468F5140689F0003BFBBF /* Constants */,
 				E3F468F4140689E1003BFBBF /* Game Objects */,
@@ -480,6 +486,7 @@
 				E3B503321403D24000D96AE6 /* Icon@2x.png */,
 				E3B503341403D24000D96AE6 /* Info.plist */,
 				E3B503351403D24000D96AE6 /* iTunesArtwork */,
+				E3F4690A1407DC06003BFBBF /* GuessView.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -744,6 +751,8 @@
 		E3F468EC140688E4003BFBBF /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				E3F468F714068A36003BFBBF /* Board.h */,
+				E3F468F814068A36003BFBBF /* Board.m */,
 				E3F468F114068949003BFBBF /* GameplayLayer.h */,
 				E3F468F214068949003BFBBF /* GameplayLayer.m */,
 			);
@@ -762,8 +771,6 @@
 		E3F468F4140689E1003BFBBF /* Game Objects */ = {
 			isa = PBXGroup;
 			children = (
-				E3F468F714068A36003BFBBF /* Board.h */,
-				E3F468F814068A36003BFBBF /* Board.m */,
 				E3F468FE14069E15003BFBBF /* Tile.h */,
 				E3F468FF14069E15003BFBBF /* Tile.m */,
 			);
@@ -786,6 +793,15 @@
 				E3F469041406DE9D003BFBBF /* Chain.m */,
 			);
 			name = Model;
+			sourceTree = "<group>";
+		};
+		E3F469151407F665003BFBBF /* UIViews */ = {
+			isa = PBXGroup;
+			children = (
+				E3F469161407F688003BFBBF /* GuessView.h */,
+				E3F469171407F688003BFBBF /* GuessView.m */,
+			);
+			name = UIViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -850,6 +866,7 @@
 				E3B503361403D24000D96AE6 /* iTunesArtwork in Resources */,
 				E3F468FC14069D59003BFBBF /* Letters.plist in Resources */,
 				E3F468FD14069D59003BFBBF /* Letters.png in Resources */,
+				E3F4690B1407DC06003BFBBF /* GuessView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -965,6 +982,7 @@
 				E3F468F914068A36003BFBBF /* Board.m in Sources */,
 				E3F4690014069E15003BFBBF /* Tile.m in Sources */,
 				E3F469051406DE9D003BFBBF /* Chain.m in Sources */,
+				E3F469181407F688003BFBBF /* GuessView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

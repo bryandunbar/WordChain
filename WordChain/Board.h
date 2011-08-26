@@ -10,8 +10,9 @@
 #import "Constants.h"
 #import "Tile.h"
 #import "Chain.h"
+#import "GuessView.h"
 
-@interface Board : CCLayerColor <CCTargetedTouchDelegate> {
+@interface Board : CCLayerColor <CCTargetedTouchDelegate, GuessViewDelegate> {
     
     /** Board Consists of a grid of tiles **/
     Tile *grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
@@ -21,14 +22,14 @@
     
     @private
     NSMutableArray *selectableTiles; // Any any given point only certain tiles will be "selectable"
-    
+    UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up
+    GuessView *guessView; // The accessory view where the user enter's their guess
 }
     
 
 @property (nonatomic,retain) Chain *chain;
 
 -(void)newChain; 
--(void)updateSelectableTiles;
 -(void)updateTileStates;
 -(Tile*)tileForRow:(NSUInteger)row col:(NSUInteger)c;
 -(void)playTile:(Tile*)tile;
