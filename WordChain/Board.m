@@ -25,15 +25,8 @@
 
 #pragma mark -
 #pragma mark Initialization
--(id)initWithColor:(ccColor4B)color {
-    if (self = [super initWithColor:color]) {
-        // Register for touches
-        [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
-    }
-    return self;
-}
--(id)initWithColor:(ccColor4B)color width:(GLfloat)w height:(GLfloat)h {
-    if (self = [super initWithColor:color width:w height:h]) {
+-(id)init {
+    if (self = [super init]) {
         // Register for touches
         [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
     }
@@ -74,7 +67,7 @@
             grid[row][col] = tile;
             
             // Position the tile (Starting at the top left of the board)
-            tile.position = ccp([tile boundingBox].size.width * col, [CCDirector sharedDirector].winSize.height - [tile boundingBox].size.height * row);
+            tile.position = ccp([tile boundingBox].size.width * col, self.contentSize.height - [tile boundingBox].size.height * row);
             [self addChild:tile];
             
         }
@@ -144,11 +137,15 @@
 }
 
 -(void)promptForGuess:(Tile*)tile {
+
+    [self zoomToRow:tile];
+    
     
     if (!guessView) {
         self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
         guessView.delegate = self;
     }
+    
     
     if (!hiddenTextField) {
         self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
@@ -161,20 +158,32 @@
     [hiddenTextField becomeFirstResponder];
     [guessView.textField becomeFirstResponder];
 }
+
+-(void)zoomToRow:(Tile*)tile {
+
+    // Reposition
+    float newY = self.contentSize.height - tile.position.y;
+    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x, newY)]];
+}
+-(void)zoomOut {
+    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x,0)]];
+}
 -(void)didGuess:(GuessView*)gv guess:(NSString *)g {
 
     // Hide the keyboard
     [guessView.textField resignFirstResponder];
     [hiddenTextField resignFirstResponder];
     
+    [self zoomOut];
     // Check the guess
     if ([chain guess:g forWordAtIndex:lastPlayedTile.row]) {
-        // User guessed right
+        // TODO: User guessed right
     }
     
     // Update game state
     [self updateTileStates];
 }
+
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     NSString *word = [chain wordAtIndex:row];
     
@@ -183,7 +192,7 @@
         Tile *tile = grid[row][i];
         if (tile.tileState == TileStatePlayed) count++;
     }
-    return [word substringToIndex:count];
+    return [[word substringToIndex:count] uppercaseString];
 }
                           
 -(void)dealloc {

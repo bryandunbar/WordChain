@@ -12,7 +12,7 @@
 #import "Chain.h"
 #import "GuessView.h"
 
-@interface Board : CCLayerColor <CCTargetedTouchDelegate, GuessViewDelegate> {
+@interface Board : CCLayer <CCTargetedTouchDelegate, GuessViewDelegate> {
     
     /** Board Consists of a grid of tiles **/
     Tile *grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
