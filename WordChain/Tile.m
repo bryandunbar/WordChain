@@ -25,8 +25,12 @@
     
     tile.tileState = (letter == nil ? TileStateUnused : TileStateInitialized);
     
-    // TODO: Make sprites the right size in the images
-    tile.scale = 0.20;
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        // TODO: Make sprites the right size in the images
+        tile.scale = 0.20;
+    } else {
+        tile.scale = 0.45;
+    }
     
     return tile;
 }
