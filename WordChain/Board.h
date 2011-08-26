@@ -24,6 +24,8 @@
     NSMutableArray *selectableTiles; // Any any given point only certain tiles will be "selectable"
     UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up
     GuessView *guessView; // The accessory view where the user enter's their guess
+    
+    Tile *lastPlayedTile;
 }
     
 

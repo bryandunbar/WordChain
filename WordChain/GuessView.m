@@ -21,4 +21,8 @@
     [delegate didGuess:self guess:textField.text];
 }
 
+-(BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [delegate didGuess:self guess:textField.text];
+    return YES;
+}
 @end

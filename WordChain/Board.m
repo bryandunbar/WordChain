@@ -139,8 +139,8 @@
 -(void)playTile:(Tile *)tile {
     [tile play];
     
+    lastPlayedTile = tile;
     [self promptForGuess:tile];
-    //[self updateTileStates];
 }
 
 -(void)promptForGuess:(Tile*)tile {
@@ -162,8 +162,18 @@
     [guessView.textField becomeFirstResponder];
 }
 -(void)didGuess:(GuessView*)gv guess:(NSString *)g {
-    [gv.textField resignFirstResponder];
+
+    // Hide the keyboard
+    [guessView.textField resignFirstResponder];
     [hiddenTextField resignFirstResponder];
+    
+    // Check the guess
+    if ([chain guess:g forWordAtIndex:lastPlayedTile.row]) {
+        // User guessed right
+    }
+    
+    // Update game state
+    [self updateTileStates];
 }
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     NSString *word = [chain wordAtIndex:row];

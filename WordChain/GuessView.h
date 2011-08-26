@@ -14,7 +14,7 @@
 
 @end
 
-@interface GuessView : UIView {
+@interface GuessView : UIView <UITextFieldDelegate> {
     UITextField *textField;
     UIButton *button;
     
