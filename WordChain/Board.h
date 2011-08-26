@@ -11,13 +11,16 @@
 #import "Tile.h"
 #import "Chain.h"
 
-@interface Board : CCLayerColor {
+@interface Board : CCLayerColor <CCTargetedTouchDelegate> {
     
     /** Board Consists of a grid of tiles **/
     Tile *grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
     
     /** Current Word Chain **/
     Chain *chain;
+    
+    @private
+    NSMutableArray *selectableTiles; // Any any given point only certain tiles will be "selectable"
     
 }
     
@@ -28,4 +31,5 @@
 -(void)updateSelectableTiles;
 -(void)updateTileStates;
 -(Tile*)tileForRow:(NSUInteger)row col:(NSUInteger)c;
+-(void)playTile:(Tile*)tile;
 @end
