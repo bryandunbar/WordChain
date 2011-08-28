@@ -21,6 +21,7 @@
 -(NSString*)wordAtIndex:(NSUInteger)idx;
 -(NSString*)letterForWord:(NSUInteger)wordIdx atIndex:(NSUInteger)idx;
 
+-(BOOL)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
 -(BOOL)isWordSolved:(NSUInteger)idx;
 -(void)solveWordAtIndex:(NSUInteger)idx;
 -(BOOL)isChainSolved;

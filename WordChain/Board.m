@@ -9,13 +9,51 @@
 #import "Board.h"
 
 @interface Board()
--(void)initGrid;
 -(void)findSelectableTiles;
+-(BOOL)selectTileForTouch:(CGPoint)touchLocation;
+-(void)promptForGuess:(Tile*)tile;
+-(NSString*)visibleTextForRow:(NSUInteger)row;
+
+@property (nonatomic,retain) NSMutableArray *selectableTiles;
+@property (nonatomic,retain) GuessView *guessView;
+@property (nonatomic,retain) UITextField *hiddenTextField;
 @end
 
 @implementation Board
-@synthesize chain;
+@synthesize chain, selectableTiles;
+@synthesize guessView, hiddenTextField;
 
+#pragma mark -
+#pragma mark Initialization
+-(id)init {
+    if (self = [super init]) {
+        // Register for touches
+        [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+    }
+    return self;
+}
+
+
+#pragma mark -
+#pragma mark Toches
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {    
+    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
+    return [self selectTileForTouch:touchLocation];      
+}
+-(BOOL)selectTileForTouch:(CGPoint)touchLocation {
+   
+    for (Tile *tile in selectableTiles) {
+        if (CGRectContainsPoint(tile.boundingBox, touchLocation)) {            
+            CCLOG(@"Touched Tile: row = %i, col = %i", tile.row, tile.col);
+            [self playTile:tile];
+            return YES;
+        }
+    }    
+    return NO;
+}
+
+
+#pragma mark -
 -(void)newChain {
     
     // Instatiate a new chain
@@ -29,7 +67,7 @@
             grid[row][col] = tile;
             
             // Position the tile (Starting at the top left of the board)
-            tile.position = ccp([tile boundingBox].size.width * col, [CCDirector sharedDirector].winSize.height - [tile boundingBox].size.height * row);
+            tile.position = ccp([tile boundingBox].size.width * col, self.contentSize.height - [tile boundingBox].size.height * row);
             [self addChild:tile];
             
         }
@@ -57,40 +95,112 @@
     NSUInteger highestSelectableRow = [chain highestUnsolvedIndex];
     NSUInteger lowestSelectableRow = [chain lowestUnsolvedIndex];
     
+    self.selectableTiles = [NSMutableArray arrayWithCapacity:2];
     if (highestSelectableRow != -1 && lowestSelectableRow != -1) {
         
         // The first unplayed tile in each selectable row is selectable
         for (int i = 0; i < [[chain wordAtIndex:highestSelectableRow] length]; i++) {
             Tile *tile = [self tileForRow:highestSelectableRow col:i];
-            if (tile.tileState == TileStateInitialized) {
+            
+            if (tile.tileState == TileStateSelectable || tile.tileState == TileStateInitialized) {
                 tile.tileState = TileStateSelectable;
+                [selectableTiles addObject:tile];
                 break;
             }
         }
         
-        // Only do the lowest row if its not the same row
+        // Only do the lowest row if its not the same as the highest row
         if (highestSelectableRow != lowestSelectableRow) {
             for (int i = 0; i < [[chain wordAtIndex:lowestSelectableRow] length]; i++) {
                 Tile *tile = [self tileForRow:lowestSelectableRow col:i];
-                if (tile.tileState == TileStateInitialized) {
+
+                if (tile.tileState == TileStateSelectable || tile.tileState == TileStateInitialized) {
                     tile.tileState = TileStateSelectable;
+                    [selectableTiles addObject:tile];
                     break;
                 }
             }
         }
 
     }
-    
 }
          
 -(Tile*)tileForRow:(NSUInteger)row col:(NSUInteger)c {
     return grid[row][c];
 }
-                          
+
+-(void)playTile:(Tile *)tile {
+    [tile play];
+    
+    lastPlayedTile = tile;
+    [self promptForGuess:tile];
+}
+
+-(void)promptForGuess:(Tile*)tile {
+
+    [self zoomToRow:tile];
+    
+    
+    if (!guessView) {
+        self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
+        guessView.delegate = self;
+    }
+    
+    
+    if (!hiddenTextField) {
+        self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
+        hiddenTextField.inputAccessoryView = guessView;
+    }
+    
+    // Set the text and show the keyboard
+    guessView.textField.text = [self visibleTextForRow:tile.row];
+    [hiddenTextField becomeFirstResponder];
+    [guessView.textField becomeFirstResponder];
+}
+
+-(void)zoomToRow:(Tile*)tile {
+
+    // Reposition
+    float newY = self.contentSize.height - tile.position.y;
+    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x, newY)]];
+}
+-(void)zoomOut {
+    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x,0)]];
+}
+-(void)didGuess:(GuessView*)gv guess:(NSString *)g {
+
+    // Hide the keyboard
+    [guessView.textField resignFirstResponder];
+    [hiddenTextField resignFirstResponder];
+    
+    [self zoomOut];
+    // Check the guess
+    if ([chain guess:g forWordAtIndex:lastPlayedTile.row]) {
+        // TODO: User guessed right
+    }
+    
+    // Update game state
+    [self updateTileStates];
+}
+
+-(NSString*)visibleTextForRow:(NSUInteger)row {
+    NSString *word = [chain wordAtIndex:row];
+    
+    int count = 0;
+    for (int i = 0; i < [word length]; i++) {
+        Tile *tile = grid[row][i];
+        if (tile.tileState == TileStatePlayed) count++;
+    }
+    return [[word substringToIndex:count] uppercaseString];
+}
                           
 -(void)dealloc {
     [super dealloc];
     [chain release];
+    [selectableTiles release];
+    [guessView release];
+    [hiddenTextField release];
 }
                                  
 

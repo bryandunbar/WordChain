@@ -37,7 +37,14 @@
     
     return self;
 }
-
+-(BOOL)guess:(NSString *)g forWordAtIndex:(NSUInteger)idx {
+    NSString *word = [self wordAtIndex:idx];
+    if ([word caseInsensitiveCompare:g] == NSOrderedSame) {
+        [self solveWordAtIndex:idx];
+        return YES;
+    }
+    return NO;
+}
 -(NSString*)wordAtIndex:(NSUInteger)idx {
     return [words objectAtIndex:idx];
 }

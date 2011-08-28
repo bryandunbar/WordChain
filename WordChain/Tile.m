@@ -17,7 +17,6 @@
 
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c {
 
-    // TODO: This will change
     Tile *tile = [[Tile alloc] initWithSpriteFrameName:@"back.png"];
     tile.letter = letter;
     tile.row = r;
@@ -26,20 +25,29 @@
     
     tile.tileState = (letter == nil ? TileStateUnused : TileStateInitialized);
     
-    // TODO: Make sprites the right size in the images
-    tile.scale = 0.20;
+    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
+        // TODO: Make sprites the right size in the images
+        tile.scale = 0.20;
+    } else {
+        tile.scale = 0.45;
+    }
     
     return tile;
 }
 
 -(void)setTileState:(TileState)newState {
+
+    // Store the new state
     self->tileState = newState;
     
     // Set the frame based on this
     if (newState == TileStatePlayed) {
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[self frameName]]];
+        self.opacity = 255;
     } else if (newState == TileStateUnused) {
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+    } else if (newState == TileStateSelectable) {
+        self.opacity = 100;
     }
 }
 
@@ -51,12 +59,14 @@
     [super dealloc];
     [letter release];
 }
+-(CGRect) rect {
+    CGSize s = [self.texture contentSizeInPixels];
+    return CGRectMake(-s.width / 2, -s.height / 2, s.width, s.height);
+}
 
--(void)draw {
-    if (tileState == TileStateSelectable) {
-        [self setOpacity:100]; // TODO: This is kind of a lame selectable state, but oh well
-    }
-    [super draw];
+-(void)play {
+    // TODO: Animate this
+    self.tileState = TileStatePlayed;
 }
 
 @end

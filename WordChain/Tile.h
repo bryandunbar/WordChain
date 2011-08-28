@@ -18,9 +18,11 @@
     NSUInteger col; // Column in the board
 }
 
+-(CGRect)rect;
 @property (readwrite) TileState tileState;
 @property (readwrite) NSUInteger row;
 @property (readwrite) NSUInteger col;
 @property (nonatomic,retain) NSString *letter;
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c;
+-(void)play;
 @end
