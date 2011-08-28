@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="562" systemVersion="11A511" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Word">
+    <entity name="ChainWord" representedClassName="ChainWord">
+        <attribute name="chain" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <attribute name="level" optional="YES" attributeType="Integer 16" defaultValueString="0"/>
+        <attribute name="retrieveCount" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
+        <relationship name="word" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Word" inverseName="chainWords" inverseEntity="Word"/>
+    </entity>
+    <entity name="Word" representedClassName="Word">
         <attribute name="id" optional="YES" attributeType="Integer 32" defaultValueString="0"/>
-        <attribute name="word" optional="YES" attributeType="String"/>
+        <attribute name="wordOne" optional="YES" attributeType="String"/>
+        <attribute name="wordTwo" optional="YES" attributeType="String"/>
+        <relationship name="chainWords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ChainWord" inverseName="word" inverseEntity="ChainWord"/>
     </entity>
     <elements>
-        <element name="Word" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="ChainWord" positionX="160" positionY="192" width="128" height="105"/>
+        <element name="Word" positionX="-180" positionY="207" width="128" height="90"/>
     </elements>
 </model>

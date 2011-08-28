@@ -12,6 +12,7 @@
 #import "GameConfig.h"
 #import "RootViewController.h"
 #import "GameScene.h"
+#import "WordLoader.h"
 
 @implementation AppDelegate
 
@@ -42,7 +43,7 @@
 		return managedObjectModel;
 	}
 	
-	NSString *path = [[NSBundle mainBundle] pathForResource:@"GAIC GIS Entry" ofType:@"momd"];
+	NSString *path = [[NSBundle mainBundle] pathForResource:@"WordChain" ofType:@"momd"];
 	NSURL *momURL = [NSURL fileURLWithPath:path];
 	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
 	
@@ -58,7 +59,7 @@
 		return persistentStoreCoordinator;
 	}
 	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
-											   stringByAppendingPathComponent: @"<Project Name>.sqlite"]];
+											   stringByAppendingPathComponent: @"WordChain.sqlite"]];
 	
 	//handle db upgrade 2/11/11
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -115,7 +116,13 @@
 {
 	// Init the window
 	window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-	
+
+    //load up the words -- only if necessary
+    WordLoader *wl = [[WordLoader alloc] init];
+    wl.moc = self.managedObjectContext;
+    [wl loadChains];
+    [wl release];
+    
 	// Try to use CADisplayLink director
 	// if it fails (SDK < 3.1) use the default director
 	if( ! [CCDirector setDirectorType:kCCDirectorTypeDisplayLink] )
@@ -127,7 +134,6 @@
 	// Init the View Controller
 	viewController = [[RootViewController alloc] initWithNibName:nil bundle:nil];
 	viewController.wantsFullScreenLayout = YES;
-	
 	//
 	// Create the EAGLView manually
 	//  1. Create a RGB565 format. Alternative: RGBA8

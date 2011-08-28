@@ -13,8 +13,10 @@
     @private
     NSArray *words;
     NSMutableArray *solvedIndices;
+    NSManagedObjectContext *_moc;
 }
 
+@property (nonatomic, retain) NSManagedObjectContext *moc;
 
 -(NSString*)wordAtIndex:(NSUInteger)idx;
 -(NSString*)letterForWord:(NSUInteger)wordIdx atIndex:(NSUInteger)idx;
@@ -24,5 +26,6 @@
 -(BOOL)isChainSolved;
 -(NSUInteger)lowestUnsolvedIndex;
 -(NSUInteger)highestUnsolvedIndex;
+-(NSArray *)wordsForLevel:(int)lvl;
 
 @end
