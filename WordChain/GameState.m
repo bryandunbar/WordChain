@@ -15,7 +15,8 @@
 @synthesize completedLevel3;
 @synthesize completedLevel4;
 @synthesize completedLevel5;
-@synthesize timesFell;
+@synthesize chain;
+
 
 static GameState *sharedInstance = nil;
 
@@ -55,7 +56,7 @@ static GameState *sharedInstance = nil;
     [encoder encodeBool:completedLevel3 forKey:@"CompletedLevel3"];
     [encoder encodeBool:completedLevel4 forKey:@"CompletedLevel4"];
     [encoder encodeBool:completedLevel5 forKey:@"CompletedLevel5"];
-    [encoder encodeInt:timesFell forKey:@"TimesFell"];
+    [encoder encodeObject:chain forKey:@"Chain"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -70,7 +71,8 @@ static GameState *sharedInstance = nil;
                            decodeBoolForKey:@"CompletedLevel4"];
         completedLevel5 = [decoder 
                            decodeBoolForKey:@"CompletedLevel5"];
-        timesFell = [decoder decodeIntForKey:@"TimesFell"];
+        chain = (Chain *)[decoder
+                 decodeObjectForKey:@"Chain"];
     }
     return self;
 }

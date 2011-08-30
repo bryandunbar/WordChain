@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Chain : NSObject {
+@interface Chain : NSObject <NSCoding> {
 
     @private
     NSArray *words;

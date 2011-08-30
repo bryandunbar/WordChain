@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Chain.h"
 
 @interface GameState : NSObject <NSCoding> {
     BOOL completedLevel1;
@@ -14,7 +15,7 @@
     BOOL completedLevel3;
     BOOL completedLevel4;
     BOOL completedLevel5;
-    int timesFell;
+    Chain *chain;
 }
 
 + (GameState *) sharedInstance;
@@ -25,6 +26,5 @@
 @property (assign) BOOL completedLevel3;
 @property (assign) BOOL completedLevel4;
 @property (assign) BOOL completedLevel5;
-@property (assign) int timesFell;
-
+@property (assign) Chain *chain;
 @end

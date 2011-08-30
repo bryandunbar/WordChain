@@ -21,5 +21,11 @@ typedef enum {
     GameObjectTypeTile
 } GameObjectType;
 
+typedef enum {
+    kNoSceneInitialized=0,
+    kMainMenuScene=1,
+    kGameLevel1=101,
+    kGuess=102
+} SceneTypes;
 
 #endif

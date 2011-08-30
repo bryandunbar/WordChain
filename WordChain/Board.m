@@ -7,6 +7,7 @@
 //
 
 #import "Board.h"
+#import "GameState.h"
 
 @interface Board()
 -(void)findSelectableTiles;
@@ -20,7 +21,7 @@
 @end
 
 @implementation Board
-@synthesize chain, selectableTiles;
+@synthesize selectableTiles;
 @synthesize guessView, hiddenTextField;
 
 #pragma mark -
@@ -57,13 +58,14 @@
 -(void)newChain {
     
     // Instatiate a new chain
-    self.chain = [[Chain alloc] init];
+    [GameState sharedInstance].chain = [[Chain alloc] init];
+    [[GameState sharedInstance] save];
     
     // rebuild the grid
     for (int row = 0; row < BOARD_GRID_ROWS; row++) {
             
         for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
-            Tile *tile = [Tile tileWithLetter:[chain letterForWord:row atIndex:col] row:row col:col];
+            Tile *tile = [Tile tileWithLetter:[[GameState sharedInstance].chain letterForWord:row atIndex:col] row:row col:col];
             grid[row][col] = tile;
             
             // Position the tile (Starting at the top left of the board)
@@ -82,7 +84,7 @@
         for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
             Tile *tile = [self tileForRow:row col:col];
             
-            if ([chain isWordSolved:row]) {
+            if ([[GameState sharedInstance].chain isWordSolved:row]) {
                 tile.tileState = TileStatePlayed;
             }
         }
@@ -92,14 +94,14 @@
     [self findSelectableTiles];
 }
 -(void)findSelectableTiles {
-    NSUInteger highestSelectableRow = [chain highestUnsolvedIndex];
-    NSUInteger lowestSelectableRow = [chain lowestUnsolvedIndex];
+    NSUInteger highestSelectableRow = [[GameState sharedInstance].chain highestUnsolvedIndex];
+    NSUInteger lowestSelectableRow = [[GameState sharedInstance].chain lowestUnsolvedIndex];
     
     self.selectableTiles = [NSMutableArray arrayWithCapacity:2];
     if (highestSelectableRow != -1 && lowestSelectableRow != -1) {
         
         // The first unplayed tile in each selectable row is selectable
-        for (int i = 0; i < [[chain wordAtIndex:highestSelectableRow] length]; i++) {
+        for (int i = 0; i < [[[GameState sharedInstance].chain wordAtIndex:highestSelectableRow] length]; i++) {
             Tile *tile = [self tileForRow:highestSelectableRow col:i];
             
             if (tile.tileState == TileStateSelectable || tile.tileState == TileStateInitialized) {
@@ -111,7 +113,7 @@
         
         // Only do the lowest row if its not the same as the highest row
         if (highestSelectableRow != lowestSelectableRow) {
-            for (int i = 0; i < [[chain wordAtIndex:lowestSelectableRow] length]; i++) {
+            for (int i = 0; i < [[[GameState sharedInstance].chain wordAtIndex:lowestSelectableRow] length]; i++) {
                 Tile *tile = [self tileForRow:lowestSelectableRow col:i];
 
                 if (tile.tileState == TileStateSelectable || tile.tileState == TileStateInitialized) {
@@ -176,16 +178,17 @@
     
     [self zoomOut];
     // Check the guess
-    if ([chain guess:g forWordAtIndex:lastPlayedTile.row]) {
+    if ([[GameState sharedInstance].chain guess:g forWordAtIndex:lastPlayedTile.row]) {
         // TODO: User guessed right
     }
     
     // Update game state
+    [[GameState sharedInstance] save];
     [self updateTileStates];
 }
 
 -(NSString*)visibleTextForRow:(NSUInteger)row {
-    NSString *word = [chain wordAtIndex:row];
+    NSString *word = [[GameState sharedInstance].chain wordAtIndex:row];
     
     int count = 0;
     for (int i = 0; i < [word length]; i++) {
@@ -197,7 +200,6 @@
                           
 -(void)dealloc {
     [super dealloc];
-    [chain release];
     [selectableTiles release];
     [guessView release];
     [hiddenTextField release];

@@ -11,10 +11,13 @@
 		84068F061405A1E3000387EE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84068F051405A1E3000387EE /* CoreData.framework */; };
 		8451688D1407FE4F00ECFCBA /* ChainWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688C1407FE4F00ECFCBA /* ChainWord.m */; };
 		845168901407FE5D00ECFCBA /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688F1407FE5D00ECFCBA /* Word.m */; };
+		846BFD4A140CFE1300568B02 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD49140CFE1300568B02 /* GameState.m */; };
+		846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD4D140CFE4800568B02 /* GCDatabase.m */; };
 		847911BB140AFD5400EEBE1C /* GuessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847911B9140AFD5400EEBE1C /* GuessView.m */; };
 		847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847911BA140AFD5400EEBE1C /* GuessView.xib */; };
 		84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B82BA11407BDB5003F3A1C /* WordLoader.m */; };
 		84B82BC51407BF3C003F3A1C /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84B82BC41407BF3C003F3A1C /* words.txt */; };
+		84BC43D2140C65E000978EBF /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC43D1140C65E000978EBF /* GameManager.m */; };
 		E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503121403D24000D96AE6 /* QuartzCore.framework */; };
 		E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503141403D24000D96AE6 /* OpenGLES.framework */; };
 		E3B503171403D24000D96AE6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503161403D24000D96AE6 /* OpenAL.framework */; };
@@ -148,12 +151,18 @@
 		8451688C1407FE4F00ECFCBA /* ChainWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainWord.m; sourceTree = "<group>"; };
 		8451688E1407FE5D00ECFCBA /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
 		8451688F1407FE5D00ECFCBA /* Word.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Word.m; sourceTree = "<group>"; };
+		846BFD48140CFE1300568B02 /* GameState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameState.h; sourceTree = "<group>"; };
+		846BFD49140CFE1300568B02 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
+		846BFD4C140CFE4800568B02 /* GCDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDatabase.h; sourceTree = "<group>"; };
+		846BFD4D140CFE4800568B02 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDatabase.m; sourceTree = "<group>"; };
 		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuessView.h; path = WordChain/GuessView.h; sourceTree = "<group>"; };
 		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuessView.m; path = WordChain/GuessView.m; sourceTree = "<group>"; };
 		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuessView.xib; path = WordChain/GuessView.xib; sourceTree = "<group>"; };
 		84B82BA01407BDB5003F3A1C /* WordLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordLoader.h; sourceTree = "<group>"; };
 		84B82BA11407BDB5003F3A1C /* WordLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordLoader.m; sourceTree = "<group>"; };
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
+		84BC43D0140C65E000978EBF /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
+		84BC43D1140C65E000978EBF /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
 		E3B5030E1403D24000D96AE6 /* WordChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B503121403D24000D96AE6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3B503141403D24000D96AE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -431,6 +440,19 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		84BC43CE140C657C00978EBF /* Singletons */ = {
+			isa = PBXGroup;
+			children = (
+				84BC43D0140C65E000978EBF /* GameManager.h */,
+				84BC43D1140C65E000978EBF /* GameManager.m */,
+				846BFD48140CFE1300568B02 /* GameState.h */,
+				846BFD49140CFE1300568B02 /* GameState.m */,
+				846BFD4C140CFE4800568B02 /* GCDatabase.h */,
+				846BFD4D140CFE4800568B02 /* GCDatabase.m */,
+			);
+			name = Singletons;
+			sourceTree = "<group>";
+		};
 		E3B503031403D24000D96AE6 = {
 			isa = PBXGroup;
 			children = (
@@ -481,6 +503,7 @@
 				E3B504721403D24300D96AE6 /* RootViewController.m */,
 				E3B504771403D24300D96AE6 /* GameConfig.h */,
 				E3B503231403D24000D96AE6 /* Resources */,
+				84BC43CE140C657C00978EBF /* Singletons */,
 				E3B503371403D24000D96AE6 /* cocos2d */,
 				E3B504281403D24200D96AE6 /* CocosDenshion */,
 				E3B504361403D24200D96AE6 /* cocoslive */,
@@ -1005,6 +1028,9 @@
 				8451688D1407FE4F00ECFCBA /* ChainWord.m in Sources */,
 				845168901407FE5D00ECFCBA /* Word.m in Sources */,
 				847911BB140AFD5400EEBE1C /* GuessView.m in Sources */,
+				84BC43D2140C65E000978EBF /* GameManager.m in Sources */,
+				846BFD4A140CFE1300568B02 /* GameState.m in Sources */,
+				846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

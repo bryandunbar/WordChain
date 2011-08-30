@@ -37,6 +37,19 @@
     
     return self;
 }
+
+- (id)initWithCoder: (NSCoder *)coder
+{
+    if((self = [self init]))
+    {
+        [self setWords:(NSArray *)[coder decodeObjectForKey: @"words"]];
+        [self setSolvedIndices:(NSMutableArray *)[coder decodeObjectForKey: @"solvedIndices"]];
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        self.moc = appDelegate.managedObjectContext;
+    }
+    return self;
+}
+
 -(BOOL)guess:(NSString *)g forWordAtIndex:(NSUInteger)idx {
     NSString *word = [self wordAtIndex:idx];
     if ([word caseInsensitiveCompare:g] == NSOrderedSame) {
@@ -160,6 +173,12 @@
     NSArray *chainCandidates = [self chainCandidatesForLevel:lvl];
     int chainToSelect = [self randomChainFromChains:chainCandidates];
     return [self wordsFromChain:chainToSelect];
+}
+
+- (void)encodeWithCoder: (NSCoder *)coder
+{
+    [coder encodeObject: [self words] forKey: @"words"];
+    [coder encodeObject: [self solvedIndices] forKey: @"solvedIndices"];
 }
 
 -(void)dealloc {

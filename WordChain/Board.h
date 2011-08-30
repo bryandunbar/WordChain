@@ -16,10 +16,7 @@
     
     /** Board Consists of a grid of tiles **/
     Tile *grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
-    
-    /** Current Word Chain **/
-    Chain *chain;
-    
+        
     @private
     NSMutableArray *selectableTiles; // Any any given point only certain tiles will be "selectable"
     UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up
@@ -28,8 +25,6 @@
     Tile *lastPlayedTile;
 }
     
-
-@property (nonatomic,retain) Chain *chain;
 
 -(void)newChain; 
 -(void)updateTileStates;

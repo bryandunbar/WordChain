@@ -7,7 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CommonProtocols.h"
 
-@interface GameManager : NSObject
+@interface GameManager : NSObject {
+    SceneTypes currentScene;   
+}
+
++(GameManager*)sharedGameManager;
+
+-(void)runSceneWithID:(SceneTypes)sceneID;
 
 @end
