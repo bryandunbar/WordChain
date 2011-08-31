@@ -134,9 +134,14 @@
 		E3B5046D1403D24300D96AE6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5046C1403D24300D96AE6 /* main.m */; };
 		E3B504701403D24300D96AE6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5046F1403D24300D96AE6 /* AppDelegate.m */; };
 		E3B504731403D24300D96AE6 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B504721403D24300D96AE6 /* RootViewController.m */; };
+		E3D5543F140D8790005179AF /* TwoPlayerGame.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D5543E140D8790005179AF /* TwoPlayerGame.m */; };
+		E3D5544E140DB202005179AF /* MainMenuLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D5544D140DB202005179AF /* MainMenuLayer.m */; };
+		E3D55451140DB5FE005179AF /* MainMenuScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D55450140DB5FE005179AF /* MainMenuScene.m */; };
+		E3D55455140DBDBE005179AF /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D55454140DBDBE005179AF /* Board.m */; };
+		E3D55458140DCAAC005179AF /* BaseGame.m in Sources */ = {isa = PBXBuildFile; fileRef = E3D55457140DCAAB005179AF /* BaseGame.m */; };
 		E3F468F01406890E003BFBBF /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468EF1406890E003BFBBF /* GameScene.m */; };
 		E3F468F31406894A003BFBBF /* GameplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468F214068949003BFBBF /* GameplayLayer.m */; };
-		E3F468F914068A36003BFBBF /* Board.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468F814068A36003BFBBF /* Board.m */; };
+		E3F468F914068A36003BFBBF /* BoardLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468F814068A36003BFBBF /* BoardLayer.m */; };
 		E3F468FC14069D59003BFBBF /* Letters.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FA14069D58003BFBBF /* Letters.plist */; };
 		E3F468FD14069D59003BFBBF /* Letters.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FB14069D58003BFBBF /* Letters.png */; };
 		E3F4690014069E15003BFBBF /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468FF14069E15003BFBBF /* Tile.m */; };
@@ -155,9 +160,9 @@
 		846BFD49140CFE1300568B02 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
 		846BFD4C140CFE4800568B02 /* GCDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDatabase.h; sourceTree = "<group>"; };
 		846BFD4D140CFE4800568B02 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDatabase.m; sourceTree = "<group>"; };
-		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GuessView.h; path = WordChain/GuessView.h; sourceTree = "<group>"; };
-		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GuessView.m; path = WordChain/GuessView.m; sourceTree = "<group>"; };
-		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GuessView.xib; path = WordChain/GuessView.xib; sourceTree = "<group>"; };
+		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessView.h; sourceTree = "<group>"; };
+		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessView.m; sourceTree = "<group>"; };
+		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuessView.xib; sourceTree = "<group>"; };
 		84B82BA01407BDB5003F3A1C /* WordLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordLoader.h; sourceTree = "<group>"; };
 		84B82BA11407BDB5003F3A1C /* WordLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordLoader.m; sourceTree = "<group>"; };
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
@@ -395,13 +400,23 @@
 		E3B504711403D24300D96AE6 /* RootViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		E3B504721403D24300D96AE6 /* RootViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		E3B504771403D24300D96AE6 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GameConfig.h; sourceTree = "<group>"; };
+		E3D5543D140D8790005179AF /* TwoPlayerGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoPlayerGame.h; sourceTree = "<group>"; };
+		E3D5543E140D8790005179AF /* TwoPlayerGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoPlayerGame.m; sourceTree = "<group>"; };
+		E3D5544C140DB202005179AF /* MainMenuLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuLayer.h; sourceTree = "<group>"; };
+		E3D5544D140DB202005179AF /* MainMenuLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuLayer.m; sourceTree = "<group>"; };
+		E3D5544F140DB5FE005179AF /* MainMenuScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenuScene.h; sourceTree = "<group>"; };
+		E3D55450140DB5FE005179AF /* MainMenuScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenuScene.m; sourceTree = "<group>"; };
+		E3D55453140DBDBE005179AF /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
+		E3D55454140DBDBE005179AF /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		E3D55456140DCAAB005179AF /* BaseGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGame.h; sourceTree = "<group>"; };
+		E3D55457140DCAAB005179AF /* BaseGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGame.m; sourceTree = "<group>"; };
 		E3F468EE1406890E003BFBBF /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		E3F468EF1406890E003BFBBF /* GameScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameScene.m; sourceTree = "<group>"; };
 		E3F468F114068949003BFBBF /* GameplayLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameplayLayer.h; sourceTree = "<group>"; };
 		E3F468F214068949003BFBBF /* GameplayLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameplayLayer.m; sourceTree = "<group>"; };
 		E3F468F6140689FE003BFBBF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
-		E3F468F714068A36003BFBBF /* Board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Board.h; sourceTree = "<group>"; };
-		E3F468F814068A36003BFBBF /* Board.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Board.m; sourceTree = "<group>"; };
+		E3F468F714068A36003BFBBF /* BoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardLayer.h; sourceTree = "<group>"; };
+		E3F468F814068A36003BFBBF /* BoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardLayer.m; sourceTree = "<group>"; };
 		E3F468FA14069D58003BFBBF /* Letters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Letters.plist; sourceTree = "<group>"; };
 		E3F468FB14069D58003BFBBF /* Letters.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Letters.png; sourceTree = "<group>"; };
 		E3F468FE14069E15003BFBBF /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
@@ -456,9 +471,6 @@
 		E3B503031403D24000D96AE6 = {
 			isa = PBXGroup;
 			children = (
-				847911B8140AFD5400EEBE1C /* GuessView.h */,
-				847911B9140AFD5400EEBE1C /* GuessView.m */,
-				847911BA140AFD5400EEBE1C /* GuessView.xib */,
 				E3B503221403D24000D96AE6 /* WordChain */,
 				E3B503111403D24000D96AE6 /* Frameworks */,
 				E3B5030F1403D24000D96AE6 /* Products */,
@@ -492,18 +504,17 @@
 		E3B503221403D24000D96AE6 /* WordChain */ = {
 			isa = PBXGroup;
 			children = (
+				E3D55452140DB7AD005179AF /* Views and View Controllers */,
 				E3F469021406DE88003BFBBF /* Model */,
 				E3F468F5140689F0003BFBBF /* Constants */,
 				E3F468F4140689E1003BFBBF /* Game Objects */,
 				E3F468ED140688EB003BFBBF /* Scenes */,
 				E3F468EC140688E4003BFBBF /* Layers */,
+				84BC43CE140C657C00978EBF /* Singletons */,
 				E3B5046E1403D24300D96AE6 /* AppDelegate.h */,
 				E3B5046F1403D24300D96AE6 /* AppDelegate.m */,
-				E3B504711403D24300D96AE6 /* RootViewController.h */,
-				E3B504721403D24300D96AE6 /* RootViewController.m */,
 				E3B504771403D24300D96AE6 /* GameConfig.h */,
 				E3B503231403D24000D96AE6 /* Resources */,
-				84BC43CE140C657C00978EBF /* Singletons */,
 				E3B503371403D24000D96AE6 /* cocos2d */,
 				E3B504281403D24200D96AE6 /* CocosDenshion */,
 				E3B504361403D24200D96AE6 /* cocoslive */,
@@ -786,6 +797,29 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		E3D55452140DB7AD005179AF /* Views and View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E3B504711403D24300D96AE6 /* RootViewController.h */,
+				E3B504721403D24300D96AE6 /* RootViewController.m */,
+				847911B8140AFD5400EEBE1C /* GuessView.h */,
+				847911B9140AFD5400EEBE1C /* GuessView.m */,
+				847911BA140AFD5400EEBE1C /* GuessView.xib */,
+			);
+			name = "Views and View Controllers";
+			sourceTree = "<group>";
+		};
+		E3D55459140DCABD005179AF /* Game Models */ = {
+			isa = PBXGroup;
+			children = (
+				E3D55456140DCAAB005179AF /* BaseGame.h */,
+				E3D55457140DCAAB005179AF /* BaseGame.m */,
+				E3D5543D140D8790005179AF /* TwoPlayerGame.h */,
+				E3D5543E140D8790005179AF /* TwoPlayerGame.m */,
+			);
+			name = "Game Models";
+			sourceTree = "<group>";
+		};
 		E3F468E214068344003BFBBF /* Images */ = {
 			isa = PBXGroup;
 			children = (
@@ -796,8 +830,12 @@
 		E3F468EC140688E4003BFBBF /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				E3F468F714068A36003BFBBF /* BoardLayer.h */,
+				E3F468F814068A36003BFBBF /* BoardLayer.m */,
 				E3F468F114068949003BFBBF /* GameplayLayer.h */,
 				E3F468F214068949003BFBBF /* GameplayLayer.m */,
+				E3D5544C140DB202005179AF /* MainMenuLayer.h */,
+				E3D5544D140DB202005179AF /* MainMenuLayer.m */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -807,6 +845,8 @@
 			children = (
 				E3F468EE1406890E003BFBBF /* GameScene.h */,
 				E3F468EF1406890E003BFBBF /* GameScene.m */,
+				E3D5544F140DB5FE005179AF /* MainMenuScene.h */,
+				E3D55450140DB5FE005179AF /* MainMenuScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -814,8 +854,6 @@
 		E3F468F4140689E1003BFBBF /* Game Objects */ = {
 			isa = PBXGroup;
 			children = (
-				E3F468F714068A36003BFBBF /* Board.h */,
-				E3F468F814068A36003BFBBF /* Board.m */,
 				E3F468FE14069E15003BFBBF /* Tile.h */,
 				E3F468FF14069E15003BFBBF /* Tile.m */,
 			);
@@ -834,6 +872,7 @@
 		E3F469021406DE88003BFBBF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				E3D55459140DCABD005179AF /* Game Models */,
 				84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */,
 				8451688E1407FE5D00ECFCBA /* Word.h */,
 				8451688F1407FE5D00ECFCBA /* Word.m */,
@@ -841,6 +880,8 @@
 				8451688C1407FE4F00ECFCBA /* ChainWord.m */,
 				E3F469031406DE9D003BFBBF /* Chain.h */,
 				E3F469041406DE9D003BFBBF /* Chain.m */,
+				E3D55453140DBDBE005179AF /* Board.h */,
+				E3D55454140DBDBE005179AF /* Board.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -1021,7 +1062,7 @@
 				84068EE114059F5B000387EE /* WordChain.xcdatamodeld in Sources */,
 				E3F468F01406890E003BFBBF /* GameScene.m in Sources */,
 				E3F468F31406894A003BFBBF /* GameplayLayer.m in Sources */,
-				E3F468F914068A36003BFBBF /* Board.m in Sources */,
+				E3F468F914068A36003BFBBF /* BoardLayer.m in Sources */,
 				E3F4690014069E15003BFBBF /* Tile.m in Sources */,
 				E3F469051406DE9D003BFBBF /* Chain.m in Sources */,
 				84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */,
@@ -1031,6 +1072,11 @@
 				84BC43D2140C65E000978EBF /* GameManager.m in Sources */,
 				846BFD4A140CFE1300568B02 /* GameState.m in Sources */,
 				846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */,
+				E3D5543F140D8790005179AF /* TwoPlayerGame.m in Sources */,
+				E3D5544E140DB202005179AF /* MainMenuLayer.m in Sources */,
+				E3D55451140DB5FE005179AF /* MainMenuScene.m in Sources */,
+				E3D55455140DBDBE005179AF /* Board.m in Sources */,
+				E3D55458140DCAAC005179AF /* BaseGame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

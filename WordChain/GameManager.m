@@ -8,6 +8,8 @@
 
 #import "GameManager.h"
 #import "GameScene.h"
+#import "MainMenuScene.h"
+#import "GameState.h"
 #import "CommonProtocols.h"
 
 @implementation GameManager
@@ -40,24 +42,47 @@ static GameManager* _sharedGameManager = nil;
     if (self != nil) {
         // Game Manager initialized
         CCLOG(@"Game Manager Singleton, init");
-        currentScene = kNoSceneInitialized;
+        currentScene = SceneTypeNoSceneInitialized;
     }
     return self;
 }
+
+#pragma mark -
+#pragma mark Startup
+-(void)startup {
+    // Check the game mode to determine where we need to go
+    GameModes gameMode = [GameState sharedInstance].gameMode;
+    
+    switch (gameMode) {
+        case GameModeNoGame:
+            [self runSceneWithID:SceneTypeMainMenu];
+            break;
+        case GameModeSinglePlayer:
+            // TODO: Implement
+            break;
+        case GameModeTwoPlayer:
+            [self runSceneWithID:SceneTypeMainGameScene];
+            break;
+        default:
+            break;
+    }
+}
+
+#pragma mark -
+#pragma mark Scene Management
 -(void)runSceneWithID:(SceneTypes)sceneID {
     SceneTypes oldScene = currentScene;
     currentScene = sceneID;
     
     id sceneToRun = nil;
     switch (sceneID) {
-        case kMainMenuScene: 
-            //sceneToRun = [MainMenuScene node];
+        case SceneTypeMainMenu: 
+            sceneToRun = [MainMenuScene node];
             break;
-        case kGameLevel1:
+        case SceneTypeMainGameScene:
             sceneToRun = [GameScene node];
             break;
-        case kGuess:
-            // Placeholder for Level 1
+        case SceneTypeGuess:
             break;
              
         default:
@@ -98,4 +123,14 @@ static GameManager* _sharedGameManager = nil;
         [[CCDirector sharedDirector] replaceScene:sceneToRun];
     }    
 }   
+
+
+#pragma mark -
+#pragma mark New Game Methods
+-(void)newTwoPlayerGame {
+    [[GameState sharedInstance] newTwoPlayerGame];
+    [self runSceneWithID:SceneTypeMainGameScene];
+}
+
+
 @end

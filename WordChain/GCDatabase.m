@@ -41,6 +41,8 @@ id loadData(NSString * filename) {
 }
 
 void saveData(id theData, NSString *filename) {
+    
+    NSLog(@"----> Saving GameState to file: %@", filename);
     // 9
     NSMutableData *data = [[[NSMutableData alloc] init] autorelease];
     // 10

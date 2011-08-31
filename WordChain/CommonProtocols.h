@@ -8,7 +8,7 @@
 
 #ifndef WordChain_CommonProtocols_h
 #define WordChain_CommonProtocols_h
-
+@class Board;
 
 typedef enum {
     TileStateInitialized,
@@ -22,10 +22,20 @@ typedef enum {
 } GameObjectType;
 
 typedef enum {
-    kNoSceneInitialized=0,
-    kMainMenuScene=1,
-    kGameLevel1=101,
-    kGuess=102
+    SceneTypeNoSceneInitialized=0,
+    SceneTypeMainMenu=1,
+    SceneTypeMainGameScene=101,
+    SceneTypeGuess=102
 } SceneTypes;
 
+typedef enum {
+    GameModeNoGame,
+    GameModeSinglePlayer,
+    GameModeTwoPlayer
+} GameModes;
+
+
+@protocol GameData <NSObject>
+-(void)updateGameData;
+@end
 #endif

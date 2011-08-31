@@ -11,8 +11,9 @@
 #import "AppDelegate.h"
 #import "GameConfig.h"
 #import "RootViewController.h"
-#import "GameScene.h"
 #import "WordLoader.h"
+#import "GameManager.h"
+#import "GameState.h"
 
 @implementation AppDelegate
 
@@ -188,13 +189,14 @@
 	// Removes the startup flicker
 	[self removeStartupFlicker];
 	
-	// Run the intro Scene
-	[[CCDirector sharedDirector] runWithScene: [GameScene node]];
+	// Delegate to the game manager
+    [[GameManager sharedGameManager] startup];
 }
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {
 	[[CCDirector sharedDirector] pause];
+    [[GameState sharedInstance] save];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -203,6 +205,7 @@
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
 	[[CCDirector sharedDirector] purgeCachedData];
+    [[GameState sharedInstance] save];
 }
 
 -(void) applicationDidEnterBackground:(UIApplication*)application {
@@ -223,6 +226,8 @@
 	[window release];
 	
 	[director end];	
+    
+    [[GameState sharedInstance] save];
 }
 
 - (void)applicationSignificantTimeChange:(UIApplication *)application {

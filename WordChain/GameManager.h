@@ -15,6 +15,10 @@
 
 +(GameManager*)sharedGameManager;
 
+
+
+-(void)startup;
+-(void)newTwoPlayerGame;
 -(void)runSceneWithID:(SceneTypes)sceneID;
 
 @end

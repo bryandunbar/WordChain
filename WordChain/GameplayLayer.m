@@ -31,11 +31,10 @@
         // Create the board, inset it a bit
         int boardWidth = boardWrapper.contentSize.width - 10;
         int boardHeight = boardWrapper.contentSize.height - 10;
-        Board *board = [Board node];
-        board.contentSize = CGSizeMake(boardWidth, boardHeight);
-        board.position = ccp(10,0);
-        [boardWrapper addChild:board];
-        [board newChain];
+        BoardLayer *boardLayer = [BoardLayer node];
+        boardLayer.contentSize = CGSizeMake(boardWidth, boardHeight);
+        boardLayer.position = ccp(10,0);
+        [boardWrapper addChild:boardLayer];
         //[self addChild:board z:0 tag:kBoardTag];
         
         [self scheduleUpdate];

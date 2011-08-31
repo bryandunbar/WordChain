@@ -9,14 +9,15 @@
 #import "GameState.h"
 #import "GCDatabase.h"
 
-@implementation GameState
-@synthesize completedLevel1;
-@synthesize completedLevel2;
-@synthesize completedLevel3;
-@synthesize completedLevel4;
-@synthesize completedLevel5;
-@synthesize chain;
+@interface GameState()
+@property (nonatomic,retain) TwoPlayerGame *twoPlayerGame;
+-(void)setGameData:(id)gameData;
+@end
 
+
+@implementation GameState
+@synthesize gameMode;
+@synthesize twoPlayerGame;
 
 static GameState *sharedInstance = nil;
 
@@ -27,6 +28,7 @@ static GameState *sharedInstance = nil;
             sharedInstance = [loadData(@"GameState") retain];
             if (!sharedInstance) {
                 [[self alloc] init]; 
+                sharedInstance.gameMode = GameModeNoGame;
             }
         }
 	    return sharedInstance; 
@@ -50,31 +52,62 @@ static GameState *sharedInstance = nil;
     saveData(self, @"GameState");
 }
 
+#pragma mark -
+#pragma mark New Game State Methods
+-(void)newTwoPlayerGame {
+    self.gameMode = GameModeTwoPlayer;
+    self.twoPlayerGame = [TwoPlayerGame newGame];
+}
+
+#pragma mark -
+#pragma mark GameData Getter/Setter
+-(id)gameData {
+
+    // TODO: Handle other game modes
+    switch (gameMode) {
+        case GameModeTwoPlayer:
+            return self.twoPlayerGame;
+            break;
+            
+        default:
+            return nil;
+            break;
+    }
+    return nil;
+}
+-(void)setGameData:(id)gameData {
+    switch (gameMode) {
+        case GameModeTwoPlayer:
+            self.twoPlayerGame = gameData;
+            break;
+            
+        default:
+            break;
+    }
+}
+
+
+  
+  
+
 - (void)encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeBool:completedLevel1 forKey:@"CompletedLevel1"];
-    [encoder encodeBool:completedLevel2 forKey:@"CompletedLevel2"];
-    [encoder encodeBool:completedLevel3 forKey:@"CompletedLevel3"];
-    [encoder encodeBool:completedLevel4 forKey:@"CompletedLevel4"];
-    [encoder encodeBool:completedLevel5 forKey:@"CompletedLevel5"];
-    [encoder encodeObject:chain forKey:@"Chain"];
+    [encoder encodeInt:gameMode forKey:@"GameMode"];
+    [encoder encodeObject:self.gameData forKey:@"GameData"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
     if ((self = [super init])) {                
-        completedLevel1 = [decoder 
-                           decodeBoolForKey:@"CompletedLevel1"];
-        completedLevel2 = [decoder 
-                           decodeBoolForKey:@"CompletedLevel2"];
-        completedLevel3 = [decoder 
-                           decodeBoolForKey:@"CompletedLevel3"];
-        completedLevel4 = [decoder 
-                           decodeBoolForKey:@"CompletedLevel4"];
-        completedLevel5 = [decoder 
-                           decodeBoolForKey:@"CompletedLevel5"];
-        chain = (Chain *)[decoder
-                 decodeObjectForKey:@"Chain"];
+        gameMode = [decoder decodeIntForKey:@"GameMode"];
+        self.gameData = [decoder decodeObjectForKey:@"GameData"];
+        
     }
+    
     return self;
 }
 
+
+-(void)dealloc {
+    [super dealloc];
+    [twoPlayerGame release];
+}
 @end

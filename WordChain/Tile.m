@@ -7,7 +7,7 @@
 //
 
 #import "Tile.h"
-
+#import "GameState.h"
 @interface Tile()
 -(NSString*)frameName;
 @end
@@ -65,8 +65,15 @@
 }
 
 -(void)play {
+    
+    
     // TODO: Animate this
     self.tileState = TileStatePlayed;
+
+    // Update the model
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    Board *board = gameData.board;
+    [board setTileState:self.tileState forLocation:[BoardLocation locationWithRow:self.row col:self.col]];
 }
 
 @end

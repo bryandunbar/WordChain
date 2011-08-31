@@ -7,7 +7,7 @@
 //
 
 #import "CCLayer.h"
-#import "Board.h"
+#import "BoardLayer.h"
 @interface GameplayLayer : CCLayer {
     CCSpriteBatchNode *spriteSheet;
 }

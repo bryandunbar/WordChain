@@ -28,5 +28,4 @@
 -(NSUInteger)lowestUnsolvedIndex;
 -(NSUInteger)highestUnsolvedIndex;
 -(NSArray *)wordsForLevel:(int)lvl;
-
 @end

@@ -23,10 +23,10 @@
 {
     self = [super init];
     if (self) {
-        self.words = [NSArray arrayWithObjects:@"final", @"four", @"square", @"dance", @"party", @"time", nil];
+       // self.words = [NSArray arrayWithObjects:@"final", @"four", @"square", @"dance", @"party", @"time", nil];
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         self.moc = appDelegate.managedObjectContext;
-        
+    
         // First and last start as solved
         self.words = [self wordsForLevel:4];
         self.solvedIndices = [NSMutableArray arrayWithCapacity:[self.words count]];
@@ -40,7 +40,7 @@
 
 - (id)initWithCoder: (NSCoder *)coder
 {
-    if((self = [self init]))
+    if((self = [super init]))
     {
         [self setWords:(NSArray *)[coder decodeObjectForKey: @"words"]];
         [self setSolvedIndices:(NSMutableArray *)[coder decodeObjectForKey: @"solvedIndices"]];
@@ -101,6 +101,9 @@
     }
     return -1; // This code should never be reached
 }
+
+#pragma mark -
+#pragma mark Chain Loading Stuff
 
 -(NSArray *)wordsFromChain:(int)chain {
     NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
