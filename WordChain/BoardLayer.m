@@ -140,7 +140,7 @@
     
     
     if (!hiddenTextField) {
-        self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        self.hiddenTextField = [[[UITextField alloc] initWithFrame:CGRectZero] autorelease];
         [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
         hiddenTextField.inputAccessoryView = guessView;
     }

@@ -27,9 +27,8 @@
     self.player2Score = 0;
 }
 
-+(id)newGame {
-    TwoPlayerGame *game = [[[TwoPlayerGame alloc] init] autorelease];
-    return game;
++(BaseGame*)newGame {
+    return [[[TwoPlayerGame alloc] init] autorelease];
 }
 
 #pragma mark -

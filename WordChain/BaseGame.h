@@ -25,6 +25,6 @@
 
 
 -(void)reset;
-+(id)newGame;
++(BaseGame*)newGame;
 
 @end

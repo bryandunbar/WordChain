@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "BaseGame.h"s
+#import "BaseGame.h"
 #import "Constants.h"
 #import "Board.h"
 

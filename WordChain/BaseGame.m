@@ -29,7 +29,7 @@
     self.board = [[Board alloc] init];
 }
 
-+(id)newGame {
++(BaseGame*)newGame {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }

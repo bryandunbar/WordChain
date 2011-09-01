@@ -17,7 +17,7 @@
 
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c {
 
-    Tile *tile = [[Tile alloc] initWithSpriteFrameName:@"back.png"];
+    Tile *tile = [[[Tile alloc] initWithSpriteFrameName:@"back.png"] autorelease];
     tile.letter = letter;
     tile.row = r;
     tile.col = c;
