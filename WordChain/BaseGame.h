@@ -27,6 +27,6 @@
 -(void)reset;
 +(BaseGame*)newGame;
 
--(BOOL)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
+-(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
 
 @end

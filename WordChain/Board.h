@@ -39,8 +39,9 @@
 @property (nonatomic,retain) NSMutableArray *selectableTiles;
 -(TileState)tileStateAtLocation:(BoardLocation*)boardLocation;
 -(void)setTileState:(TileState)state forLocation:(BoardLocation*)boardLocation;
--(NSString*)solvedTextForRow:(NSUInteger)row;
 
+-(NSString*)solvedTextForRow:(NSUInteger)row;
+-(NSUInteger)unsolvedCharactersForRow:(NSUInteger)row;
 
 
 -(void)newChain;

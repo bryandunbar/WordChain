@@ -15,7 +15,6 @@
 -(void)promptForGuess:(Tile*)tile;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)zoomToRow:(Tile*)tile;
--(void)updateGameState;
 -(void)updateBoard;
 -(void)updateHud;
 
@@ -181,21 +180,13 @@
     [self zoomOut];
     
     // Check the guess
-    BOOL guessedRight = [gameData guess:g forWordAtIndex:lastPlayedTile.row];
-    
-    // Update game model
-    [self updateGameState];
+    [gameData guess:g forWordAtIndex:lastPlayedTile.row];
     
     // Update View
     [self updateBoard];
     [self updateHud];
 }
 
-
--(void)updateGameState {
-    BaseGame *gameData = [GameState sharedInstance].gameData;
-    [gameData updateGameData];
-}
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     
     // Get Model

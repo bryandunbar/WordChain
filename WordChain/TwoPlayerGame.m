@@ -9,6 +9,10 @@
 #import "TwoPlayerGame.h"
 #import "GameState.h"
 
+@interface TwoPlayerGame()
+-(void)scoreWordAtIndex:(NSUInteger)idx;
+@end
+
 @implementation TwoPlayerGame
 @synthesize player1, player2, whoseTurn, player1Score, player2Score;
 - (id)init
@@ -45,16 +49,30 @@
 }
 
 #pragma mark -
-#pragma mark Game Logic Overrides
--(BOOL)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx {
-    BOOL guessedRight = [super guess:g forWordAtIndex:idx];
+#pragma mark Game Logic
+-(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx {
     
+    BOOL guessedRight = [board.chain guess:g forWordAtIndex:idx];
     if (!guessedRight) {
         // Next player's turn
         self.whoseTurn = whoseTurn == PlayerOne ? PlayerTwo : PlayerOne;
+    } else {
+        [self scoreWordAtIndex:idx];
     }
     
-    return guessedRight;
+    [self updateGameData];
+}
+
+-(void)scoreWordAtIndex:(NSUInteger)idx {
+    // How many letters left in word
+    NSUInteger lettersLeftInWord = [board unsolvedCharactersForRow:idx];
+    
+    int score = 100 + (100 * lettersLeftInWord);
+    
+    if (self.whoseTurn == PlayerOne)
+        player1Score += score;
+    else
+        player2Score += score;
 }
 
 #pragma mark -

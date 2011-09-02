@@ -62,6 +62,18 @@
     [selectableTiles release];
 }
 
+-(NSUInteger)unsolvedCharactersForRow:(NSUInteger)row {
+    // Grab the word at this index
+    NSString *word = [self.chain wordAtIndex:row];
+    
+    // Count the number of "Played" tiles in the row, then substract from length
+    int count = 0;
+    for (int i = 0; i < [word length]; i++) {
+        TileState tileState = grid[row][i];
+        if (tileState == TileStatePlayed) count++;
+    }
+    return [word length] - count;
+}
 -(NSString*)solvedTextForRow:(NSUInteger)row {
     
     // Grab the word at this index
