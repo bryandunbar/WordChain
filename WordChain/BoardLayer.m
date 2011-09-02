@@ -10,6 +10,7 @@
 #import "GameState.h"
 #import "HudLayer.h"
 #import "GameManager.h"
+#import "Constants.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
@@ -196,7 +197,7 @@
         // Show a superlative in the middle of the screen :)
         
         CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:@"Awesome!" fntFile:@"feedbackFont.fnt"];
+        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
         feedTxt.scale = 5;
         [self addChild:feedTxt z:50];
         
