@@ -7,6 +7,7 @@
 //
 
 #import "GameScene.h"
+#import "GameState.h"
 
 @implementation GameScene
 
@@ -17,7 +18,22 @@
         
         // Gameplay Layer
         GameplayLayer *gameplayLayer = [GameplayLayer node];
-        [self addChild:gameplayLayer z:5];
+        [self addChild:gameplayLayer z:5 tag:kGameLayerTag];
+        
+        // Hud Layer
+        GameModes gameMode = [GameState sharedInstance].gameMode;
+        HudLayer *hudLayer = nil;
+        switch (gameMode) {
+            case GameModeSinglePlayer:
+                
+                break;
+            case GameModeTwoPlayer:
+                hudLayer = [TwoPlayerHud node];
+            default:
+                break;
+        }
+        
+        [self addChild:hudLayer z:5 tag:kHudLayerTag];
         
     }
     return self;

@@ -6,8 +6,11 @@
 //  Copyright 2011 Great American Insurance. All rights reserved.
 //
 
-#import "CCScene.h"
+#import "cocos2d.h"
 #import "GameplayLayer.h"
+#import "HudLayer.h"
+#import "SinglePlayerHud.h"
+#import "TwoPlayerHud.h"
 
 @interface GameScene : CCScene
 

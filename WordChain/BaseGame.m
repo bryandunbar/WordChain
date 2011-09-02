@@ -34,6 +34,10 @@
     return nil;
 }
 
+
+-(BOOL)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx {
+    return [board.chain guess:g forWordAtIndex:idx];
+}
 #pragma mark -
 #pragma mark 
 -(void)updateGameData {

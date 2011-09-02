@@ -32,4 +32,6 @@ typedef enum {
 @property (nonatomic,assign) int player1Score;
 @property (nonatomic,assign) int player2Score;
 
++(TwoPlayerGame*)currentGame;
+
 @end

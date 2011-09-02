@@ -11,7 +11,11 @@
 
 #import "CommonProtocols.h"
 
-#define kBoardTag 100
+
+// Layer Tags
+#define kGameLayerTag 1000
+#define kHudLayerTag 1001
+
 #define BOARD_GRID_COLUMNS 8
 #define BOARD_GRID_ROWS 6
 

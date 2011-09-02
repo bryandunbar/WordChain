@@ -18,6 +18,11 @@
 		84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B82BA11407BDB5003F3A1C /* WordLoader.m */; };
 		84B82BC51407BF3C003F3A1C /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84B82BC41407BF3C003F3A1C /* words.txt */; };
 		84BC43D2140C65E000978EBF /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC43D1140C65E000978EBF /* GameManager.m */; };
+		E38D251E1410243C00D98509 /* hud_font_0.png in Resources */ = {isa = PBXBuildFile; fileRef = E38D251C1410243C00D98509 /* hud_font_0.png */; };
+		E38D251F1410243C00D98509 /* hud_font.fnt in Resources */ = {isa = PBXBuildFile; fileRef = E38D251D1410243C00D98509 /* hud_font.fnt */; };
+		E38D25231410263800D98509 /* SinglePlayerHud.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D25221410263800D98509 /* SinglePlayerHud.m */; };
+		E38D25261410264500D98509 /* TwoPlayerHud.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D25251410264500D98509 /* TwoPlayerHud.m */; };
+		E3A4665E140FAB2F0061B73B /* HudLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A4665D140FAB2F0061B73B /* HudLayer.m */; };
 		E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503121403D24000D96AE6 /* QuartzCore.framework */; };
 		E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503141403D24000D96AE6 /* OpenGLES.framework */; };
 		E3B503171403D24000D96AE6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503161403D24000D96AE6 /* OpenAL.framework */; };
@@ -168,6 +173,14 @@
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
 		84BC43D0140C65E000978EBF /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		84BC43D1140C65E000978EBF /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
+		E38D251C1410243C00D98509 /* hud_font_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_font_0.png; sourceTree = "<group>"; };
+		E38D251D1410243C00D98509 /* hud_font.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = hud_font.fnt; sourceTree = "<group>"; };
+		E38D25211410263800D98509 /* SinglePlayerHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SinglePlayerHud.h; sourceTree = "<group>"; };
+		E38D25221410263800D98509 /* SinglePlayerHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinglePlayerHud.m; sourceTree = "<group>"; };
+		E38D25241410264500D98509 /* TwoPlayerHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoPlayerHud.h; sourceTree = "<group>"; };
+		E38D25251410264500D98509 /* TwoPlayerHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoPlayerHud.m; sourceTree = "<group>"; };
+		E3A4665C140FAB2F0061B73B /* HudLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudLayer.h; sourceTree = "<group>"; };
+		E3A4665D140FAB2F0061B73B /* HudLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudLayer.m; sourceTree = "<group>"; };
 		E3B5030E1403D24000D96AE6 /* WordChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3B503121403D24000D96AE6 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E3B503141403D24000D96AE6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -468,6 +481,28 @@
 			name = Singletons;
 			sourceTree = "<group>";
 		};
+		E38D251A1410243100D98509 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				E38D251C1410243C00D98509 /* hud_font_0.png */,
+				E38D251D1410243C00D98509 /* hud_font.fnt */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		E38D2520141025F900D98509 /* HUD */ = {
+			isa = PBXGroup;
+			children = (
+				E3A4665C140FAB2F0061B73B /* HudLayer.h */,
+				E3A4665D140FAB2F0061B73B /* HudLayer.m */,
+				E38D25211410263800D98509 /* SinglePlayerHud.h */,
+				E38D25221410263800D98509 /* SinglePlayerHud.m */,
+				E38D25241410264500D98509 /* TwoPlayerHud.h */,
+				E38D25251410264500D98509 /* TwoPlayerHud.m */,
+			);
+			name = HUD;
+			sourceTree = "<group>";
+		};
 		E3B503031403D24000D96AE6 = {
 			isa = PBXGroup;
 			children = (
@@ -529,6 +564,7 @@
 		E3B503231403D24000D96AE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
 				E3F468FA14069D58003BFBBF /* Letters.plist */,
 				E3F468FB14069D58003BFBBF /* Letters.png */,
@@ -830,6 +866,7 @@
 		E3F468EC140688E4003BFBBF /* Layers */ = {
 			isa = PBXGroup;
 			children = (
+				E38D2520141025F900D98509 /* HUD */,
 				E3F468F714068A36003BFBBF /* BoardLayer.h */,
 				E3F468F814068A36003BFBBF /* BoardLayer.m */,
 				E3F468F114068949003BFBBF /* GameplayLayer.h */,
@@ -950,6 +987,8 @@
 				E3F468FD14069D59003BFBBF /* Letters.png in Resources */,
 				84B82BC51407BF3C003F3A1C /* words.txt in Resources */,
 				847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */,
+				E38D251E1410243C00D98509 /* hud_font_0.png in Resources */,
+				E38D251F1410243C00D98509 /* hud_font.fnt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1077,6 +1116,9 @@
 				E3D55451140DB5FE005179AF /* MainMenuScene.m in Sources */,
 				E3D55455140DBDBE005179AF /* Board.m in Sources */,
 				E3D55458140DCAAC005179AF /* BaseGame.m in Sources */,
+				E3A4665E140FAB2F0061B73B /* HudLayer.m in Sources */,
+				E38D25231410263800D98509 /* SinglePlayerHud.m in Sources */,
+				E38D25261410264500D98509 /* TwoPlayerHud.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

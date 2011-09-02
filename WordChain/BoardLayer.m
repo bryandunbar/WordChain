@@ -8,13 +8,16 @@
 
 #import "BoardLayer.h"
 #import "GameState.h"
+#import "HudLayer.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
 -(void)promptForGuess:(Tile*)tile;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)zoomToRow:(Tile*)tile;
+-(void)updateGameState;
 -(void)updateBoard;
+-(void)updateHud;
 
 @property (nonatomic,retain) GuessView *guessView;
 @property (nonatomic,retain) UITextField *hiddenTextField;
@@ -60,7 +63,6 @@
     return NO;
 }
 
-
 #pragma mark -
 #pragma mark Board Rendering
 -(void)layoutBoard {
@@ -104,7 +106,10 @@
         }
     }
 }
-
+-(void)updateHud {
+    HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
+    [hud updateHud];
+}
 #pragma mark -
 -(Tile*)tileAtLocation:(BoardLocation *)boardLocation {
     
@@ -121,6 +126,8 @@
     return nil;
 }
 
+#pragma mark -
+#pragma mark Game Logic
 -(void)playTile:(Tile *)tile {
     [tile play];
     
@@ -170,17 +177,25 @@
     [guessView.textField resignFirstResponder];
     [hiddenTextField resignFirstResponder];
     
+    // Reshow the whole board
     [self zoomOut];
+    
     // Check the guess
-    if ([board.chain guess:g forWordAtIndex:lastPlayedTile.row]) {
-        // TODO: User guessed right
-    }
+    BOOL guessedRight = [gameData guess:g forWordAtIndex:lastPlayedTile.row];
     
     // Update game model
-    [gameData updateGameData];
+    [self updateGameState];
+    
+    // Update View
     [self updateBoard];
+    [self updateHud];
 }
 
+
+-(void)updateGameState {
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    [gameData updateGameData];
+}
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     
     // Get Model
