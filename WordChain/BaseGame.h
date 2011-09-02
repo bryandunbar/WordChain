@@ -22,6 +22,7 @@
 
 @property (nonatomic,assign) int round;
 @property (nonatomic,retain) Board *board;
+@property (nonatomic,readonly) BOOL isGameOver;
 
 
 -(void)reset;

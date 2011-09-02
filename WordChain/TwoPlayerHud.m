@@ -48,6 +48,13 @@
     round.position = ccp(kHudLabelPadding, kHudLabelPadding);
     [self addChild:round];
     
+    // TODO: Get the font sizes right
+    int scale = 1;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || [[CCDirector sharedDirector] enableRetinaDisplay:YES]) {
+        scale = 2;
+    }
+    player1Label.scale = player1Score.scale = player2Label.scale = player2Score.scale = round.scale = scale;
+    
     isHudInitialized = YES;
     
 }

@@ -69,6 +69,29 @@
     [self updateGameData];
 }
 
+-(BOOL)isGameOver {
+    
+    BOOL b = round > 5;
+    if (b) {
+        
+        // Determine the winner
+        PlayerType winner = -1;
+        if (player1Score > player2Score) {
+            winner = PlayerOne;
+        } else if (player1Score == player2Score) {
+            winner = whoseTurn; // Whoever answered last one wins
+        } else {
+            winner = PlayerTwo;
+        }
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Game Over" 
+                                                        message:[NSString stringWithFormat:@"%@ won!", (winner == PlayerOne) ? player1 : player2] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        [alert show];
+        [alert release];
+
+    }
+    return b;
+}
 -(void)scoreWordAtIndex:(NSUInteger)idx {
     // How many letters left in word
     NSUInteger lettersLeftInWord = [board unsolvedCharactersForRow:idx];

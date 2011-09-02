@@ -39,6 +39,10 @@
     [board.chain guess:g forWordAtIndex:idx];
     [self updateGameData];
 }
+
+-(BOOL)isGameOver {
+    return NO;
+}
 #pragma mark -
 #pragma mark 
 -(void)updateGameData {

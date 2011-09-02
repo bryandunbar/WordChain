@@ -9,6 +9,7 @@
 #import "BoardLayer.h"
 #import "GameState.h"
 #import "HudLayer.h"
+#import "GameManager.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
@@ -190,11 +191,38 @@
     // Check the guess
     [gameData guess:g forWordAtIndex:lastPlayedTile.row];
     
+    // Did they answer it right?
+    if ([gameData.board.chain isWordSolved:lastPlayedTile.row]) {
+        // Show a superlative in the middle of the screen :)
+        
+        CGSize size = [self contentSize];
+        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:@"Awesome!" fntFile:@"feedbackFont.fnt"];
+        feedTxt.scale = 5;
+        [self addChild:feedTxt z:50];
+        
+        [feedTxt setPosition:ccp(size.width / 2, size.height / 2)];
+        [feedTxt setColor:ccRED];
+        [feedTxt runAction:[CCSequence actions:[CCFadeIn
+                                                actionWithDuration:.5],
+                            [CCDelayTime actionWithDuration:.25],[CCFadeOut
+                                                                actionWithDuration:.5],
+                            [CCCallFuncN actionWithTarget:self selector:@
+                             selector(removeSprite:)],
+                            nil]];
+    }
+    
+    if (gameData.isGameOver) {
+        [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
+    }
+    
     // Update View
     [self updateBoard];
     [self updateHud];
 }
 
+-(void)removeSprite:(CCNode *)n {
+    [self removeChild:n cleanup:YES];
+}
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     
     // Get Model
