@@ -25,11 +25,13 @@
     
     tile.tileState = (letter == nil ? TileStateUnused : TileStateInitialized);
     
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
-        // TODO: Make sprites the right size in the images
-        tile.scale = 0.20;
-    } else {
+    // TODO: Make sprites the right size in the images
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         tile.scale = 0.45;
+    } else if ([[CCDirector sharedDirector] enableRetinaDisplay:YES]){
+        tile.scale = 0.40;
+    } else {
+        tile.scale = 0.20;
     }
     
     return tile;
