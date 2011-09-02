@@ -48,6 +48,10 @@
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
     } else if (newState == TileStateSelectable) {
         self.opacity = 100;
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+    } else if (newState == TileStateInitialized) {
+        // We are allowing the reuse of tiles for better memory
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
     }
 }
 

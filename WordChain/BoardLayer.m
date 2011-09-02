@@ -100,6 +100,14 @@
             
             // Get the tilestate from the model
             Tile *tile = (Tile*)child;
+            BoardLocation *bl = [BoardLocation locationWithRow:tile.row col:tile.col];
+            
+            // Need to see if the letter has changed
+            NSString *newLetter = [board letterAtLocation:bl];
+            if (newLetter == nil || [newLetter caseInsensitiveCompare:tile.letter] != NSOrderedSame) {
+                tile.letter = newLetter;
+            }
+            
             TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
             tile.tileState = state;
         }

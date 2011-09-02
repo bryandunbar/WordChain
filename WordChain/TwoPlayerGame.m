@@ -58,6 +58,12 @@
         self.whoseTurn = whoseTurn == PlayerOne ? PlayerTwo : PlayerOne;
     } else {
         [self scoreWordAtIndex:idx];
+        
+        // Have all the words been solved?
+        if ([board.chain isChainSolved]) {
+            round++;
+            [board newChain];
+        }
     }
     
     [self updateGameData];
@@ -67,7 +73,8 @@
     // How many letters left in word
     NSUInteger lettersLeftInWord = [board unsolvedCharactersForRow:idx];
     
-    int score = 100 + (100 * lettersLeftInWord);
+    //               Word     +         Bonus
+    int score = (100 * round) + (100 * lettersLeftInWord);
     
     if (self.whoseTurn == PlayerOne)
         player1Score += score;
@@ -76,7 +83,7 @@
 }
 
 #pragma mark -
-#pragma mark GameData Procol
+#pragma mark GameData Protocol
 -(void)updateGameData {
     [board updateGameData];
 }

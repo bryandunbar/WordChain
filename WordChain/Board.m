@@ -91,6 +91,9 @@
 -(TileState)tileStateAtLocation:(BoardLocation*)boardLocation {
     return grid[boardLocation.row][boardLocation.col];
 }
+-(NSString*)letterAtLocation:(BoardLocation *)boardLocation {
+    return [self.chain letterForWord:boardLocation.row atIndex:boardLocation.col];
+}
 -(void)setTileState:(TileState)state forLocation:(BoardLocation*)boardLocation {
     grid[boardLocation.row][boardLocation.col] = state;
 }
