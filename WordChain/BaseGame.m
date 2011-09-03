@@ -29,11 +29,20 @@
     self.board = [[Board alloc] init];
 }
 
-+(id)newGame {
++(BaseGame*)newGame {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
 }
 
+
+-(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx {
+    [board.chain guess:g forWordAtIndex:idx];
+    [self updateGameData];
+}
+
+-(BOOL)isGameOver {
+    return NO;
+}
 #pragma mark -
 #pragma mark 
 -(void)updateGameData {

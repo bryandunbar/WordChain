@@ -62,6 +62,18 @@
     [selectableTiles release];
 }
 
+-(NSUInteger)unsolvedCharactersForRow:(NSUInteger)row {
+    // Grab the word at this index
+    NSString *word = [self.chain wordAtIndex:row];
+    
+    // Count the number of "Played" tiles in the row, then substract from length
+    int count = 0;
+    for (int i = 0; i < [word length]; i++) {
+        TileState tileState = grid[row][i];
+        if (tileState == TileStatePlayed) count++;
+    }
+    return [word length] - count;
+}
 -(NSString*)solvedTextForRow:(NSUInteger)row {
     
     // Grab the word at this index
@@ -78,6 +90,9 @@
 
 -(TileState)tileStateAtLocation:(BoardLocation*)boardLocation {
     return grid[boardLocation.row][boardLocation.col];
+}
+-(NSString*)letterAtLocation:(BoardLocation *)boardLocation {
+    return [self.chain letterForWord:boardLocation.row atIndex:boardLocation.col];
 }
 -(void)setTileState:(TileState)state forLocation:(BoardLocation*)boardLocation {
     grid[boardLocation.row][boardLocation.col] = state;

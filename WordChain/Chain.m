@@ -146,7 +146,7 @@
     // it is ordered by retrieveCount to lessen the duplicate plays
     // not setting this yet though...
     
-    NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
+    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
                                                    inManagedObjectContext:self.moc]; 
 	[request setEntity:chainEntity];

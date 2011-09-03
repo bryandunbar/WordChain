@@ -17,7 +17,7 @@
 
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c {
 
-    Tile *tile = [[Tile alloc] initWithSpriteFrameName:@"back.png"];
+    Tile *tile = [[[Tile alloc] initWithSpriteFrameName:@"back.png"] autorelease];
     tile.letter = letter;
     tile.row = r;
     tile.col = c;
@@ -25,11 +25,13 @@
     
     tile.tileState = (letter == nil ? TileStateUnused : TileStateInitialized);
     
-    if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPad) {
-        // TODO: Make sprites the right size in the images
-        tile.scale = 0.20;
-    } else {
+    // TODO: Make sprites the right size in the images
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         tile.scale = 0.45;
+    } else if ([[CCDirector sharedDirector] enableRetinaDisplay:YES]){
+        tile.scale = 0.40;
+    } else {
+        tile.scale = 0.20;
     }
     
     return tile;
@@ -48,6 +50,10 @@
         [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
     } else if (newState == TileStateSelectable) {
         self.opacity = 100;
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+    } else if (newState == TileStateInitialized) {
+        // We are allowing the reuse of tiles for better memory
+        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
     }
 }
 

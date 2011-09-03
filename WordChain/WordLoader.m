@@ -80,6 +80,7 @@
                  [NSString stringWithFormat:@"wordOne == '%@'",  word.wordTwo]];
     [request setPredicate:predicate];
     matchingWords = [self.moc executeFetchRequest:request error:&error];
+    [request release];
     return matchingWords;
 }
 
@@ -101,6 +102,7 @@
     }
     [request setPredicate:predicate];
     NSArray *dups = [self.moc executeFetchRequest:request error:&error];
+    [request release];
     if (dups) {
         return ([dups count] > 0);
     }
@@ -157,6 +159,7 @@
             NSLog(@"Error: %@",error);
         }
     }
+    [request release];
 }
 
 - (void)loadChainsForLevel:(int)lvl {
@@ -219,6 +222,7 @@
     
     // load all words
     NSArray *checkWords = [self.moc executeFetchRequest:request error:&error];
+    [request release];
     return ([checkWords count] < 1);
 }
 

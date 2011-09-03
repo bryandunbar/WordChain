@@ -38,9 +38,11 @@
 @property (nonatomic,retain) Chain *chain;
 @property (nonatomic,retain) NSMutableArray *selectableTiles;
 -(TileState)tileStateAtLocation:(BoardLocation*)boardLocation;
+-(NSString*)letterAtLocation:(BoardLocation*)boardLocation;
 -(void)setTileState:(TileState)state forLocation:(BoardLocation*)boardLocation;
--(NSString*)solvedTextForRow:(NSUInteger)row;
 
+-(NSString*)solvedTextForRow:(NSUInteger)row;
+-(NSUInteger)unsolvedCharactersForRow:(NSUInteger)row;
 
 
 -(void)newChain;

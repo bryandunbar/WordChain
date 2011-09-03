@@ -22,9 +22,12 @@
 
 @property (nonatomic,assign) int round;
 @property (nonatomic,retain) Board *board;
+@property (nonatomic,readonly) BOOL isGameOver;
 
 
 -(void)reset;
-+(id)newGame;
++(BaseGame*)newGame;
+
+-(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
 
 @end

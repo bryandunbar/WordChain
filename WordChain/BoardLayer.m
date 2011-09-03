@@ -8,6 +8,9 @@
 
 #import "BoardLayer.h"
 #import "GameState.h"
+#import "HudLayer.h"
+#import "GameManager.h"
+#import "Constants.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
@@ -15,6 +18,7 @@
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)zoomToRow:(Tile*)tile;
 -(void)updateBoard;
+-(void)updateHud;
 
 @property (nonatomic,retain) GuessView *guessView;
 @property (nonatomic,retain) UITextField *hiddenTextField;
@@ -60,7 +64,6 @@
     return NO;
 }
 
-
 #pragma mark -
 #pragma mark Board Rendering
 -(void)layoutBoard {
@@ -99,12 +102,23 @@
             
             // Get the tilestate from the model
             Tile *tile = (Tile*)child;
+            BoardLocation *bl = [BoardLocation locationWithRow:tile.row col:tile.col];
+            
+            // Need to see if the letter has changed
+            NSString *newLetter = [board letterAtLocation:bl];
+            if (newLetter == nil || [newLetter caseInsensitiveCompare:tile.letter] != NSOrderedSame) {
+                tile.letter = newLetter;
+            }
+            
             TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
             tile.tileState = state;
         }
     }
 }
-
+-(void)updateHud {
+    HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
+    [hud updateHud];
+}
 #pragma mark -
 -(Tile*)tileAtLocation:(BoardLocation *)boardLocation {
     
@@ -121,6 +135,8 @@
     return nil;
 }
 
+#pragma mark -
+#pragma mark Game Logic
 -(void)playTile:(Tile *)tile {
     [tile play];
     
@@ -140,7 +156,7 @@
     
     
     if (!hiddenTextField) {
-        self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
+        self.hiddenTextField = [[[UITextField alloc] initWithFrame:CGRectZero] autorelease];
         [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
         hiddenTextField.inputAccessoryView = guessView;
     }
@@ -170,17 +186,44 @@
     [guessView.textField resignFirstResponder];
     [hiddenTextField resignFirstResponder];
     
+    // Reshow the whole board
     [self zoomOut];
+    
     // Check the guess
-    if ([board.chain guess:g forWordAtIndex:lastPlayedTile.row]) {
-        // TODO: User guessed right
+    [gameData guess:g forWordAtIndex:lastPlayedTile.row];
+    
+    // Did they answer it right?
+    if ([gameData.board.chain isWordSolved:lastPlayedTile.row]) {
+        // Show a superlative in the middle of the screen :)
+        
+        CGSize size = [self contentSize];
+        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
+        feedTxt.scale = 5;
+        [self addChild:feedTxt z:50];
+        
+        [feedTxt setPosition:ccp(size.width / 2, size.height / 2)];
+        [feedTxt setColor:ccRED];
+        [feedTxt runAction:[CCSequence actions:[CCFadeIn
+                                                actionWithDuration:.5],
+                            [CCDelayTime actionWithDuration:.25],[CCFadeOut
+                                                                actionWithDuration:.5],
+                            [CCCallFuncN actionWithTarget:self selector:@
+                             selector(removeSprite:)],
+                            nil]];
     }
     
-    // Update game model
-    [gameData updateGameData];
+    if (gameData.isGameOver) {
+        [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
+    }
+    
+    // Update View
     [self updateBoard];
+    [self updateHud];
 }
 
+-(void)removeSprite:(CCNode *)n {
+    [self removeChild:n cleanup:YES];
+}
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     
     // Get Model
