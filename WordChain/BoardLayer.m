@@ -16,7 +16,6 @@
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
--(void)zoomToRow:(Tile*)tile;
 -(void)updateBoard;
 -(void)updateHud;
 
@@ -164,69 +163,6 @@
 
 }
 
--(void)zoomToRow:(Tile*)tile {
-
-    // Reposition
-    float newY = self.contentSize.height - tile.position.y;
-    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x, newY)]];
-}
--(void)zoomOut {
-    [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x,0)]];
-}
-
-    // Get the model
-    BaseGame *gameData = [GameState sharedInstance].gameData;
-    Board *board = gameData.board;
-    
-    // Hide the keyboard
-    [guessView.textField resignFirstResponder];
-    [hiddenTextField resignFirstResponder];
-    
-    // Reshow the whole board
-    [self zoomOut];
-    
-    // Check the guess
-    [gameData guess:g forWordAtIndex:lastPlayedTile.row];
-    
-    // Did they answer it right?
-    if ([gameData.board.chain isWordSolved:lastPlayedTile.row]) {
-        // Show a superlative in the middle of the screen :)
-        
-        
-        CGSize size = [self contentSize];
-        
-        CCLabelBMFont * feedTxt = nil;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial-hd.fnt"];
-        } else {
-            feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial.fnt"];
-        }
-        //feedTxt.scale = 5;
-        [self addChild:feedTxt z:50];
-        
-        [feedTxt setPosition:ccp(size.width / 2, size.height / 2)];
-        [feedTxt setColor:ccRED];
-        [feedTxt runAction:[CCSequence actions:[CCFadeIn
-                                                actionWithDuration:.5],
-                            [CCDelayTime actionWithDuration:.25],[CCFadeOut
-                                                                actionWithDuration:.5],
-                            [CCCallFuncN actionWithTarget:self selector:@
-                             selector(removeSprite:)],
-                            nil]];
-    }
-    
-    if (gameData.isGameOver) {
-        [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
-    }
-    
-    // Update View
-    [self updateBoard];
-    [self updateHud];
-}
-
--(void)removeSprite:(CCNode *)n {
-    [self removeChild:n cleanup:YES];
-}
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     
     // Get Model
