@@ -10,14 +10,17 @@
 
 @implementation GuessScene
 
-- (id)init
-{
+-(id)initWithGuessLocation:(BoardLocation *)location {
     self = [super init];
-    if (self) {
-        // Initialization code here.
+    if (self != nil) {
+        guessLayer = [GuessLayer nodeWithGuessLocation:location];
+        [self addChild:guessLayer];
     }
-    
     return self;
+}
+
++(id)nodeWithGuessLocation:(BoardLocation *)location {
+    return [[[self alloc] initWithGuessLocation:location] autorelease];
 }
 
 @end

@@ -7,7 +7,12 @@
 //
 
 #import "CCScene.h"
+#import "GuessLayer.h"
+#import "Board.h"
 
-@interface GuessScene : CCScene
+@interface GuessScene : CCScene {
+    GuessLayer *guessLayer;
+}
++(id)nodeWithGuessLocation:(BoardLocation *)location;
 
 @end

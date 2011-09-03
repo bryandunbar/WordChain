@@ -11,6 +11,7 @@
 #import "HudLayer.h"
 #import "GameManager.h"
 #import "Constants.h"
+#import "GuessScene.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
@@ -40,6 +41,18 @@
     return self;
 }
 
+- (void)onEnter
+{
+    [super onEnter];
+    /*
+     * This method is called every time the CCNode enters the 'stage'.
+     */
+    // Get the model
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    if (gameData.board) {
+        [self updateBoard];
+    }
+}
 
 #pragma mark -
 #pragma mark Toches
@@ -141,7 +154,10 @@
     [tile play];
     
     lastPlayedTile = tile;
-    [self promptForGuess:tile];
+//    [self promptForGuess:tile];
+    GuessScene *guessScene = [GuessScene nodeWithGuessLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
+    [[CCDirector sharedDirector] pushScene:guessScene];
+
 }
 
 -(void)promptForGuess:(Tile*)tile {

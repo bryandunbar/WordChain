@@ -7,7 +7,13 @@
 //
 
 #import "CCLayer.h"
-
-@interface GuessLayer : CCLayer
+#import "GuessView.h"
+#import "Board.h"
+@interface GuessLayer : CCLayer <GuessViewDelegate> {
+    GuessView *guessView;
+    UITextField *hiddenTextField;
+    BoardLocation *guessLocation;
+}
++(id)nodeWithGuessLocation:(BoardLocation *)location;
 
 @end

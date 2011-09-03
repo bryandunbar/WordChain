@@ -15,6 +15,8 @@
 		846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD4D140CFE4800568B02 /* GCDatabase.m */; };
 		847911BB140AFD5400EEBE1C /* GuessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847911B9140AFD5400EEBE1C /* GuessView.m */; };
 		847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847911BA140AFD5400EEBE1C /* GuessView.xib */; };
+		847BF2A71412801200871965 /* GuessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A41412801200871965 /* GuessLayer.m */; };
+		847BF2A81412801200871965 /* GuessScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A61412801200871965 /* GuessScene.m */; };
 		84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B82BA11407BDB5003F3A1C /* WordLoader.m */; };
 		84B82BC51407BF3C003F3A1C /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84B82BC41407BF3C003F3A1C /* words.txt */; };
 		84BC43D2140C65E000978EBF /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC43D1140C65E000978EBF /* GameManager.m */; };
@@ -171,6 +173,10 @@
 		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessView.h; sourceTree = "<group>"; };
 		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessView.m; sourceTree = "<group>"; };
 		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuessView.xib; sourceTree = "<group>"; };
+		847BF2A31412801200871965 /* GuessLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessLayer.h; sourceTree = "<group>"; };
+		847BF2A41412801200871965 /* GuessLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessLayer.m; sourceTree = "<group>"; };
+		847BF2A51412801200871965 /* GuessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessScene.h; sourceTree = "<group>"; };
+		847BF2A61412801200871965 /* GuessScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessScene.m; sourceTree = "<group>"; };
 		84B82BA01407BDB5003F3A1C /* WordLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordLoader.h; sourceTree = "<group>"; };
 		84B82BA11407BDB5003F3A1C /* WordLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordLoader.m; sourceTree = "<group>"; };
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
@@ -501,6 +507,8 @@
 		E38D2520141025F900D98509 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				847BF2A31412801200871965 /* GuessLayer.h */,
+				847BF2A41412801200871965 /* GuessLayer.m */,
 				E3A4665C140FAB2F0061B73B /* HudLayer.h */,
 				E3A4665D140FAB2F0061B73B /* HudLayer.m */,
 				E38D25211410263800D98509 /* SinglePlayerHud.h */,
@@ -891,6 +899,8 @@
 			children = (
 				E3F468EE1406890E003BFBBF /* GameScene.h */,
 				E3F468EF1406890E003BFBBF /* GameScene.m */,
+				847BF2A51412801200871965 /* GuessScene.h */,
+				847BF2A61412801200871965 /* GuessScene.m */,
 				E3D5544F140DB5FE005179AF /* MainMenuScene.h */,
 				E3D55450140DB5FE005179AF /* MainMenuScene.m */,
 			);
@@ -1131,6 +1141,8 @@
 				E3A4665E140FAB2F0061B73B /* HudLayer.m in Sources */,
 				E38D25231410263800D98509 /* SinglePlayerHud.m in Sources */,
 				E38D25261410264500D98509 /* TwoPlayerHud.m in Sources */,
+				847BF2A71412801200871965 /* GuessLayer.m in Sources */,
+				847BF2A81412801200871965 /* GuessScene.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
