@@ -18,41 +18,41 @@
 
 -(void)createHud {
     
+    
+    float scale = 0.5;
+    
     CGSize winSize = [CCDirector sharedDirector].winSize;
     [self setContentSize:CGSizeMake(winSize.width / 3, winSize.height)];
     self.position = ccp(winSize.width - self.contentSize.width, 0);
     CGSize hudSize = self.contentSize;
     
-    self.player1Label = [CCLabelBMFont labelWithString:@"Player1" fntFile:@"hud_font.fnt"];
+    self.player1Label = [CCLabelBMFont labelWithString:@"Player1" fntFile:[self fontName]];
     player1Label.anchorPoint = ccp(0,1);
     player1Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding);
     [self addChild:player1Label];
     
-    self.player1Score = [CCLabelBMFont labelWithString:@"Player2" fntFile:@"hud_font.fnt"];
+    self.player1Score = [CCLabelBMFont labelWithString:@"Player2" fntFile:[self fontName]];
     player1Score.anchorPoint = ccp(1,1);
     player1Score.position = ccp(hudSize.width - kHudLabelPadding,hudSize.height - kHudLabelPadding);
     [self addChild:player1Score];
     
-    self.player2Label = [CCLabelBMFont labelWithString:@"0" fntFile:@"hud_font.fnt"];
+    self.player2Label = [CCLabelBMFont labelWithString:@"0" fntFile:[self fontName]];
     player2Label.anchorPoint = ccp(0,1);
-    player2Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding - player2Label.contentSize.height);
+    player2Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding - (player2Label.contentSize.height * scale));
     [self addChild:player2Label];
     
-    self.player2Score = [CCLabelBMFont labelWithString:@"0" fntFile:@"hud_font.fnt"];
+    self.player2Score = [CCLabelBMFont labelWithString:@"0" fntFile:[self fontName]];
     player2Score.anchorPoint = ccp(1,1);
-    player2Score.position = ccp(hudSize.width - kHudLabelPadding,hudSize.height - kHudLabelPadding - player2Score.contentSize.height);
+    player2Score.position = ccp(hudSize.width - kHudLabelPadding,hudSize.height - kHudLabelPadding - (player2Score.contentSize.height * scale));
     [self addChild:player2Score];
-
-    self.round = [CCLabelBMFont labelWithString:@"Round 1" fntFile:@"hud_font.fnt"];
+    
+    self.round = [CCLabelBMFont labelWithString:@"Round 1" fntFile:[self fontName]];
     round.anchorPoint = ccp(0,0);
     round.position = ccp(kHudLabelPadding, kHudLabelPadding);
     [self addChild:round];
     
     // TODO: Get the font sizes right
-    int scale = 1;
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad || [[CCDirector sharedDirector] enableRetinaDisplay:YES]) {
-        scale = 2;
-    }
+    
     player1Label.scale = player1Score.scale = player2Label.scale = player2Score.scale = round.scale = scale;
     
     isHudInitialized = YES;

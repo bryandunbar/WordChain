@@ -196,9 +196,16 @@
     if ([gameData.board.chain isWordSolved:lastPlayedTile.row]) {
         // Show a superlative in the middle of the screen :)
         
+        
         CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
-        feedTxt.scale = 5;
+        
+        CCLabelBMFont * feedTxt = nil;
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial-hd.fnt"];
+        } else {
+            feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial.fnt"];
+        }
+        //feedTxt.scale = 5;
         [self addChild:feedTxt z:50];
         
         [feedTxt setPosition:ccp(size.width / 2, size.height / 2)];

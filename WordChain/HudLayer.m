@@ -39,4 +39,11 @@
 -(void)doUpdateHud {
     [self doesNotRecognizeSelector:_cmd];
 }
+-(NSString*)fontName {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return @"Arial-hd.fnt";
+    } else {
+        return @"Arial.fnt";
+    }
+}
 @end
