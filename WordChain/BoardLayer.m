@@ -11,10 +11,10 @@
 #import "HudLayer.h"
 #import "GameManager.h"
 #import "Constants.h"
+#import "GuessScene.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
--(void)promptForGuess:(Tile*)tile;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)zoomToRow:(Tile*)tile;
 -(void)updateBoard;
@@ -40,6 +40,23 @@
     return self;
 }
 
+- (void)onEnter
+{
+    [super onEnter];
+    /*
+     * This method is called every time the CCNode enters the 'stage'.
+     */
+    // Get the model
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    if (gameData.board) {
+        if (gameData.isGameOver) {
+            [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
+        }
+
+        [self updateBoard];
+        [self updateHud];
+    }
+}
 
 #pragma mark -
 #pragma mark Toches
@@ -141,30 +158,10 @@
     [tile play];
     
     lastPlayedTile = tile;
-    [self promptForGuess:tile];
-}
+//    [self promptForGuess:tile];
+    GuessScene *guessScene = [GuessScene nodeWithGuessLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
+    [[CCDirector sharedDirector] pushScene:guessScene];
 
--(void)promptForGuess:(Tile*)tile {
-
-    [self zoomToRow:tile];
-    
-    
-    if (!guessView) {
-        self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
-        guessView.delegate = self;
-    }
-    
-    
-    if (!hiddenTextField) {
-        self.hiddenTextField = [[[UITextField alloc] initWithFrame:CGRectZero] autorelease];
-        [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
-        hiddenTextField.inputAccessoryView = guessView;
-    }
-    
-    // Set the text and show the keyboard
-    guessView.textField.text = [self visibleTextForRow:tile.row];
-    [hiddenTextField becomeFirstResponder];
-    [guessView.textField becomeFirstResponder];
 }
 
 -(void)zoomToRow:(Tile*)tile {
@@ -176,7 +173,6 @@
 -(void)zoomOut {
     [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x,0)]];
 }
--(void)didGuess:(GuessView*)gv guess:(NSString *)g {
 
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
