@@ -15,7 +15,6 @@
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
--(void)promptForGuess:(Tile*)tile;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)zoomToRow:(Tile*)tile;
 -(void)updateBoard;
@@ -50,7 +49,12 @@
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     if (gameData.board) {
+        if (gameData.isGameOver) {
+            [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
+        }
+
         [self updateBoard];
+        [self updateHud];
     }
 }
 
@@ -160,29 +164,6 @@
 
 }
 
--(void)promptForGuess:(Tile*)tile {
-
-    [self zoomToRow:tile];
-    
-    
-    if (!guessView) {
-        self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
-        guessView.delegate = self;
-    }
-    
-    
-    if (!hiddenTextField) {
-        self.hiddenTextField = [[[UITextField alloc] initWithFrame:CGRectZero] autorelease];
-        [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
-        hiddenTextField.inputAccessoryView = guessView;
-    }
-    
-    // Set the text and show the keyboard
-    guessView.textField.text = [self visibleTextForRow:tile.row];
-    [hiddenTextField becomeFirstResponder];
-    [guessView.textField becomeFirstResponder];
-}
-
 -(void)zoomToRow:(Tile*)tile {
 
     // Reposition
@@ -192,50 +173,7 @@
 -(void)zoomOut {
     [self runAction:[CCMoveTo actionWithDuration:0.25 position:ccp(self.position.x,0)]];
 }
--(void)didGuess:(GuessView*)gv guess:(NSString *)g {
 
-    // Get the model
-    BaseGame *gameData = [GameState sharedInstance].gameData;
-    Board *board = gameData.board;
-    
-    // Hide the keyboard
-    [guessView.textField resignFirstResponder];
-    [hiddenTextField resignFirstResponder];
-    
-    // Reshow the whole board
-    [self zoomOut];
-    
-    // Check the guess
-    [gameData guess:g forWordAtIndex:lastPlayedTile.row];
-    
-    // Did they answer it right?
-    if ([gameData.board.chain isWordSolved:lastPlayedTile.row]) {
-        // Show a superlative in the middle of the screen :)
-        
-        CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
-        feedTxt.scale = 5;
-        [self addChild:feedTxt z:50];
-        
-        [feedTxt setPosition:ccp(size.width / 2, size.height / 2)];
-        [feedTxt setColor:ccRED];
-        [feedTxt runAction:[CCSequence actions:[CCFadeIn
-                                                actionWithDuration:.5],
-                            [CCDelayTime actionWithDuration:.25],[CCFadeOut
-                                                                actionWithDuration:.5],
-                            [CCCallFuncN actionWithTarget:self selector:@
-                             selector(removeSprite:)],
-                            nil]];
-    }
-    
-    if (gameData.isGameOver) {
-        [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
-    }
-    
-    // Update View
-    [self updateBoard];
-    [self updateHud];
-}
 
 -(void)removeSprite:(CCNode *)n {
     [self removeChild:n cleanup:YES];

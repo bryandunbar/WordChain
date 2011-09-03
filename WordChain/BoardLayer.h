@@ -13,7 +13,7 @@
 #import "GuessView.h"
 #import "Board.h"
 
-@interface BoardLayer : CCLayer <CCTargetedTouchDelegate, GuessViewDelegate> {
+@interface BoardLayer : CCLayer <CCTargetedTouchDelegate> {
     
     @private
     UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up

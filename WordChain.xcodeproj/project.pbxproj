@@ -507,8 +507,6 @@
 		E38D2520141025F900D98509 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
-				847BF2A31412801200871965 /* GuessLayer.h */,
-				847BF2A41412801200871965 /* GuessLayer.m */,
 				E3A4665C140FAB2F0061B73B /* HudLayer.h */,
 				E3A4665D140FAB2F0061B73B /* HudLayer.m */,
 				E38D25211410263800D98509 /* SinglePlayerHud.h */,
@@ -888,6 +886,8 @@
 				E3F468F814068A36003BFBBF /* BoardLayer.m */,
 				E3F468F114068949003BFBBF /* GameplayLayer.h */,
 				E3F468F214068949003BFBBF /* GameplayLayer.m */,
+				847BF2A31412801200871965 /* GuessLayer.h */,
+				847BF2A41412801200871965 /* GuessLayer.m */,
 				E3D5544C140DB202005179AF /* MainMenuLayer.h */,
 				E3D5544D140DB202005179AF /* MainMenuLayer.m */,
 			);
