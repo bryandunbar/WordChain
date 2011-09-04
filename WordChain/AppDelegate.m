@@ -64,13 +64,17 @@
 	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
 											   stringByAppendingPathComponent: @"WordChain.sqlite"]];
 	
+    
     // Put down default db if it doesn't already exist
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if (![fileManager fileExistsAtPath:storePath]) {
-        NSString *defaultStorePath = [[NSBundle mainBundle] 
-                                      pathForResource:@"WordChain" ofType:@"sqlite"];
-        if (defaultStorePath) {
-            [fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
+    bool shouldLoadDatabase = FALSE;
+    if (!shouldLoadDatabase) {
+        NSFileManager *fileManager = [NSFileManager defaultManager];
+        if (![fileManager fileExistsAtPath:storePath]) {
+            NSString *defaultStorePath = [[NSBundle mainBundle] 
+                                          pathForResource:@"WordChain" ofType:@"sqlite"];
+            if (defaultStorePath) {
+                [fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
+            }
         }
     }
     
