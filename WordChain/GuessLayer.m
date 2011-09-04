@@ -81,8 +81,6 @@
         [label setColor:ccc3(255, 255, 255)];
         int ypos = self.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
         ypadding += 3;
-        NSLog(@"ypos = %d",ypos);
-        //[label setPosition:ccp([label boundingBox].size.width, ypos)];
         [label setPosition:ccp(20,ypos)];
         
         [self addChild:label];    
@@ -97,7 +95,6 @@
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
-    NSLog(@"guess location row = %d",guessLocation.row);
     
      // Add a tile at every position
     for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {

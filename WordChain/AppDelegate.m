@@ -59,9 +59,21 @@
 	if (persistentStoreCoordinator != nil) {
 		return persistentStoreCoordinator;
 	}
+    NSString *storePath = [[self applicationDocumentsDirectory]
+                        stringByAppendingPathComponent: @"WordChain.sqlite"];
 	NSURL *storeUrl = [NSURL fileURLWithPath: [[self applicationDocumentsDirectory]
 											   stringByAppendingPathComponent: @"WordChain.sqlite"]];
 	
+    // Put down default db if it doesn't already exist
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if (![fileManager fileExistsAtPath:storePath]) {
+        NSString *defaultStorePath = [[NSBundle mainBundle] 
+                                      pathForResource:@"WordChain" ofType:@"sqlite"];
+        if (defaultStorePath) {
+            [fileManager copyItemAtPath:defaultStorePath toPath:storePath error:NULL];
+        }
+    }
+    
 	//handle db upgrade 2/11/11
 	NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES],NSMigratePersistentStoresAutomaticallyOption,
