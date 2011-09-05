@@ -105,6 +105,38 @@
 #pragma mark -
 #pragma mark Chain Loading Stuff
 
+-(int)minRetrieveCountForAllChains {
+    // Randomization logic: get minimum retrieve count (words that haven't been played yet)
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
+	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
+                                                   inManagedObjectContext:self.moc]; 
+	[request setEntity:chainEntity];    
+    [request setResultType:NSDictionaryResultType];
+    
+    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath:@"retrieveCount"];
+    NSExpression *maxExpression = [NSExpression expressionForFunction:@"min:"
+                                                                  arguments:[NSArray arrayWithObject:keyPathExpression]];
+    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+    [expressionDescription setName:@"minRetrieveCount"];
+    [expressionDescription setExpression:maxExpression];
+    [expressionDescription setExpressionResultType:NSInteger16AttributeType];
+    
+    [request setPropertiesToFetch:[NSArray arrayWithObject:expressionDescription]];
+    
+    NSError *error;
+    
+    NSArray *objects = [self.moc executeFetchRequest:request error:&error];
+    if (objects == nil || [objects count] < 1) {
+        // Handle the error.
+        return 0;
+    }
+    else {
+        NSLog(@"Minimum retrieve count: %d", [[[objects objectAtIndex:0] valueForKey:@"minRetrieveCount"] intValue]);
+        return [[[objects objectAtIndex:0] valueForKey:@"minRetrieveCount"] intValue];
+    }
+}
+
 -(NSArray *)wordsFromChain:(int)chain {
     NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
@@ -129,8 +161,17 @@
             [wordsToPlay addObject:w.wordOne];
         }
         [wordsToPlay addObject:w.wordTwo];
+        
+        //Randomization: up the chain's retrieve count by 1
+        [cw setRetrieveCount:[NSNumber numberWithInt:([cw.retrieveCount intValue] + 1)] ];
+        if (![self.moc save:&error]) {
+            // Handle the error.
+            NSLog(@"Error Adding chainWord");
+            NSLog(@"Error: %@",error);
+        }
         index++;
     }
+    
     [request release];
     return wordsToPlay;
 }
@@ -141,7 +182,7 @@
     return [chainWord.chain intValue];
 }
 
--(NSArray *)chainCandidatesForLevel:(int)lvl {
+-(NSArray *)chainCandidatesForLevel:(int)lvl withRetrieveCount:(int)retrieveCount{
     // return a list of distinct chains in order to randomize them
     // it is ordered by retrieveCount to lessen the duplicate plays
     // not setting this yet though...
@@ -152,7 +193,7 @@
 	[request setEntity:chainEntity];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              [NSString stringWithFormat:@"level == %d",lvl]];
+                              [NSString stringWithFormat:@"level == %d and retrieveCount = %d",lvl, retrieveCount]];
     [request setPredicate:predicate];
     
     // this will lessen the likelihood of repeating results
@@ -173,7 +214,8 @@
 }
 
 -(NSArray *)wordsForLevel:(int)lvl {
-    NSArray *chainCandidates = [self chainCandidatesForLevel:lvl];
+    NSArray *chainCandidates = [self chainCandidatesForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
+    NSLog(@"Total Chain Candidates = %d",[chainCandidates count]);
     int chainToSelect = [self randomChainFromChains:chainCandidates];
     return [self wordsFromChain:chainToSelect];
 }
