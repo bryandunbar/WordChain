@@ -80,9 +80,7 @@
         }
         
         
-
         label = [CCLabelTTF labelWithString:[labelText lowercaseString] fontName:@"Marker Felt" fontSize:[self fontSize]]; 
-
         [label setColor:ccc3(255, 255, 255)];
         label.anchorPoint = ccp(0,0.5);
         int ypos = self.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
@@ -118,7 +116,7 @@
         TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:guessLocation.row col:col]];
         
         Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:guessLocation.row atIndex:col] row:guessLocation.row col:col];
-        tile.tileState = state;
+        tile.tileState = state == TileStateSelectable ? TileStatePlayed : state; // Don't use the selectable state here
         
         // Position the tile 
         tile.position = ccp([tile boundingBox].size.width * col + position_x, position_y);
