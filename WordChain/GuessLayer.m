@@ -116,7 +116,7 @@
         TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:guessLocation.row col:col]];
         
         Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:guessLocation.row atIndex:col] row:guessLocation.row col:col];
-        tile.tileState = state == TileStateSelectable ? TileStatePlayed : state; // Don't use the selectable state here
+        tile.tileState = state == TileStateSelectable ? TileStatePlayed : TileStateInitialized; // Don't use the selectable state here
         
         // Position the tile 
         tile.position = ccp([tile boundingBox].size.width * col + position_x, position_y);
