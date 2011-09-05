@@ -72,14 +72,19 @@
 
 -(void)play {
     
-    
-    // TODO: Animate this
-    self.tileState = TileStatePlayed;
-
-    // Update the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
-    [board setTileState:self.tileState forLocation:[BoardLocation locationWithRow:self.row col:self.col]];
+    
+    // Is this the last tile in the chain? If so don't solve it
+    
+    if (![board isLastLetterForWord:[BoardLocation locationWithRow:self.row col:self.col]]) {
+    
+        // TODO: Animate this
+        self.tileState = TileStatePlayed;
+
+        // Update the model
+        [board setTileState:self.tileState forLocation:[BoardLocation locationWithRow:self.row col:self.col]];
+    }
 }
 
 @end

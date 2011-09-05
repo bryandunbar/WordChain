@@ -159,7 +159,7 @@
     lastPlayedTile = tile;
 //    [self promptForGuess:tile];
     GuessScene *guessScene = [GuessScene nodeWithGuessLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
-    [[CCDirector sharedDirector] pushScene:guessScene];
+    [[CCDirector sharedDirector] pushScene:guessScene ];
 
 }
 

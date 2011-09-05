@@ -19,6 +19,7 @@
 -(void)promptForGuess;
 -(void)didGuess:(GuessView*)gv guess:(NSString*)g;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
+-(int)fontSize;
 
 @property (nonatomic,retain) GuessView *guessView;
 @property (nonatomic,retain) UITextField *hiddenTextField;
@@ -77,11 +78,16 @@
                 }
             }
         }
-        label = [CCLabelTTF labelWithString:[labelText lowercaseString] fontName:@"Marker Felt" fontSize:13]; 
+        
+        
+
+        label = [CCLabelTTF labelWithString:[labelText lowercaseString] fontName:@"Marker Felt" fontSize:[self fontSize]]; 
+
         [label setColor:ccc3(255, 255, 255)];
+        label.anchorPoint = ccp(0,0.5);
         int ypos = self.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
         ypadding += 3;
-        [label setPosition:ccp(20,ypos)];
+        [label setPosition:ccp(5,ypos)];
         
         [self addChild:label];    
         
@@ -90,8 +96,17 @@
 }
 
 -(void)layoutGuessTiles {
-    int position_x = 90;
-    int position_y = 5;
+    
+    
+    // Calculate the starting x and y
+    CGSize winSize = [CCDirector sharedDirector].winSize;
+    Tile *dummyTileForSize = [Tile tileWithLetter:@"A" row:0 col:0];
+    float wordLength = dummyTileForSize.boundingBox.size.width * BOARD_GRID_COLUMNS;
+    
+    
+    int position_x = (winSize.width - wordLength) / 2;
+    int position_y = self.contentSize.height - dummyTileForSize.boundingBox.size.height + 5;
+    
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
@@ -105,10 +120,21 @@
         Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:guessLocation.row atIndex:col] row:guessLocation.row col:col];
         tile.tileState = state;
         
-        // Position the tile (Starting at the top left of the board)
-        tile.position = ccp([tile boundingBox].size.width * col + position_x, self.contentSize.height - [tile boundingBox].size.height + position_y);
+        // Position the tile 
+        tile.position = ccp([tile boundingBox].size.width * col + position_x, position_y);
         [self addChild:tile];
     }
+    
+    // Add A Label if this is the last letter
+    if ([gameData.board isLastLetterForWord:guessLocation]) {
+        CGSize winSize = [CCDirector sharedDirector].winSize;
+        CCLabelTTF *lastLetterLabel = [CCLabelTTF labelWithString:@"Last Letter" fontName:@"Marker Felt" fontSize:[self fontSize]];
+        lastLetterLabel.position = ccp((winSize.width - lastLetterLabel.boundingBox.size.width )/ 2, position_y - dummyTileForSize.boundingBox.size.height);
+        lastLetterLabel.anchorPoint = ccp(0,1.5);
+        [self addChild:lastLetterLabel];
+    }                             
+    
+
 }
 
 -(void)promptForGuess {
@@ -200,4 +226,12 @@
     Board *board = gameData.board;
     return [board solvedTextForRow:row];
 }
+ 
+ -(int)fontSize {
+     int fontSize = -1;
+     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+         return 40;
+     else
+         return 13;
+ }
 @end

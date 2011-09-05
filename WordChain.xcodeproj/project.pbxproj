@@ -178,7 +178,6 @@
 		847BF2A41412801200871965 /* GuessLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessLayer.m; sourceTree = "<group>"; };
 		847BF2A51412801200871965 /* GuessScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessScene.h; sourceTree = "<group>"; };
 		847BF2A61412801200871965 /* GuessScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessScene.m; sourceTree = "<group>"; };
-		84A09CE81413FA4500221064 /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		84B82BA01407BDB5003F3A1C /* WordLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WordLoader.h; sourceTree = "<group>"; };
 		84B82BA11407BDB5003F3A1C /* WordLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WordLoader.m; sourceTree = "<group>"; };
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
@@ -192,7 +191,6 @@
 		E38D25221410263800D98509 /* SinglePlayerHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SinglePlayerHud.m; sourceTree = "<group>"; };
 		E38D25241410264500D98509 /* TwoPlayerHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwoPlayerHud.h; sourceTree = "<group>"; };
 		E38D25251410264500D98509 /* TwoPlayerHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwoPlayerHud.m; sourceTree = "<group>"; };
-		E38D252B14118B3100D98509 /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		E3A4665C140FAB2F0061B73B /* HudLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HudLayer.h; sourceTree = "<group>"; };
 		E3A4665D140FAB2F0061B73B /* HudLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HudLayer.m; sourceTree = "<group>"; };
 		E3B5030E1403D24000D96AE6 /* WordChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -580,7 +578,6 @@
 		E3B503231403D24000D96AE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				84A09CE81413FA4500221064 /* WordChain.sqlite */,
 				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
 				E3F468FA14069D58003BFBBF /* Letters.plist */,

@@ -94,6 +94,10 @@
 -(NSString*)letterAtLocation:(BoardLocation *)boardLocation {
     return [self.chain letterForWord:boardLocation.row atIndex:boardLocation.col];
 }
+-(BOOL)isLastLetterForWord:(BoardLocation*)boardLocation {
+    NSString *word = [self.chain wordAtIndex:boardLocation.row];
+    return (boardLocation.col == [word length] - 1);
+}
 -(void)setTileState:(TileState)state forLocation:(BoardLocation*)boardLocation {
     grid[boardLocation.row][boardLocation.col] = state;
 }
