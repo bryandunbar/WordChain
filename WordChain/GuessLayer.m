@@ -185,9 +185,9 @@
     if ([gameData.board.chain isWordSolved:self.guessLocation.row]) {
     
         CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
-        feedTxt.scale = 5;
+        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial.fnt"];
         [self addChild:feedTxt z:50];
+        
         [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
         [feedTxt setColor:ccRED];
         [feedTxt runAction:[CCSequence actions:[CCFadeIn

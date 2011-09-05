@@ -21,6 +21,7 @@
 		84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B82BA11407BDB5003F3A1C /* WordLoader.m */; };
 		84B82BC51407BF3C003F3A1C /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84B82BC41407BF3C003F3A1C /* words.txt */; };
 		84BC43D2140C65E000978EBF /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC43D1140C65E000978EBF /* GameManager.m */; };
+		E306CBB01415698900CD68CA /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E306CBAF1415698900CD68CA /* WordChain.sqlite */; };
 		E35F84201411A6F20024F8A2 /* Arial-hd.fnt in Resources */ = {isa = PBXBuildFile; fileRef = E35F841C1411A6F20024F8A2 /* Arial-hd.fnt */; };
 		E35F84211411A6F20024F8A2 /* Arial-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = E35F841D1411A6F20024F8A2 /* Arial-hd.png */; };
 		E35F84221411A6F20024F8A2 /* Arial.fnt in Resources */ = {isa = PBXBuildFile; fileRef = E35F841E1411A6F20024F8A2 /* Arial.fnt */; };
@@ -185,6 +186,7 @@
 		84B82BC41407BF3C003F3A1C /* words.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = words.txt; sourceTree = "<group>"; };
 		84BC43D0140C65E000978EBF /* GameManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameManager.h; sourceTree = "<group>"; };
 		84BC43D1140C65E000978EBF /* GameManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameManager.m; sourceTree = "<group>"; };
+		E306CBAF1415698900CD68CA /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		E35F841C1411A6F20024F8A2 /* Arial-hd.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Arial-hd.fnt"; sourceTree = "<group>"; };
 		E35F841D1411A6F20024F8A2 /* Arial-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Arial-hd.png"; sourceTree = "<group>"; };
 		E35F841E1411A6F20024F8A2 /* Arial.fnt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Arial.fnt; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 		E3B503231403D24000D96AE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E306CBAF1415698900CD68CA /* WordChain.sqlite */,
 				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
 				E3F468FA14069D58003BFBBF /* Letters.plist */,
@@ -1014,6 +1017,7 @@
 				E35F84211411A6F20024F8A2 /* Arial-hd.png in Resources */,
 				E35F84221411A6F20024F8A2 /* Arial.fnt in Resources */,
 				E35F84231411A6F20024F8A2 /* Arial.png in Resources */,
+				E306CBB01415698900CD68CA /* WordChain.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
