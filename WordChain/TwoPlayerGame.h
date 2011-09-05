@@ -11,6 +11,8 @@
 #import "Constants.h"
 #import "Board.h"
 
+#define kTimerDefault 60
+
 typedef enum {
     PlayerOne,
     PlayerTwo

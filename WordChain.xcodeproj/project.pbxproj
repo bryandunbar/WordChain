@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		84068EE114059F5B000387EE /* WordChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */; };
 		84068F061405A1E3000387EE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84068F051405A1E3000387EE /* CoreData.framework */; };
+		8445BC2B1414FE80000A5606 /* TimerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445BC2A1414FE80000A5606 /* TimerLayer.m */; };
 		8451688D1407FE4F00ECFCBA /* ChainWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688C1407FE4F00ECFCBA /* ChainWord.m */; };
 		845168901407FE5D00ECFCBA /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688F1407FE5D00ECFCBA /* Word.m */; };
 		846BFD4A140CFE1300568B02 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD49140CFE1300568B02 /* GameState.m */; };
@@ -17,7 +18,6 @@
 		847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847911BA140AFD5400EEBE1C /* GuessView.xib */; };
 		847BF2A71412801200871965 /* GuessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A41412801200871965 /* GuessLayer.m */; };
 		847BF2A81412801200871965 /* GuessScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A61412801200871965 /* GuessScene.m */; };
-		84A09CE91413FA4500221064 /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 84A09CE81413FA4500221064 /* WordChain.sqlite */; };
 		84B82BA21407BDB5003F3A1C /* WordLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B82BA11407BDB5003F3A1C /* WordLoader.m */; };
 		84B82BC51407BF3C003F3A1C /* words.txt in Resources */ = {isa = PBXBuildFile; fileRef = 84B82BC41407BF3C003F3A1C /* words.txt */; };
 		84BC43D2140C65E000978EBF /* GameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BC43D1140C65E000978EBF /* GameManager.m */; };
@@ -27,7 +27,7 @@
 		E35F84231411A6F20024F8A2 /* Arial.png in Resources */ = {isa = PBXBuildFile; fileRef = E35F841F1411A6F20024F8A2 /* Arial.png */; };
 		E38D25231410263800D98509 /* SinglePlayerHud.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D25221410263800D98509 /* SinglePlayerHud.m */; };
 		E38D25261410264500D98509 /* TwoPlayerHud.m in Sources */ = {isa = PBXBuildFile; fileRef = E38D25251410264500D98509 /* TwoPlayerHud.m */; };
-		E38D252C14118B3100D98509 /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = E38D252B14118B3100D98509 /* WordChain.sqlite */; };
+		E38D252C14118B3100D98509 /* (null) in Resources */ = {isa = PBXBuildFile; };
 		E3A4665E140FAB2F0061B73B /* HudLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3A4665D140FAB2F0061B73B /* HudLayer.m */; };
 		E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503121403D24000D96AE6 /* QuartzCore.framework */; };
 		E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E3B503141403D24000D96AE6 /* OpenGLES.framework */; };
@@ -163,6 +163,8 @@
 		84068EE014059F5B000387EE /* WordChain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordChain.xcdatamodel; sourceTree = "<group>"; };
 		84068EE31405A0BC000387EE /* WordChain 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WordChain 2.xcdatamodel"; sourceTree = "<group>"; };
 		84068F051405A1E3000387EE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8445BC291414FE80000A5606 /* TimerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerLayer.h; sourceTree = "<group>"; };
+		8445BC2A1414FE80000A5606 /* TimerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerLayer.m; sourceTree = "<group>"; };
 		8451688B1407FE4F00ECFCBA /* ChainWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainWord.h; sourceTree = "<group>"; };
 		8451688C1407FE4F00ECFCBA /* ChainWord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChainWord.m; sourceTree = "<group>"; };
 		8451688E1407FE5D00ECFCBA /* Word.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Word.h; sourceTree = "<group>"; };
@@ -889,6 +891,8 @@
 				847BF2A41412801200871965 /* GuessLayer.m */,
 				E3D5544C140DB202005179AF /* MainMenuLayer.h */,
 				E3D5544D140DB202005179AF /* MainMenuLayer.m */,
+				8445BC291414FE80000A5606 /* TimerLayer.h */,
+				8445BC2A1414FE80000A5606 /* TimerLayer.m */,
 			);
 			name = Layers;
 			sourceTree = "<group>";
@@ -1005,7 +1009,7 @@
 				E3F468FD14069D59003BFBBF /* Letters.png in Resources */,
 				84B82BC51407BF3C003F3A1C /* words.txt in Resources */,
 				847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */,
-				E38D252C14118B3100D98509 /* WordChain.sqlite in Resources */,
+				E38D252C14118B3100D98509 /* (null) in Resources */,
 				E35F84201411A6F20024F8A2 /* Arial-hd.fnt in Resources */,
 				E35F84211411A6F20024F8A2 /* Arial-hd.png in Resources */,
 				E35F84221411A6F20024F8A2 /* Arial.fnt in Resources */,
@@ -1142,6 +1146,7 @@
 				E38D25261410264500D98509 /* TwoPlayerHud.m in Sources */,
 				847BF2A71412801200871965 /* GuessLayer.m in Sources */,
 				847BF2A81412801200871965 /* GuessScene.m in Sources */,
+				8445BC2B1414FE80000A5606 /* TimerLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

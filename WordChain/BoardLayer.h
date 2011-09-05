@@ -12,8 +12,9 @@
 #import "Chain.h"
 #import "GuessView.h"
 #import "Board.h"
+#import "TimerLayer.h"
 
-@interface BoardLayer : CCLayer <CCTargetedTouchDelegate> {
+@interface BoardLayer : CCLayer <CCTargetedTouchDelegate, TimerLayerDelegate> {
     
     @private
     UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up
@@ -25,4 +26,5 @@
 -(void)layoutBoard;
 -(Tile*)tileAtLocation:(BoardLocation*)boardLocation;
 -(void)playTile:(Tile*)tile;
+-(void)handleTimerExpired;
 @end

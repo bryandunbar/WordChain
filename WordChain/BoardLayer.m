@@ -12,12 +12,14 @@
 #import "GameManager.h"
 #import "Constants.h"
 #import "GuessScene.h"
+#import "TimerLayer.h"
 
 @interface BoardLayer()
 -(BOOL)selectTileForTouch:(CGPoint)touchLocation;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)updateBoard;
 -(void)updateHud;
+-(void)updateTimer;
 
 @property (nonatomic,retain) GuessView *guessView;
 @property (nonatomic,retain) UITextField *hiddenTextField;
@@ -42,6 +44,7 @@
 - (void)onEnter
 {
     [super onEnter];
+    [self updateTimer];
     /*
      * This method is called every time the CCNode enters the 'stage'.
      */
@@ -135,6 +138,19 @@
     HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
     [hud updateHud];
 }
+
+-(void)updateTimer {
+    HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
+    TimerLayer *timerLayer = (TimerLayer *)[hud getChildByTag:kTimerLayerTag];
+    if (timerLayer) {
+        timerLayer.delegate = self; //redundant to do this here, but saves repeating this logic
+        [timerLayer updateTimer];   
+    }
+    else {
+        NSLog(@"timer layer not found");
+    }
+}
+
 #pragma mark -
 -(Tile*)tileAtLocation:(BoardLocation *)boardLocation {
     
@@ -149,6 +165,13 @@
         }
     }
     return nil;
+}
+
+-(void)handleTimerExpired {
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    [gameData turnTimeExpired];
+    [self updateTimer];
+    [self updateHud];
 }
 
 #pragma mark -

@@ -15,10 +15,11 @@
 // Layer Tags
 #define kGameLayerTag 1000
 #define kHudLayerTag 1001
+#define kTimerLayerTag 1002
 
 #define BOARD_GRID_COLUMNS 8
 #define BOARD_GRID_ROWS 6
 
-static NSString *superlatives[] = {@"Awesome!", @"Way to Go!", @"Excellent!", @"Nice Work!"};
-#define RAND_SUPERLATIVE superlatives[random() % 4]
+static NSString *superlatives[] = {@"Awesome!", @"Way to Go!", @"Excellent!", @"Nice Work!", @"Groovy!"};
+#define RAND_SUPERLATIVE superlatives[random() % 5]
 #endif

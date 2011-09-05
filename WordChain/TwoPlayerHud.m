@@ -8,7 +8,7 @@
 
 #import "TwoPlayerHud.h"
 #import "TwoPlayerGame.h"
-
+#import "TimerLayer.h"
 
 #define ACTIVE_PLAYER_COLOR ccc3(255, 0, 0)
 #define INACTIVE_PLAYER_COLOR ccc3(255, 255, 255)
@@ -50,11 +50,16 @@
     round.anchorPoint = ccp(0,0);
     round.position = ccp(kHudLabelPadding, kHudLabelPadding);
     [self addChild:round];
+        
+    TimerLayer *timerLayer = [TimerLayer node];
+    [self addChild:timerLayer z:10 tag:kTimerLayerTag];
     
+    timerLayer.anchorPoint = ccp(1,1);
+    timerLayer.position = ccp(hudSize.width - (hudSize.width * .75),hudSize.height - (hudSize.height * .4));
+
     // TODO: Get the font sizes right
-    
     player1Label.scale = player1Score.scale = player2Label.scale = player2Score.scale = round.scale = scale;
-    
+
     isHudInitialized = YES;
     
 }

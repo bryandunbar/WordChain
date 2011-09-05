@@ -9,11 +9,14 @@
 #import "CCLayer.h"
 #import "GuessView.h"
 #import "Board.h"
-@interface GuessLayer : CCLayer <GuessViewDelegate> {
+#import "TimerLayer.h"
+
+@interface GuessLayer : CCLayer <GuessViewDelegate, TimerLayerDelegate> {
     GuessView *guessView;
     UITextField *hiddenTextField;
     BoardLocation *guessLocation;
 }
 +(id)nodeWithGuessLocation:(BoardLocation *)location;
+-(void)handleTimerExpired;
 
 @end

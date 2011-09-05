@@ -10,10 +10,15 @@
 #import "Board.h"
 #import "Constants.h"
 
+#define kTimerDefault 60
+
 @interface BaseGame : NSObject <NSCoding, GameData> {
 
     // What round is currently being played
     int round;
+    
+    // The countdown timer for round
+    int timer;
 
     /** The Board **/
     Board *board;
@@ -21,6 +26,7 @@
 }
 
 @property (nonatomic,assign) int round;
+@property (nonatomic,assign) int timer;
 @property (nonatomic,retain) Board *board;
 @property (nonatomic,readonly) BOOL isGameOver;
 
@@ -29,5 +35,5 @@
 +(BaseGame*)newGame;
 
 -(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
-
+-(void)turnTimeExpired;
 @end

@@ -27,6 +27,7 @@
 -(void)reset {
     [super reset];
     self.whoseTurn = PlayerOne;
+    self.timer = kTimerDefault;    
     self.player1Score = 0;
     self.player2Score = 0;
     self.player1 = @"Player 1";
@@ -56,6 +57,7 @@
     if (!guessedRight) {
         // Next player's turn
         self.whoseTurn = whoseTurn == PlayerOne ? PlayerTwo : PlayerOne;
+        self.timer = kTimerDefault;    
     } else {
         [self scoreWordAtIndex:idx];
         
@@ -65,7 +67,12 @@
             [board newChain];
         }
     }
-    
+    [self updateGameData];
+}
+
+-(void)turnTimeExpired {
+    self.whoseTurn = whoseTurn == PlayerOne ? PlayerTwo : PlayerOne;
+    self.timer = kTimerDefault;    
     [self updateGameData];
 }
 

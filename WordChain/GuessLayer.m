@@ -13,7 +13,7 @@
 #import "GameState.h"
 #import "Tile.h"
 #import "GuessScene.h"
-
+#import "TimerLayer.h"
 
 @interface GuessLayer ()
 -(void)promptForGuess;
@@ -37,6 +37,10 @@
         // Initialization code here.
         self.guessLocation = location;
         [self promptForGuess];
+        TimerLayer *timerLayer = [TimerLayer node];
+        timerLayer.delegate = self;
+        [self addChild:timerLayer z:0 tag:kTimerLayerTag];
+
     }
     
     return self;
@@ -78,7 +82,6 @@
                 }
             }
         }
-        
         
         label = [CCLabelTTF labelWithString:[labelText lowercaseString] fontName:@"Marker Felt" fontSize:[self fontSize]]; 
         [label setColor:ccc3(255, 255, 255)];
@@ -155,7 +158,7 @@
     //guessView.textField.text = [self visibleTextForRow:tile.row];
     [hiddenTextField becomeFirstResponder];
     [guessView.textField becomeFirstResponder];
- 
+    //[self schedule: @selector(decrementTimer:) interval:1];
 }
 
 -(void)popScene {
@@ -175,11 +178,6 @@
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     
-/*    // Hide the keyboard
-    [guessView.textField resignFirstResponder];
-    [hiddenTextField resignFirstResponder];
-    [[CCDirector sharedDirector]popScene];*/
-
     // Check the guess
     [gameData guess:g forWordAtIndex:self.guessLocation.row];
     
@@ -190,7 +188,6 @@
         CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
         feedTxt.scale = 5;
         [self addChild:feedTxt z:50];
-        
         [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
         [feedTxt setColor:ccRED];
         [feedTxt runAction:[CCSequence actions:[CCFadeIn
@@ -226,10 +223,14 @@
 }
  
  -(int)fontSize {
-     int fontSize = -1;
      if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
          return 40;
      else
          return 13;
  }
+
+-(void)handleTimerExpired {
+    [self didGuess:nil guess:nil];
+}
+
 @end
