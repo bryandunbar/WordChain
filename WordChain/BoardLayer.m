@@ -25,6 +25,8 @@
 -(void)animateBoard;
 -(CGPoint)locationForRow:(BoardRow*)row;
 
+-(int)rowPadding;
+
 @property (nonatomic,retain) CCArray *animatingRows;
 @end
 
@@ -34,7 +36,7 @@
 #pragma mark -
 #pragma mark Initialization
 -(id)init {
-    if (self = [super init]) {
+    if (self = [super initWithColor:ccc4(200, 200, 200, 255)]) {
         // Register for touches
         [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
         
@@ -96,7 +98,7 @@
 #pragma mark -
 #pragma mark Board Rendering
 -(CGPoint)locationForRow:(BoardRow*)boardRow {
-    return ccp(5, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - (kRowPadding * (boardRow.row + 1)));
+    return ccp(5, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - ([self rowPadding] * (boardRow.row + 1)));
 
 }
 -(void)animateBoard {
@@ -294,7 +296,14 @@
     Board *board = gameData.board;
     return [board solvedTextForRow:row];
 }
-                          
+        
+-(int)rowPadding {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return 10;
+    } else {
+        return 5;
+    }
+}
 -(void)dealloc {
     [super dealloc];
     [animatingRows release];

@@ -21,7 +21,7 @@
 
 -(id)init {
     if ((self = [super init])) {
-        self.sprite = [[[CCSprite alloc] initWithSpriteFrameName:@"blue_row.png"] autorelease];
+        self.sprite = [[[CCSprite alloc] initWithSpriteFrameName:@"unsolved_row.png"] autorelease];
         sprite.anchorPoint = ccp(0,1);
         row = 0;
         [self addChild:sprite];
@@ -54,7 +54,7 @@
     
     // Set the frame based on this
     if (newState == BoardRowUnsolved) {
-        [sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_row.png"]];
+        [sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_row.png"]];
     } else if (newState == BoardRowSolved) {
         [sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"solved_row.png"]];
     }    

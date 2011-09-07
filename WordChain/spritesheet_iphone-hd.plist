@@ -7,67 +7,67 @@
             <key>solved_row.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{598,95}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{598,95}}</string>
                 <key>sourceSize</key>
-                <string>{674,107}</string>
+                <string>{598,95}</string>
             </dict>
             <key>solved_tile.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{674,0},{65,101}}</string>
+                <string>{{598,0},{56,91}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,3},{65,101}}</string>
+                <string>{{0,2},{56,91}}</string>
                 <key>sourceSize</key>
-                <string>{67,107}</string>
+                <string>{58,95}</string>
             </dict>
             <key>unsolved_row.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{0,107},{674,107}}</string>
+                <string>{{0,95},{598,95}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{598,95}}</string>
                 <key>sourceSize</key>
-                <string>{674,107}</string>
+                <string>{598,95}</string>
             </dict>
             <key>unsolved_tile.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{674,107},{65,103}}</string>
+                <string>{{598,95},{57,91}}</string>
                 <key>offset</key>
                 <string>{-1,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,2},{65,103}}</string>
+                <string>{{0,2},{57,91}}</string>
                 <key>sourceSize</key>
-                <string>{67,107}</string>
+                <string>{59,95}</string>
             </dict>
             <key>unsolved_tile_selectable.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{739,107},{67,105}}</string>
+                <string>{{655,95},{57,93}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,1},{67,105}}</string>
+                <string>{{0,1},{57,93}}</string>
                 <key>sourceSize</key>
-                <string>{67,107}</string>
+                <string>{57,95}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -75,13 +75,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>spritesheet_ipad.png</string>
+            <string>spritesheet_iphone-hd.png</string>
             <key>size</key>
             <string>{1024,256}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3809e6e2dda88e4a047577cb60cfb437$</string>
+            <string>$TexturePacker:SmartUpdate:0489b4d079afb9863c27703c45c6b2dc$</string>
             <key>textureFileName</key>
-            <string>spritesheet_ipad.png</string>
+            <string>spritesheet_iphone-hd.png</string>
         </dict>
     </dict>
 </plist>

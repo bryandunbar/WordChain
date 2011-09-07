@@ -7,67 +7,67 @@
             <key>solved_row.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{302,48}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{302,48}}</string>
                 <key>sourceSize</key>
-                <string>{674,107}</string>
+                <string>{302,48}</string>
             </dict>
             <key>solved_tile.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{674,0},{65,101}}</string>
+                <string>{{302,0},{29,48}}</string>
                 <key>offset</key>
-                <string>{-1,0}</string>
+                <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,3},{65,101}}</string>
+                <string>{{0,0},{29,48}}</string>
                 <key>sourceSize</key>
-                <string>{67,107}</string>
+                <string>{29,48}</string>
             </dict>
             <key>unsolved_row.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{0,107},{674,107}}</string>
+                <string>{{0,48},{302,48}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,0},{674,107}}</string>
+                <string>{{0,0},{302,48}}</string>
                 <key>sourceSize</key>
-                <string>{674,107}</string>
+                <string>{302,48}</string>
             </dict>
             <key>unsolved_tile.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{674,107},{65,103}}</string>
-                <key>offset</key>
-                <string>{-1,0}</string>
-                <key>rotated</key>
-                <false/>
-                <key>sourceColorRect</key>
-                <string>{{0,2},{65,103}}</string>
-                <key>sourceSize</key>
-                <string>{67,107}</string>
-            </dict>
-            <key>unsolved_tile_selectable.png</key>
-            <dict>
-                <key>frame</key>
-                <string>{{739,107},{67,105}}</string>
+                <string>{{302,48},{30,48}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
                 <false/>
                 <key>sourceColorRect</key>
-                <string>{{0,1},{67,105}}</string>
+                <string>{{0,0},{30,48}}</string>
                 <key>sourceSize</key>
-                <string>{67,107}</string>
+                <string>{30,48}</string>
+            </dict>
+            <key>unsolved_tile_selectable.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{332,48},{29,48}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{29,48}}</string>
+                <key>sourceSize</key>
+                <string>{29,48}</string>
             </dict>
         </dict>
         <key>metadata</key>
@@ -75,13 +75,13 @@
             <key>format</key>
             <integer>2</integer>
             <key>realTextureFileName</key>
-            <string>spritesheet_ipad.png</string>
+            <string>spritesheet_iphone.png</string>
             <key>size</key>
-            <string>{1024,256}</string>
+            <string>{512,128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:3809e6e2dda88e4a047577cb60cfb437$</string>
+            <string>$TexturePacker:SmartUpdate:4424831260fae52fe0075d9b29117570$</string>
             <key>textureFileName</key>
-            <string>spritesheet_ipad.png</string>
+            <string>spritesheet_iphone.png</string>
         </dict>
     </dict>
 </plist>

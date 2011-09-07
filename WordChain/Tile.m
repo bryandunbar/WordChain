@@ -18,7 +18,7 @@
 -(id)init {
     if ((self = [super init])) {
         // Create the sprite
-        self.sprite = [[[CCSprite alloc] initWithSpriteFrameName:@"blue_tile.png"] autorelease];
+        self.sprite = [[[CCSprite alloc] initWithSpriteFrameName:@"unsolved_tile.png"] autorelease];
         self.sprite.anchorPoint = CGPointMake(0, 1);
         self.sprite.position = ccp(3,0);
         [self addChild:self.sprite z:0 tag:kTagTileSprite];
@@ -57,16 +57,16 @@
         [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"solved_tile.png"]];
         self.label.visible = YES;
     }else if (newState == TileStatePlayed) {
-        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_tile.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
         self.label.visible = YES;
     } else if (newState == TileStateUnused) {
-        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_tile.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
         self.label.visible = NO;
     } else if (newState == TileStateSelectable) {
-        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_tile_selectable.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile_selectable.png"]];
         letterNode.visible = NO;
     } else if (newState == TileStateInitialized) {
-        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"blue_tile.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
         self.label.visible = NO;
     }
 }

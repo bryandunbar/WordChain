@@ -14,8 +14,6 @@
 #import "Board.h"
 #import "TimerLayer.h"
 
-
-#define kRowPadding 10
 #define kRowFadeDuration 0.5
 //#define kRowAnimationDuration 0.35
 #define kRowAnimationDuration 0.25
@@ -24,7 +22,7 @@
 #define kRowAnimationMoveDelayFactor 0.4
 #define kRowTagStart 1000
 
-@interface BoardLayer : CCLayer <CCTargetedTouchDelegate, TimerLayerDelegate> {
+@interface BoardLayer : CCLayerColor <CCTargetedTouchDelegate, TimerLayerDelegate> {
     Tile *lastPlayedTile;
     
     CCArray *animatingRows;
