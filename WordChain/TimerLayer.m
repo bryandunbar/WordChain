@@ -36,11 +36,19 @@
 
 }
 
+-(void)startTimer {
+    self.visible = YES;
+    [self schedule: @selector(decrementTimer:) interval:1];
+}
+-(void)stopTimer {
+    self.visible = NO;
+    [self unschedule:@selector(decrementTimer:)];
+}
+
 -(void)createTimer {
     // eventually this will go away
     BaseGame *gameData = [GameState sharedInstance].gameData;
     //gameData.timer = 60;
-    [self schedule: @selector(decrementTimer:) interval:1];
 
     isTimerInitialized = TRUE;
     float scale = 1;

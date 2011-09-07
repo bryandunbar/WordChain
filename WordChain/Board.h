@@ -25,6 +25,8 @@
 
 @interface Board : NSObject <NSCoding, GameData> {
 
+    BOOL isNew;
+    
     TileState grid[BOARD_GRID_ROWS][BOARD_GRID_COLUMNS];
     
     /** At any given point only certain tiles will be "selectable" */
@@ -35,6 +37,7 @@
     
 }
 
+@property (nonatomic,assign) BOOL isNew;
 @property (nonatomic,retain) Chain *chain;
 @property (nonatomic,retain) NSMutableArray *selectableTiles;
 -(TileState)tileStateAtLocation:(BoardLocation*)boardLocation;

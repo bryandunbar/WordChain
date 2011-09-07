@@ -15,9 +15,16 @@
     self = [super init];
     if (self != nil) {
         
+        
         // Load the main Texture Atlas
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Letters.plist"];
-        spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"Letters.png"];
+//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Letters.plist"];
+//        spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"Letters.png"];
+//        [self addChild:spriteSheet z:0];
+//
+        
+        
+        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"spritesheet_ipad.plist"];
+        spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"spritesheet_ipad.png"];
         [self addChild:spriteSheet z:0];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
@@ -29,11 +36,11 @@
         boardWrapper.contentSize = CGSizeMake((screenSize.width * 2 / 3),screenSize.height);
         
         // Create the board, inset it a bit
-        int boardWidth = boardWrapper.contentSize.width - 10;
-        int boardHeight = boardWrapper.contentSize.height - 10;
+        int boardWidth = boardWrapper.contentSize.width - 5;
+        int boardHeight = boardWrapper.contentSize.height - 5;
         BoardLayer *boardLayer = [BoardLayer node];
         boardLayer.contentSize = CGSizeMake(boardWidth, boardHeight);
-        boardLayer.position = ccp(10,0);
+        boardLayer.position = ccp(0,0);
         [boardWrapper addChild:boardLayer];
         //[self addChild:board z:0 tag:kBoardTag];
         

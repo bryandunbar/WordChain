@@ -25,7 +25,8 @@
 -(void)updateTimer;
 -(void)createTimer;
 -(NSString*)fontName;
-
+-(void)startTimer;
+-(void)stopTimer;
 @property (nonatomic, retain) CCLabelBMFont *timerLabel;
 @property (nonatomic, retain) id<TimerLayerDelegate> delegate;
 @end

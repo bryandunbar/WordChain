@@ -13,20 +13,23 @@
 #import "Constants.h"
 #import "GuessScene.h"
 #import "TimerLayer.h"
+#import "BoardRow.h"
+#import "GameScene.h"
 
 @interface BoardLayer()
--(BOOL)selectTileForTouch:(CGPoint)touchLocation;
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(void)updateBoard;
 -(void)updateHud;
 -(void)updateTimer;
 
-@property (nonatomic,retain) GuessView *guessView;
-@property (nonatomic,retain) UITextField *hiddenTextField;
+-(void)animateBoard;
+-(CGPoint)locationForRow:(BoardRow*)row;
+
+@property (nonatomic,retain) CCArray *animatingRows;
 @end
 
 @implementation BoardLayer
-@synthesize guessView, hiddenTextField;
+@synthesize animatingRows;
 
 #pragma mark -
 #pragma mark Initialization
@@ -35,7 +38,6 @@
         // Register for touches
         [[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
         
-        // Configure the board
         [self layoutBoard];
     }
     return self;
@@ -44,36 +46,44 @@
 - (void)onEnter
 {
     [super onEnter];
-    [self updateTimer];
-    /*
-     * This method is called every time the CCNode enters the 'stage'.
-     */
+    
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
-    if (gameData.board) {
+    
+    
+    // Is the board still considered new?
+    if (gameData.board.isNew) {
+        [self updateBoard];
+        [self animateBoard]; // Animates the board in
+    } else {
+        
+        [self updateTimer];
         if (gameData.isGameOver) {
             [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
+        } else {
+            [self updateBoard];
+            [self updateHud];
+            [[GameScene timerLayer] startTimer];
         }
-
-        [self updateBoard];
-        [self updateHud];
     }
 }
 
 #pragma mark -
 #pragma mark Toches
-- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event {    
-    CGPoint touchLocation = [self convertTouchToNodeSpace:touch];
-    return [self selectTileForTouch:touchLocation];      
-}
--(BOOL)selectTileForTouch:(CGPoint)touchLocation {
-   
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event { 
+    
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
     for (BoardLocation *boardLocation in board.selectableTiles) {
         
         // Find the actual tile for this location
         Tile *tile = [self tileAtLocation:boardLocation];
+        
+        CGPoint touchLocation = [tile convertTouchToNodeSpace:touch];
+        CCLOG(@"touchLocaton = %@", NSStringFromCGPoint(touchLocation));
+        CCLOG(@"tile.rect = %@", NSStringFromCGRect([tile rect]));
+        CCLOG(@"tile.boundingBox = %@", NSStringFromCGRect([tile boundingBox]));
+        
         if (CGRectContainsPoint(tile.boundingBox, touchLocation)) {            
             CCLOG(@"Touched Tile: row = %i, col = %i", tile.row, tile.col);
             [self playTile:tile];
@@ -85,63 +95,145 @@
 
 #pragma mark -
 #pragma mark Board Rendering
--(void)layoutBoard {
+-(CGPoint)locationForRow:(BoardRow*)boardRow {
+    return ccp(5, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - (kRowPadding * (boardRow.row + 1)));
+
+}
+-(void)animateBoard {
     
+    // Stop timer while we are doing this
+    [[GameScene timerLayer] stopTimer];
+    
+    self.animatingRows = [CCArray arrayWithCapacity:BOARD_GRID_ROWS];
+    for (int row = 0; row < BOARD_GRID_ROWS; row++) {
+        
+        // Grab the row
+        int tag = kRowTagStart + row;
+        BoardRow *boardRow = (BoardRow*)[self getChildByTag:tag];
+        
+        // Move it to above the screen and hide it
+        boardRow.position = ccp(5, self.contentSize.height + 2 * boardRow.boundingBox.size.height);
+        [animatingRows addObject:boardRow];
+        
+        // Determine where the row should end up
+        CGPoint finalRestingPlace = [self locationForRow:boardRow];
+        
+        // Run a sequence of actions to place the row
+        id moveAction = [CCMoveTo actionWithDuration:kRowAnimationDuration position:finalRestingPlace];
+        id delayAction = [CCDelayTime actionWithDuration:powf( (BOARD_GRID_ROWS - row - 1) * kRowAnimationMoveDelayFactor, kRowEaseFactor)];
+        //        id delayAction = [CCDelayTime actionWithDuration:logf( (BOARD_GRID_ROWS - row + 1) * kRowAnimationMoveDelayFactor)];
+        id ease = [CCEaseOut actionWithAction:moveAction rate:2.0];
+        id callFuncND = [CCCallFuncND actionWithTarget:self selector:@selector(boardRowAnimationComplete:) data:boardRow];
+        id sequence = [CCSequence actions:delayAction, ease, callFuncND, nil];
+        [boardRow runAction:sequence];
+    }
+}
+-(void)boardRowAnimationComplete:(void*)data {
+    
+    [animatingRows removeObject:data];
+    
+    // Are all the board row animations complete?
+    if ([animatingRows count] == 0) {
+    
+        // Done animating the board in, set the board to not new and start the round
+        BaseGame *gameData = [GameState sharedInstance].gameData;
+        Board *board = gameData.board;
+        board.isNew = NO;
+        
+        // Solve the first and last words
+        [board.chain solveWordAtIndex:0];
+        [board.chain solveWordAtIndex:[board.chain length] - 1];
+        [board updateGameData];
+        
+        // Refresh the UI
+        [self updateBoard];
+        [self updateHud];
+        [self updateTimer];
+        
+        // Start the timer
+        [[GameScene timerLayer] startTimer];
+    }                         
+}
+
+
+// Initializes the grid of rows/tiles
+-(void)layoutBoard {
+
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
 
-    
-    // Add a tile at every position
     for (int row = 0; row < BOARD_GRID_ROWS; row++) {
         
+        // Create a new row
+        BoardRow *boardRow = [BoardRow node];
+        boardRow.row = row;
+        
+        // Populate the row with tiles
+        NSMutableArray *tileArray = [NSMutableArray arrayWithCapacity:BOARD_GRID_COLUMNS];
         for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
             
-            // Get the tilestate from the model
-            TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:row col:col]];
+            // Get the tilestate
+            TileState state = board.isNew ? TileStateInitialized : [board tileStateAtLocation:[BoardLocation locationWithRow:row col:col]];
             
             Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:row atIndex:col] row:row col:col];
             tile.tileState = state;
-            
-            // Position the tile (Starting at the top left of the board)
-            tile.position = ccp([tile boundingBox].size.width * col, self.contentSize.height - [tile boundingBox].size.height * row);
-            [self addChild:tile];
-            
+            [tileArray addObject:tile];
         }
+
+        // Set the tiles
+        boardRow.tiles = tileArray;
+        
+        // if the board is not new, place the row where it goes
+        if (!board.isNew) {
+            boardRow.position = [self locationForRow:boardRow];
+        }
+        [self addChild:boardRow z:0 tag:kRowTagStart + row];
     }
 }
+
 -(void)updateBoard {
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
     
     for (id child in self.children) {
-        // Is it a tile?
-        if ([child isKindOfClass:[Tile class]]) {
+        
+        if ([child isKindOfClass:[BoardRow class]]) {
+            // Set the state of the row
+            BoardRow *boardRow = (BoardRow*)child;
+            boardRow.state = [board.chain isWordSolved:boardRow.row] ? BoardRowSolved : BoardRowUnsolved;
             
-            // Get the tilestate from the model
-            Tile *tile = (Tile*)child;
-            BoardLocation *bl = [BoardLocation locationWithRow:tile.row col:tile.col];
             
-            // Need to see if the letter has changed
-            NSString *newLetter = [board letterAtLocation:bl];
-            if (newLetter == nil || [newLetter caseInsensitiveCompare:tile.letter] != NSOrderedSame) {
-                tile.letter = newLetter;
+            // Set the tile states in the row
+            for (id child2 in [boardRow children]) {
+                if ([child2 isKindOfClass:[Tile class]]) {
+                    
+                    // Get the tilestate from the model
+                    Tile *tile = (Tile*)child2;
+                    BoardLocation *bl = [BoardLocation locationWithRow:tile.row col:tile.col];
+                    
+                    // Need to see if the letter has changed
+                    NSString *newLetter = [board letterAtLocation:bl];
+                    if (newLetter == nil || [newLetter caseInsensitiveCompare:tile.letter] != NSOrderedSame) {
+                        tile.letter = newLetter;
+                    }
+                    
+                    TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
+                    tile.tileState = state;
+                    
+                }
             }
-            
-            TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
-            tile.tileState = state;
         }
     }
 }
 -(void)updateHud {
-    HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
+    HudLayer *hud = [GameScene hudLayer];
     [hud updateHud];
 }
 
 -(void)updateTimer {
-    HudLayer *hud = (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
-    TimerLayer *timerLayer = (TimerLayer *)[hud getChildByTag:kTimerLayerTag];
+    TimerLayer *timerLayer = [GameScene timerLayer];
     if (timerLayer) {
         timerLayer.delegate = self; //redundant to do this here, but saves repeating this logic
         [timerLayer updateTimer];   
@@ -155,14 +247,22 @@
 -(Tile*)tileAtLocation:(BoardLocation *)boardLocation {
     
     for (id child in self.children) {
-        // Is it a tile?
-        if ([child isKindOfClass:[Tile class]]) {
+        
+        if ([child isKindOfClass:[BoardRow class]]) {
             
-            Tile *tile = (Tile*)child;
-            if (tile.row == boardLocation.row && tile.col == boardLocation.col) {
-                return tile;
+            BoardRow *boardRow = (BoardRow*)child;
+            for (id child2 in [boardRow children]) {
+                // Is it a tile?
+                if ([child2 isKindOfClass:[Tile class]]) {
+                    
+                    Tile *tile = (Tile*)child2;
+                    if (tile.row == boardLocation.row && tile.col == boardLocation.col) {
+                        return tile;
+                    }
+                }
             }
         }
+        
     }
     return nil;
 }
@@ -180,7 +280,8 @@
     [tile play];
     
     lastPlayedTile = tile;
-//    [self promptForGuess:tile];
+
+    // push the guess scene
     GuessScene *guessScene = [GuessScene nodeWithGuessLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
     [[CCDirector sharedDirector] pushScene:guessScene ];
 
@@ -196,8 +297,7 @@
                           
 -(void)dealloc {
     [super dealloc];
-    [guessView release];
-    [hiddenTextField release];
+    [animatingRows release];
 }
                                  
 

@@ -30,8 +30,8 @@
         // First and last start as solved
         self.words = [self wordsForLevel:4];
         self.solvedIndices = [NSMutableArray arrayWithCapacity:[self.words count]];
-        [self solveWordAtIndex:0];
-        [self solveWordAtIndex:[self.words count] - 1];
+//        [self solveWordAtIndex:0];
+//        [self solveWordAtIndex:[self.words count] - 1];
         NSLog(@"words = %@",self.words);
     }
     
@@ -50,6 +50,9 @@
     return self;
 }
 
+-(int)length {
+    return [words count];
+}
 -(BOOL)guess:(NSString *)g forWordAtIndex:(NSUInteger)idx {
     NSString *word = [self wordAtIndex:idx];
     if ([word caseInsensitiveCompare:g] == NSOrderedSame) {

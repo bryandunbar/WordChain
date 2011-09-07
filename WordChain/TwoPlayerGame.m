@@ -65,6 +65,7 @@
         if ([board.chain isChainSolved]) {
             round++;
             [board newChain];
+            self.timer = kTimerDefault;
         }
     }
     [self updateGameData];
