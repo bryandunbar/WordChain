@@ -14,6 +14,7 @@
 		845168901407FE5D00ECFCBA /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688F1407FE5D00ECFCBA /* Word.m */; };
 		846BFD4A140CFE1300568B02 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD49140CFE1300568B02 /* GameState.m */; };
 		846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD4D140CFE4800568B02 /* GCDatabase.m */; };
+		8475FDCE1415699A003BC57A /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 8475FDCD14156999003BC57A /* WordChain.sqlite */; };
 		847911BB140AFD5400EEBE1C /* GuessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847911B9140AFD5400EEBE1C /* GuessView.m */; };
 		847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847911BA140AFD5400EEBE1C /* GuessView.xib */; };
 		847BF2A71412801200871965 /* GuessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A41412801200871965 /* GuessLayer.m */; };
@@ -173,6 +174,7 @@
 		846BFD49140CFE1300568B02 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
 		846BFD4C140CFE4800568B02 /* GCDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDatabase.h; sourceTree = "<group>"; };
 		846BFD4D140CFE4800568B02 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDatabase.m; sourceTree = "<group>"; };
+		8475FDCD14156999003BC57A /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessView.h; sourceTree = "<group>"; };
 		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessView.m; sourceTree = "<group>"; };
 		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuessView.xib; sourceTree = "<group>"; };
@@ -580,6 +582,7 @@
 		E3B503231403D24000D96AE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8475FDCD14156999003BC57A /* WordChain.sqlite */,
 				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
 				E3F468FA14069D58003BFBBF /* Letters.plist */,
@@ -1014,6 +1017,7 @@
 				E35F84211411A6F20024F8A2 /* Arial-hd.png in Resources */,
 				E35F84221411A6F20024F8A2 /* Arial.fnt in Resources */,
 				E35F84231411A6F20024F8A2 /* Arial.png in Resources */,
+				8475FDCE1415699A003BC57A /* WordChain.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
