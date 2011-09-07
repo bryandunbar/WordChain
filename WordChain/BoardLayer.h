@@ -14,14 +14,20 @@
 #import "Board.h"
 #import "TimerLayer.h"
 
-@interface BoardLayer : CCLayer <CCTargetedTouchDelegate, TimerLayerDelegate> {
-    
-    @private
-    UITextField *hiddenTextField; // Hidden textfield that forces the keyboard to show up
-    GuessView *guessView; // The accessory view where the user enter's their guess
-    
+#define kRowFadeDuration 0.5
+//#define kRowAnimationDuration 0.35
+#define kRowAnimationDuration 0.25
+#define kRowEaseFactor 1.35
+//#define kRowAnimationMoveDelayFactor 0.45
+#define kRowAnimationMoveDelayFactor 0.4
+#define kRowTagStart 1000
+
+@interface BoardLayer : CCLayerColor <CCTargetedTouchDelegate, TimerLayerDelegate> {
     Tile *lastPlayedTile;
+    
+    CCArray *animatingRows;
 }
+
     
 -(void)layoutBoard;
 -(Tile*)tileAtLocation:(BoardLocation*)boardLocation;

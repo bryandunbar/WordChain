@@ -9,30 +9,37 @@
 #import "Tile.h"
 #import "GameState.h"
 @interface Tile()
--(NSString*)frameName;
 @end
 
 @implementation Tile
 @synthesize tileState, letter, row, col;
+@synthesize sprite, label;
 
+-(id)init {
+    if ((self = [super init])) {
+        // Create the sprite
+        self.sprite = [[[CCSprite alloc] initWithSpriteFrameName:@"unsolved_tile.png"] autorelease];
+        self.sprite.anchorPoint = CGPointMake(0, 1);
+        self.sprite.position = ccp(3,0);
+        [self addChild:self.sprite z:0 tag:kTagTileSprite];
+         
+         // Create the label
+        self.label = [CCLabelBMFont labelWithString:@"A" fntFile:[self fontName]];
+        self.label.position = ccp(self.sprite.boundingBox.size.width / 2,
+                                  self.sprite.boundingBox.size.height / 2); // Place in the middle of the tile
+        self.label.visible = NO;
+        [self.sprite addChild:self.label z:5 tag:kTagLetter];
+    }
+    return self;
+    
+}
 +(id)tileWithLetter:(NSString*)letter row:(NSUInteger)r col:(NSUInteger)c {
 
-    Tile *tile = [[[Tile alloc] initWithSpriteFrameName:@"back.png"] autorelease];
+    Tile *tile = [Tile node];
     tile.letter = letter;
     tile.row = r;
     tile.col = c;
-    tile.anchorPoint = CGPointMake(0, 1);
-    
     tile.tileState = (letter == nil ? TileStateUnused : TileStateInitialized);
-    
-    // TODO: Make sprites the right size in the images
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        tile.scale = 0.45;
-    } else if ([[CCDirector sharedDirector] enableRetinaDisplay:YES]){
-        tile.scale = 0.40;
-    } else {
-        tile.scale = 0.20;
-    }
     
     return tile;
 }
@@ -42,32 +49,46 @@
     // Store the new state
     self->tileState = newState;
     
+    // Grav the letter
+    CCNode *letterNode = [self getChildByTag:kTagLetter];
+    
     // Set the frame based on this
-    if (newState == TileStatePlayed) {
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[self frameName]]];
-        self.opacity = 255;
+    if (newState == TileStateSolved) {
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"solved_tile.png"]];
+        self.label.visible = YES;
+    }else if (newState == TileStatePlayed) {
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
+        self.label.visible = YES;
     } else if (newState == TileStateUnused) {
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
+        self.label.visible = NO;
     } else if (newState == TileStateSelectable) {
-        self.opacity = 100;
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile_selectable.png"]];
+        letterNode.visible = NO;
     } else if (newState == TileStateInitialized) {
-        // We are allowing the reuse of tiles for better memory
-        [self setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"back.png"]];
+        [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
+        self.label.visible = NO;
     }
 }
 
--(NSString*)frameName {
-   return [NSString stringWithFormat:@"%@.png", (self.letter == nil ? @"back" : self.letter)];
+-(void)setLetter:(NSString *)newLetter {
+    [letter release];
+    letter = [newLetter retain];
+    [self.label setString:newLetter];
 }
 
 -(void)dealloc {
     [super dealloc];
     [letter release];
+    [sprite release];
+    [label release];
 }
 -(CGRect) rect {
-    CGSize s = [self.texture contentSizeInPixels];
+    CGSize s = [self.sprite.texture contentSizeInPixels];
     return CGRectMake(-s.width / 2, -s.height / 2, s.width, s.height);
+}
+-(CGRect)boundingBox {
+    return sprite.boundingBox;
 }
 
 -(void)play {
@@ -84,6 +105,14 @@
 
         // Update the model
         [board setTileState:self.tileState forLocation:[BoardLocation locationWithRow:self.row col:self.col]];
+    }
+}
+
+-(NSString*)fontName {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return @"Arial-hd.fnt";
+    } else {
+        return @"Arial.fnt";
     }
 }
 

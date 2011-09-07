@@ -22,7 +22,7 @@
 
     /** The Board **/
     Board *board;
-
+ 
 }
 
 @property (nonatomic,assign) int round;

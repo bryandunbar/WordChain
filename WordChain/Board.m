@@ -38,7 +38,7 @@
 @end
 
 @implementation Board
-@synthesize chain, selectableTiles;
+@synthesize chain, selectableTiles,isNew;
 - (id)init
 {
     self = [super init];
@@ -52,8 +52,9 @@
 -(void)newChain {
     
     // Instatiate a new chain and initialize the board
+    isNew = YES;
     self.chain = [[Chain alloc] init];
-    [self updateTileStates:YES]; 
+    [self updateTileStates]; 
 }
 
 -(void)dealloc {
@@ -102,7 +103,7 @@
     grid[boardLocation.row][boardLocation.col] = state;
 }
 -(void)updateTileStates {
-    [self updateTileStates:NO];
+    [self updateTileStates:isNew];
 }
 
 -(void)updateTileStates:(BOOL)newChain {
@@ -111,7 +112,7 @@
             
             // Check for solved
             if ([self.chain isWordSolved:row]) {
-                grid[row][col] = TileStatePlayed;
+                grid[row][col] = TileStateSolved;
             } else if (newChain) {
                 grid[row][col] = TileStateInitialized;
             }
@@ -119,7 +120,11 @@
     }
     
     // Determine where the selectable tiles are. 
-    [self findSelectableTiles];
+    if (newChain) {
+        self.selectableTiles = nil;
+    } else {
+        [self findSelectableTiles];
+    }
 }
     
 -(void)findSelectableTiles {

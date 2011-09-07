@@ -15,26 +15,26 @@
     self = [super init];
     if (self != nil) {
         
+        
         // Load the main Texture Atlas
-        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Letters.plist"];
-        spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"Letters.png"];
+        // TODO: Sprites for other devices
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"spritesheet_ipad.plist"];
+            spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"spritesheet_ipad.png"];
+        } else {
+            [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"spritesheet_iphone.plist"];
+            spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"spritesheet_iphone.png"];
+        }
         [self addChild:spriteSheet z:0];
         
         CGSize screenSize = [CCDirector sharedDirector].winSize;
 
-        // Wrap the board in a wrapper layer that is 2/3 screen size
-        //CCLayer *boardWrapper = [CCLayer node];
-        CCLayer *boardWrapper = [CCLayerColor layerWithColor:ccc4(255,255,255,255)];
-        [self addChild:boardWrapper];
-        boardWrapper.contentSize = CGSizeMake((screenSize.width * 2 / 3),screenSize.height);
         
         // Create the board, inset it a bit
-        int boardWidth = boardWrapper.contentSize.width - 10;
-        int boardHeight = boardWrapper.contentSize.height - 10;
         BoardLayer *boardLayer = [BoardLayer node];
-        boardLayer.contentSize = CGSizeMake(boardWidth, boardHeight);
-        boardLayer.position = ccp(10,0);
-        [boardWrapper addChild:boardLayer];
+        boardLayer.contentSize = CGSizeMake((screenSize.width * 2 / 3),screenSize.height);
+        boardLayer.position = ccp(0,0);
+        [self addChild:boardLayer];
         //[self addChild:board z:0 tag:kBoardTag];
         
         [self scheduleUpdate];

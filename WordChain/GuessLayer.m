@@ -14,6 +14,7 @@
 #import "Tile.h"
 #import "GuessScene.h"
 #import "TimerLayer.h"
+#import "BoardRow.h"
 
 @interface GuessLayer ()
 -(void)promptForGuess;
@@ -37,10 +38,12 @@
         // Initialization code here.
         self.guessLocation = location;
         [self promptForGuess];
+        
+        // Show the timer
         TimerLayer *timerLayer = [TimerLayer node];
         timerLayer.delegate = self;
         [self addChild:timerLayer z:0 tag:kTimerLayerTag];
-
+        [timerLayer startTimer];
     }
     
     return self;
@@ -112,7 +115,12 @@
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
     
+    // Create a board row and position it
+    BoardRow *boardRow = [BoardRow node];
+    boardRow.position = ccp(position_x, position_y);
+    
      // Add a tile at every position
+    NSMutableArray *tileArray = [NSMutableArray arrayWithCapacity:BOARD_GRID_COLUMNS];
     for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
                     
         // Get the tilestate from the model
@@ -121,10 +129,12 @@
         Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:guessLocation.row atIndex:col] row:guessLocation.row col:col];
         tile.tileState = state == TileStateSelectable ? TileStateInitialized : state; // Don't use the selectable state here
         
-        // Position the tile 
-        tile.position = ccp([tile boundingBox].size.width * col + position_x, position_y);
-        [self addChild:tile];
+        [tileArray addObject:tile];
     }
+    // Set the tiles in the board row
+    boardRow.tiles = tileArray;
+
+    [self addChild:boardRow];
     
     // Add A Label if this is the last letter
     if ([gameData.board isLastLetterForWord:guessLocation]) {
@@ -185,9 +195,9 @@
     if ([gameData.board.chain isWordSolved:self.guessLocation.row]) {
     
         CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"feedbackFont.fnt"];
-        feedTxt.scale = 5;
+        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial.fnt"];
         [self addChild:feedTxt z:50];
+        
         [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
         [feedTxt setColor:ccRED];
         [feedTxt runAction:[CCSequence actions:[CCFadeIn

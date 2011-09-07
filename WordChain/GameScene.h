@@ -11,7 +11,13 @@
 #import "HudLayer.h"
 #import "SinglePlayerHud.h"
 #import "TwoPlayerHud.h"
+#import "TimerLayer.h"
 
-@interface GameScene : CCScene
+@interface GameScene : CCScene {
+    
+}
+
++(HudLayer*)hudLayer;
++(TimerLayer*)timerLayer;
 
 @end

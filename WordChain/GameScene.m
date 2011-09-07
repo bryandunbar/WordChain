@@ -39,4 +39,12 @@
     return self;
 }
 
++(HudLayer*)hudLayer {
+    return (HudLayer*) [[CCDirector sharedDirector].runningScene getChildByTag:kHudLayerTag];
+}
++(TimerLayer*)timerLayer {
+    HudLayer *hud = [GameScene hudLayer];
+    return (TimerLayer *)[hud getChildByTag:kTimerLayerTag];
+}
+
 @end

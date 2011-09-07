@@ -11,9 +11,15 @@
 @class Board;
 
 typedef enum {
+    BoardRowUnsolved,
+    BoardRowSolved
+} BoardRowState;
+
+typedef enum {
     TileStateInitialized,
     TileStateSelectable,
     TileStatePlayed,
+    TileStateSolved,
     TileStateUnused
 } TileState;
 
