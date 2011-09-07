@@ -11,6 +11,8 @@
 #import "Board.h"
 #import "TimerLayer.h"
 
+#define kTagBoardRow 1000
+
 @interface GuessLayer : CCLayer <GuessViewDelegate, TimerLayerDelegate> {
     GuessView *guessView;
     UITextField *hiddenTextField;

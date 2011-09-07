@@ -59,6 +59,13 @@
         [sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"solved_row.png"]];
     }    
 }
+
+#pragma mark -
+#pragma mark CCNode overrides
+-(CGSize)contentSize {
+    return sprite.contentSize;
+}
+
 -(CGRect)boundingBox {
     return sprite.boundingBox;
 }

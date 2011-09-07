@@ -162,8 +162,6 @@
 		E3F468F01406890E003BFBBF /* GameScene.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468EF1406890E003BFBBF /* GameScene.m */; };
 		E3F468F31406894A003BFBBF /* GameplayLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468F214068949003BFBBF /* GameplayLayer.m */; };
 		E3F468F914068A36003BFBBF /* BoardLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468F814068A36003BFBBF /* BoardLayer.m */; };
-		E3F468FC14069D59003BFBBF /* Letters.plist in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FA14069D58003BFBBF /* Letters.plist */; };
-		E3F468FD14069D59003BFBBF /* Letters.png in Resources */ = {isa = PBXBuildFile; fileRef = E3F468FB14069D58003BFBBF /* Letters.png */; };
 		E3F4690014069E15003BFBBF /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F468FF14069E15003BFBBF /* Tile.m */; };
 		E3F469051406DE9D003BFBBF /* Chain.m in Sources */ = {isa = PBXBuildFile; fileRef = E3F469041406DE9D003BFBBF /* Chain.m */; };
 /* End PBXBuildFile section */
@@ -463,8 +461,6 @@
 		E3F468F6140689FE003BFBBF /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		E3F468F714068A36003BFBBF /* BoardLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BoardLayer.h; sourceTree = "<group>"; };
 		E3F468F814068A36003BFBBF /* BoardLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BoardLayer.m; sourceTree = "<group>"; };
-		E3F468FA14069D58003BFBBF /* Letters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Letters.plist; sourceTree = "<group>"; };
-		E3F468FB14069D58003BFBBF /* Letters.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Letters.png; sourceTree = "<group>"; };
 		E3F468FE14069E15003BFBBF /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		E3F468FF14069E15003BFBBF /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		E3F469011406A0E1003BFBBF /* CommonProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommonProtocols.h; sourceTree = "<group>"; };
@@ -628,8 +624,6 @@
 				E306CBAF1415698900CD68CA /* WordChain.sqlite */,
 				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
-				E3F468FA14069D58003BFBBF /* Letters.plist */,
-				E3F468FB14069D58003BFBBF /* Letters.png */,
 				E3F468E214068344003BFBBF /* Images */,
 				E3B503241403D24000D96AE6 /* Default.png */,
 				E3B503261403D24000D96AE6 /* fps_images.png */,
@@ -1050,8 +1044,6 @@
 				E3B503311403D24000D96AE6 /* Icon.png in Resources */,
 				E3B503331403D24000D96AE6 /* Icon@2x.png in Resources */,
 				E3B503361403D24000D96AE6 /* iTunesArtwork in Resources */,
-				E3F468FC14069D59003BFBBF /* Letters.plist in Resources */,
-				E3F468FD14069D59003BFBBF /* Letters.png in Resources */,
 				84B82BC51407BF3C003F3A1C /* words.txt in Resources */,
 				847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */,
 				E38D252C14118B3100D98509 /* (null) in Resources */,

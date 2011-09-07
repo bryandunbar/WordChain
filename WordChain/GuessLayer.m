@@ -38,6 +38,8 @@
         // Initialization code here.
         self.guessLocation = location;
         [self promptForGuess];
+        
+        // Show the timer
         TimerLayer *timerLayer = [TimerLayer node];
         timerLayer.delegate = self;
         [self addChild:timerLayer z:0 tag:kTimerLayerTag];

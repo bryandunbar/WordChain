@@ -17,12 +17,7 @@
         
         
         // Load the main Texture Atlas
-//        [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"Letters.plist"];
-//        spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"Letters.png"];
-//        [self addChild:spriteSheet z:0];
-//
-        
-        
+        // TODO: Sprites for other devices
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"spritesheet_ipad.plist"];
         spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"spritesheet_ipad.png"];
         [self addChild:spriteSheet z:0];
