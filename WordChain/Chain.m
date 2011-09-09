@@ -140,6 +140,32 @@
     }
 }
 
+-(void)markWordsAsRetrieved:(NSArray *) wordsToUpdate {
+    NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
+	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
+                                                   inManagedObjectContext:self.moc]; 
+	[request setEntity:chainEntity];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word.id IN %@",wordsToUpdate];
+    [request setPredicate:predicate];        
+    
+    NSError *error;
+    
+    NSArray *chainWords = [self.moc executeFetchRequest:request error:&error]; 
+    for (ChainWord *cw in chainWords) {        
+        //Randomization: up the chain's retrieve count by 1
+        [cw setRetrieveCount:[NSNumber numberWithInt:([cw.retrieveCount intValue] + 1)] ];
+        if (![self.moc save:&error]) {
+            // Handle the error.
+            NSLog(@"Error Updating chainWord");
+            NSLog(@"Error: %@",error);
+        }
+    }
+    
+    [request release];
+    
+}
+
 -(NSArray *)wordsFromChain:(int)chain {
     NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
@@ -158,12 +184,14 @@
     NSArray *chainWords = [self.moc executeFetchRequest:request error:&error]; 
     int index = 0;
     NSMutableArray *wordsToPlay = [NSMutableArray arrayWithCapacity:6];
+    NSMutableArray *wordsToUpdate = [NSMutableArray arrayWithCapacity:6];
     for (ChainWord *cw in chainWords) {
         Word * w = (Word *)cw.word;
         if (index == 0) {
             [wordsToPlay addObject:w.wordOne];
         }
         [wordsToPlay addObject:w.wordTwo];
+        [wordsToUpdate addObject:w.id];
         
         //Randomization: up the chain's retrieve count by 1
         [cw setRetrieveCount:[NSNumber numberWithInt:([cw.retrieveCount intValue] + 1)] ];
@@ -174,6 +202,7 @@
         }
         index++;
     }
+    [self markWordsAsRetrieved:wordsToUpdate];
     
     [request release];
     return wordsToPlay;
