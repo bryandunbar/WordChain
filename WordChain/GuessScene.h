@@ -10,9 +10,17 @@
 #import "GuessLayer.h"
 #import "Board.h"
 
+@protocol GuessSceneDelegate <NSObject> 
+-(void)guessDidComplete;
+-(void)gameDidComplete;
+@end
+
 @interface GuessScene : CCScene {
     GuessLayer *guessLayer;
+    id<GuessSceneDelegate> _delegate;
 }
 +(id)nodeWithGuessLocation:(BoardLocation *)location;
+
+@property (nonatomic, retain) id<GuessSceneDelegate> delegate;
 
 @end

@@ -11,7 +11,6 @@
 #import "HudLayer.h"
 #import "GameManager.h"
 #import "Constants.h"
-#import "GuessScene.h"
 #import "TimerLayer.h"
 #import "BoardRow.h"
 #import "GameScene.h"
@@ -27,7 +26,7 @@
 
 -(int)rowPadding;
 
-@property (nonatomic,retain) CCArray *animatingRows;
+@property (nonatomic,retain) NSMutableArray *animatingRows;
 @end
 
 @implementation BoardLayer
@@ -45,6 +44,13 @@
     return self;
 }
 
+-(void)guessDidReturn {
+    [self updateTimer];
+    [self updateBoard];
+    [self updateHud];
+    [[GameScene timerLayer] startTimer];            
+}
+
 - (void)onEnter
 {
     [super onEnter];
@@ -57,17 +63,22 @@
     if (gameData.board.isNew) {
         [self updateBoard];
         [self animateBoard]; // Animates the board in
-    } else {
-        
-        [self updateTimer];
-        if (gameData.isGameOver) {
-            [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
-        } else {
-            [self updateBoard];
-            [self updateHud];
-            [[GameScene timerLayer] startTimer];
-        }
+    } 
+    else {
+        [self guessDidReturn];
     }
+}
+
+#pragma mark -
+#pragma mark Guess Scene Delegate methods
+
+-(void)guessDidComplete {
+    [[CCDirector sharedDirector] popScene];
+}
+
+-(void)gameDidComplete {
+    [[CCDirector sharedDirector] popScene];
+    [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];     
 }
 
 #pragma mark -
@@ -285,6 +296,7 @@
 
     // push the guess scene
     GuessScene *guessScene = [GuessScene nodeWithGuessLocation:[BoardLocation locationWithRow:tile.row col:tile.col]];
+    guessScene.delegate = self;
     [[CCDirector sharedDirector] pushScene:guessScene ];
 
 }

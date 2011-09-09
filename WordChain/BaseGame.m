@@ -42,7 +42,7 @@
 -(void)turnTimeExpired {
     
 }
--(BOOL)isGameOver {
+-(BOOL)isGameOverWithSender:(id)sender {
     return NO;
 }
 #pragma mark -

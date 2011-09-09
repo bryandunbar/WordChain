@@ -87,10 +87,5 @@
 
 -(void)dealloc {
     [super dealloc];
-    [player1Score release];
-    [player2Score release];
-    [player1Label release];
-    [player2Label release];
-    [round release];
 }
 @end

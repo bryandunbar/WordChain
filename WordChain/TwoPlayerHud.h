@@ -18,11 +18,11 @@
     CCLabelBMFont *round;
 }
 
-@property (nonatomic,retain) CCLabelBMFont *player1Score;
-@property (nonatomic,retain) CCLabelBMFont *player2Score;
-@property (nonatomic,retain) CCLabelBMFont *player1Label;
-@property (nonatomic,retain) CCLabelBMFont *player2Label;
-@property (nonatomic,retain) CCLabelBMFont *round;
+@property (nonatomic,assign) CCLabelBMFont *player1Score;
+@property (nonatomic,assign) CCLabelBMFont *player2Score;
+@property (nonatomic,assign) CCLabelBMFont *player1Label;
+@property (nonatomic,assign) CCLabelBMFont *player2Label;
+@property (nonatomic,assign) CCLabelBMFont *round;
 
 
 @end

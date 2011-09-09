@@ -21,8 +21,8 @@
     [delegate didGuess:self guess:textField.text];
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [delegate didGuess:self guess:textField.text];
+-(BOOL)textFieldShouldReturn:(UITextField *)tf {
+    [delegate didGuess:self guess:tf.text];
     return YES;
 }
 @end

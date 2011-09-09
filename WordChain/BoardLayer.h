@@ -13,6 +13,7 @@
 #import "GuessView.h"
 #import "Board.h"
 #import "TimerLayer.h"
+#import "GuessScene.h"
 
 #define kRowFadeDuration 0.5
 //#define kRowAnimationDuration 0.35
@@ -22,12 +23,14 @@
 #define kRowAnimationMoveDelayFactor 0.4
 #define kRowTagStart 1000
 
-@interface BoardLayer : CCLayerColor <CCTargetedTouchDelegate, TimerLayerDelegate> {
+@interface BoardLayer : CCLayerColor <CCTargetedTouchDelegate, TimerLayerDelegate, GuessSceneDelegate> {
     Tile *lastPlayedTile;
     
-    CCArray *animatingRows;
+    NSMutableArray *animatingRows;
 }
 
+-(void)guessDidComplete;
+-(void)gameDidComplete;
     
 -(void)layoutBoard;
 -(Tile*)tileAtLocation:(BoardLocation*)boardLocation;

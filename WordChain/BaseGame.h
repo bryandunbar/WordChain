@@ -28,12 +28,13 @@
 @property (nonatomic,assign) int round;
 @property (nonatomic,assign) int timer;
 @property (nonatomic,retain) Board *board;
-@property (nonatomic,readonly) BOOL isGameOver;
 
 
+-(BOOL)isGameOverWithSender:(id)sender;
 -(void)reset;
 +(BaseGame*)newGame;
 
 -(void)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
 -(void)turnTimeExpired;
+
 @end

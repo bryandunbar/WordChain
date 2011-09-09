@@ -13,10 +13,11 @@
 
 #define kTagBoardRow 1000
 
-@interface GuessLayer : CCLayer <GuessViewDelegate, TimerLayerDelegate> {
+@interface GuessLayer : CCLayer <GuessViewDelegate, TimerLayerDelegate, UIAlertViewDelegate> {
     GuessView *guessView;
     UITextField *hiddenTextField;
     BoardLocation *guessLocation;
+    TimerLayer *timerLayer;
 }
 +(id)nodeWithGuessLocation:(BoardLocation *)location;
 -(void)handleTimerExpired;

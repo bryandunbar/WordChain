@@ -9,6 +9,7 @@
 #import "GuessScene.h"
 
 @implementation GuessScene
+@synthesize delegate=_delegate;
 
 -(id)initWithGuessLocation:(BoardLocation *)location {
     self = [super init];

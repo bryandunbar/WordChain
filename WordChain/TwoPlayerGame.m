@@ -77,7 +77,7 @@
     [self updateGameData];
 }
 
--(BOOL)isGameOver {
+-(BOOL)isGameOverWithSender:(id)sender {
     
     BOOL b = round > 5;
     if (b) {
@@ -93,13 +93,14 @@
         }
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Game Over" 
-                                                        message:[NSString stringWithFormat:@"%@ won!", (winner == PlayerOne) ? player1 : player2] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+                                                        message:[NSString stringWithFormat:@"%@ won!", (winner == PlayerOne) ? player1 : player2] delegate:sender cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alert show];
         [alert release];
 
     }
     return b;
 }
+
 -(void)scoreWordAtIndex:(NSUInteger)idx {
     // How many letters left in word
     NSUInteger lettersLeftInWord = [board unsolvedCharactersForRow:idx];

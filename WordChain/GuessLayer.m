@@ -40,7 +40,7 @@
         [self promptForGuess];
         
         // Show the timer
-        TimerLayer *timerLayer = [TimerLayer node];
+        timerLayer = [TimerLayer node];
         timerLayer.delegate = self;
         [self addChild:timerLayer z:0 tag:kTimerLayerTag];
         [timerLayer startTimer];
@@ -100,7 +100,6 @@
 }
 
 -(void)layoutGuessTiles {
-    
     
     // Calculate the starting x and y
     CGSize winSize = [CCDirector sharedDirector].winSize;
@@ -165,22 +164,30 @@
     }
     self.guessView.textField.text = [self visibleTextForRow:self.guessLocation.row];
     // Set the text and show the keyboard
-    //guessView.textField.text = [self visibleTextForRow:tile.row];
     [hiddenTextField becomeFirstResponder];
     [guessView.textField becomeFirstResponder];
-    //[self schedule: @selector(decrementTimer:) interval:1];
 }
 
--(void)popScene {
+-(void)prepareSceneForPop {
     // Hide the keyboard
+    [guessView.textField resignFirstResponder];
+    [hiddenTextField resignFirstResponder];
+
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     Board *board = gameData.board;
-    [board updateGameData];
-    
-    [guessView.textField resignFirstResponder];
-    [hiddenTextField resignFirstResponder];
-    [[CCDirector sharedDirector]popScene];    
+    [board updateGameData];    
+}
+
+-(void)didCompleteGuess {
+    [self prepareSceneForPop];
+    GuessScene *guessScene = (GuessScene*)self.parent;
+    [guessScene.delegate guessDidComplete];            
+}
+
+-(void)didCompleteGame {
+    GuessScene *guessScene = (GuessScene*)self.parent;
+    [guessScene.delegate gameDidComplete];            
 }
 
 -(void)didGuess:(GuessView*)gv guess:(NSString *)g {
@@ -209,19 +216,20 @@
                             nil]];
     }
     else {
-        [self popScene];
+        if ([gameData isGameOverWithSender:self]) {
+            //do nothing
+            [timerLayer stopTimer];
+            [self prepareSceneForPop]; //well... almost nothing
+        }
+        else {
+            [self didCompleteGuess];
+        }
     }
-    
-//    if (gameData.isGameOver) {
-//        [[GameManager sharedGameManager] runSceneWithID:SceneTypeMainMenu];
-//    }
-    
 }
 
 -(void)removeSprite:(CCNode *)n {
     [self removeChild:n cleanup:YES];
-    [self popScene];
-    
+    [self didCompleteGuess];
 }
 
 -(NSString*)visibleTextForRow:(NSUInteger)row {
@@ -242,5 +250,10 @@
 -(void)handleTimerExpired {
     [self didGuess:nil guess:nil];
 }
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    [self didCompleteGame];
+}
+
 
 @end
