@@ -20,10 +20,7 @@
 -(void)updateBoard;
 -(void)updateHud;
 -(void)updateTimer;
-
--(void)animateBoard;
 -(CGPoint)locationForRow:(BoardRow*)row;
-
 -(int)rowPadding;
 
 @property (nonatomic,retain) NSMutableArray *animatingRows;
@@ -62,7 +59,7 @@
     // Is the board still considered new?
     if (gameData.board.isNew) {
         [self updateBoard];
-        [self animateBoard]; // Animates the board in
+        [self animateBoard:arc4random() % 8]; // Choose a random animation
     } 
     else {
         [self guessDidReturn];
@@ -109,10 +106,10 @@
 #pragma mark -
 #pragma mark Board Rendering
 -(CGPoint)locationForRow:(BoardRow*)boardRow {
-    return ccp(5, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - ([self rowPadding] * (boardRow.row + 1)));
+    return ccp(kRowInset, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - ([self rowPadding] * (boardRow.row + 1)));
 
 }
--(void)animateBoard {
+-(void)animateBoard:(BoardRowAnimation)boardRowAnimation {
     
     // Stop timer while we are doing this
     [[GameScene timerLayer] stopTimer];
@@ -124,21 +121,61 @@
         int tag = kRowTagStart + row;
         BoardRow *boardRow = (BoardRow*)[self getChildByTag:tag];
         
-        // Move it to above the screen and hide it
-        boardRow.position = ccp(5, self.contentSize.height + 2 * boardRow.boundingBox.size.height);
-        [animatingRows addObject:boardRow];
-        
-        // Determine where the row should end up
+        // Determine where the row should end up, this is the same for all animation types
         CGPoint finalRestingPlace = [self locationForRow:boardRow];
         
-        // Run a sequence of actions to place the row
+        // Determine the starting position
+        CGPoint startingPoint = CGPointZero;
+        
+        // start_x
+        if (boardRowAnimation == BoardRowAnimationLeftTop || boardRowAnimation == BoardRowAnimationLeftBottom) {
+            startingPoint.x = -1 * boardRow.boundingBox.size.width;
+        } else if (boardRowAnimation == BoardRowAnimationRightTop || boardRowAnimation == BoardRowAnimationRightBottom) {
+            startingPoint.x = boardRow.boundingBox.size.width + self.contentSize.width;
+        } else if (boardRowAnimation == BoardRowAnimationAlternatingLeftRightTop || boardRowAnimation == BoardRowAnimationAlternatingLeftRightBottom) {
+            startingPoint.x = (row % 2 == 0 ? -1 * boardRow.boundingBox.size.width : boardRow.boundingBox.size.width + self.contentSize.width);
+        } else if (boardRowAnimation == BoardRowAnimationTop || boardRowAnimation == BoardRowAnimationBottom) {
+            startingPoint.x = kRowInset;
+        }
+        
+        // start_y
+        if (boardRowAnimation > BoardRowAnimationBottom) {
+            startingPoint.y = finalRestingPlace.y;
+        } else if (boardRowAnimation == BoardRowAnimationTop) {
+            startingPoint.y = self.contentSize.height + 2 * boardRow.boundingBox.size.height;
+        } else if (boardRowAnimation == BoardRowAnimationBottom) {
+            startingPoint.y = -2 * boardRow.boundingBox.size.height;
+        }
+            
+
+        // Position the row at its starting point
+        boardRow.position = startingPoint;
+
+        
+        // Move to where it goes with an ease at the end
         id moveAction = [CCMoveTo actionWithDuration:kRowAnimationDuration position:finalRestingPlace];
-        id delayAction = [CCDelayTime actionWithDuration:powf( (BOARD_GRID_ROWS - row - 1) * kRowAnimationMoveDelayFactor, kRowEaseFactor)];
-        //        id delayAction = [CCDelayTime actionWithDuration:logf( (BOARD_GRID_ROWS - row + 1) * kRowAnimationMoveDelayFactor)];
         id ease = [CCEaseOut actionWithAction:moveAction rate:2.0];
+        
+        // Top vs Bottom is based on the amount we delay each row
+        id delayAction = nil;
+        if (boardRowAnimation == BoardRowAnimationLeftTop || boardRowAnimation == BoardRowAnimationAlternatingLeftRightTop || boardRowAnimation == BoardRowAnimationRightTop ||
+            boardRowAnimation == BoardRowAnimationBottom) {
+            delayAction = [CCDelayTime actionWithDuration:powf( row * kRowAnimationMoveDelayFactor, kRowEaseFactor)];
+            //delayAction = [CCDelayTime actionWithDuration:logf( row * kRowAnimationMoveDelayFactor, kRowEaseFactor)]
+        } else {
+            delayAction = [CCDelayTime actionWithDuration:powf( (BOARD_GRID_ROWS - row - 1) * kRowAnimationMoveDelayFactor, kRowEaseFactor)];
+            //delayAction = [CCDelayTime actionWithDuration:logf( (BOARD_GRID_ROWS - row - 1) * kRowAnimationMoveDelayFactor, kRowEaseFactor)];
+        }
+
+        // Sequence them together for this rows animation
+        id animationAction = [CCSequence actions:delayAction, ease, nil];
+        
+        // Queue that holds pending animations, once they are all done the round can start
+        [animatingRows addObject:boardRow];
+        
+        // Run the animation, always add in the callfunc to the end to notify of the animation done
         id callFuncND = [CCCallFuncND actionWithTarget:self selector:@selector(boardRowAnimationComplete:) data:boardRow];
-        id sequence = [CCSequence actions:delayAction, ease, callFuncND, nil];
-        [boardRow runAction:sequence];
+        [boardRow runAction:[CCSequence actions:animationAction, callFuncND, nil]];
     }
 }
 -(void)boardRowAnimationComplete:(void*)data {

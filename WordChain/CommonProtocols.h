@@ -40,6 +40,17 @@ typedef enum {
     GameModeTwoPlayer
 } GameModes;
 
+// DO NOT MOVE THESE AROUND, THE ORDER MATTERS FOR THE ANIMATION LOGIC
+typedef enum {  
+    BoardRowAnimationTop,
+    BoardRowAnimationBottom,
+    BoardRowAnimationLeftTop,
+    BoardRowAnimationLeftBottom,
+    BoardRowAnimationRightTop,
+    BoardRowAnimationRightBottom,
+    BoardRowAnimationAlternatingLeftRightTop,
+    BoardRowAnimationAlternatingLeftRightBottom
+} BoardRowAnimation;
 
 @protocol GameData <NSObject>
 -(void)updateGameData;

@@ -15,6 +15,9 @@
 #import "TimerLayer.h"
 #import "GuessScene.h"
 
+
+#define kRowInset 5
+
 #define kRowFadeDuration 0.5
 //#define kRowAnimationDuration 0.35
 #define kRowAnimationDuration 0.25
@@ -36,4 +39,7 @@
 -(Tile*)tileAtLocation:(BoardLocation*)boardLocation;
 -(void)playTile:(Tile*)tile;
 -(void)handleTimerExpired;
+
+-(void)animateBoard:(BoardRowAnimation)animation;
+
 @end
