@@ -150,14 +150,14 @@
     sqlite3 *database;
     sqlite3_stmt *update_statement;
     
-    NSString *sqlString = [NSString stringWithFormat:@"update zchainword set zretrievecount = zretrievecount + 1 where zword in (select z_pk from zword where zid in (%@))", [wordsToUpdate componentsJoinedByString:@","]];
+    NSString *sqlString = [NSString stringWithFormat:@"update zchainword set zretrievecount = zretrievecount + 1 where zchain in (select distinct zchain from zword zw join zchainword cw on cw.zword = zw.z_pk where zid in (%@))", [wordsToUpdate componentsJoinedByString:@","]];
     const char *sql = [sqlString UTF8String];
     
     if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK) {
         if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) == SQLITE_OK) {
             int status = sqlite3_step(update_statement);
             if (status == SQLITE_DONE) {
-                //do nothing
+                //NSLog(@"sqlString:%@",sqlString);
             }
             else {
                 NSLog(@"Failed to update for query: %@", sqlString);  

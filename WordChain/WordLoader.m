@@ -35,7 +35,7 @@
         if ([words count] == 2) {
             NSString *wordOne = [[words objectAtIndex:0] lowercaseString];
             NSString *wordTwo = [[words objectAtIndex:1] lowercaseString];
-            if ([wordOne length] <= 10 && [wordTwo length] <=10) {
+            if ([wordOne length] <= 10 && [wordTwo length] <=10 && [wordOne length] >= 2 && [wordTwo length] >= 2) {
                 Word * word = (Word *)[NSEntityDescription insertNewObjectForEntityForName:@"Word" 
                                                                     inManagedObjectContext:self.moc];
                 word.id = [NSNumber numberWithInt:_chainCounter];
