@@ -22,4 +22,8 @@
 
 static NSString *superlatives[] = {@"Awesome!", @"Way to Go!", @"Excellent!", @"Nice Work!", @"Groovy!"};
 #define RAND_SUPERLATIVE superlatives[random() % 5]
+
+static NSString *not_superlatives[] = {@"That's not It!"};
+#define RAND_NOT_SUPERLATIVE not_superlatives[random() % 1]
+
 #endif

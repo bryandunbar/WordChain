@@ -7,7 +7,6 @@
 //
 
 #import "BoardRow.h"
-#import "Tile.h"
 #import "GameState.h"
 #import "BoardLayer.h"
 
@@ -18,6 +17,7 @@
 
 @implementation BoardRow
 @synthesize sprite,row,state,tiles;
+@synthesize rowAnimationCompletionBlock;
 
 -(id)init {
     if ((self = [super init])) {
@@ -65,6 +65,10 @@
     }    
 }
 
+-(Tile*)tileAtIndex:(NSUInteger)idx {
+    return (Tile*)[self getChildByTag:kTileStartingTag + idx];
+}
+
 #pragma mark -
 #pragma mark CCNode overrides
 -(CGSize)contentSize {
@@ -89,9 +93,80 @@
     sprite.opacity = opacity;
 }
 
+
+#pragma mark -
+#pragma mark Animation
+-(void)animateRowToIndex:(NSUInteger)idx solved:(BOOL)isSolved completion:(BoardRowAnimationCompletionBlock)block {
+  
+    // Store the ivars for solved and the completion block, they will be used later
+    self.rowAnimationCompletionBlock = block;
+    solved = isSolved;
+    
+    // Animate the letters in from the right and then out again, up to the index given    
+    for (int i = idx; i < BOARD_GRID_COLUMNS; i++) {
+        Tile *tile = [self tileAtIndex:i];
+        
+        id delayAction = [CCDelayTime actionWithDuration:kAnimationDelay * (BOARD_GRID_COLUMNS - i) ];
+        id callFunc = [CCCallFuncND actionWithTarget:tile selector:@selector(startAnimating) data:tile];
+        [self runAction:[CCSequence actions:delayAction, callFunc, nil]];
+    }
+    
+    [self schedule:@selector(rowAnimationStartUpdate:) interval:0.1];
+}
+
+-(void)rowAnimationStartUpdate:(ccTime)delta {
+    
+    // Keep waiting until all are done
+    for (int i = 0; i < BOARD_GRID_COLUMNS; i++) {
+        Tile *tile = [self tileAtIndex:i];
+        
+        if (tile.tileState == TileStatePlayed) continue; // Don't worry about played ones
+        if (tile.tileState != TileStateAnimating) return; // Not all animating yet
+    }
+    
+    // All are animating, so reverse the process
+    [self unscheduleAllSelectors];
+    
+    for (int i = 0; i < BOARD_GRID_COLUMNS; i++) {
+        Tile *tile = [self tileAtIndex:i];
+            id delayAction = [CCDelayTime actionWithDuration:kAnimationDelay * i ];
+            id callFunc = [CCCallFuncND actionWithTarget:self selector:@selector(stopAnimating:data:) data:tile];
+            [self runAction:[CCSequence actions:delayAction, callFunc, nil]];
+    }
+    
+    // Now need to wait for all to be done
+    [self schedule:@selector(rowAnimationStopUpdate:) interval:0.1];
+}
+-(void)rowAnimationStopUpdate:(ccTime)delta {
+    // Keep waiting until all are done
+    for (int i = 0; i < BOARD_GRID_COLUMNS; i++) {
+        Tile *tile = [self tileAtIndex:i];
+        if (tile.tileState == TileStateAnimating) return; // Not all animating yet
+    }
+
+    [self unscheduleAllSelectors];
+    
+    // Call the completion handler
+    if (self.rowAnimationCompletionBlock != nil)
+        rowAnimationCompletionBlock();
+
+}
+-(void)stopAnimating:(id)sender data:(void*)d {
+    
+    Tile *tile = (Tile*)d;
+    
+    [tile stopAnimating];
+    if (solved) {
+        tile.tileState = TileStateSolved;
+    }
+    
+}
+
+#pragma mark -
 -(void)dealloc {
     [super dealloc];
     [sprite release];
+    [rowAnimationCompletionBlock release];
 }
 
 

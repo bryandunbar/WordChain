@@ -20,7 +20,7 @@
 
 #define kRowFadeDuration 0.5
 //#define kRowAnimationDuration 0.35
-#define kRowAnimationDuration 0.25
+#define kRowAnimationDuration 0.15
 #define kRowEaseFactor 1.35
 //#define kRowAnimationMoveDelayFactor 0.45
 #define kRowAnimationMoveDelayFactor 0.4

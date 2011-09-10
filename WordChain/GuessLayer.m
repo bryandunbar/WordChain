@@ -22,6 +22,13 @@
 -(NSString*)visibleTextForRow:(NSUInteger)row;
 -(int)fontSize;
 
+
+-(void)animateGuess:(BOOL)solved;
+-(void)guessAnimationDidFinish:(CCNode*)node solved:(BOOL)didSolve;
+
+-(void)showGuessFeedback:(BOOL)solved;
+-(void)guessFeedbackAnimationDidFinish:(CCNode*)node;
+
 @property (nonatomic,retain) GuessView *guessView;
 @property (nonatomic,retain) UITextField *hiddenTextField;
 @property (nonatomic,retain) BoardLocation *guessLocation;
@@ -119,13 +126,13 @@
     boardRow.position = ccp(position_x, position_y);
     
      // Add a tile at every position
-    NSMutableArray *tileArray = [NSMutableArray arrayWithCapacity:BOARD_GRID_COLUMNS];
+    CCArray *tileArray = [CCArray arrayWithCapacity:BOARD_GRID_COLUMNS];
     for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
                     
         // Get the tilestate from the model
-        TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:guessLocation.row col:col]];
+        TileState state = [board tileStateAtLocation:[BoardLocation locationWithRow:self.guessLocation.row col:col]];
         
-        Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:guessLocation.row atIndex:col] row:guessLocation.row col:col];
+        Tile *tile = [Tile tileWithLetter:[board.chain letterForWord:self.guessLocation.row atIndex:col] row:guessLocation.row col:col];
         tile.tileState = state == TileStateSelectable ? TileStateInitialized : state; // Don't use the selectable state here
         
         [tileArray addObject:tile];
@@ -133,7 +140,7 @@
     // Set the tiles in the board row
     boardRow.tiles = tileArray;
 
-    [self addChild:boardRow];
+    [self addChild:boardRow z:0 tag:kTagBoardRow];
     
     // Add A Label if this is the last letter
     if ([gameData.board isLastLetterForWord:guessLocation]) {
@@ -142,6 +149,9 @@
         lastLetterLabel.position = ccp((winSize.width - lastLetterLabel.boundingBox.size.width )/ 2, position_y - dummyTileForSize.boundingBox.size.height);
         lastLetterLabel.anchorPoint = ccp(0,1.5);
         [self addChild:lastLetterLabel];
+        
+        // Animate the tile as well
+        [[boardRow tileAtIndex:self.guessLocation.col] startAnimating];
     }                             
     
 
@@ -191,7 +201,11 @@
 }
 
 -(void)didGuess:(GuessView*)gv guess:(NSString *)g {
-    
+
+    // Don't allow a second guess
+    guessView.button.enabled = NO;
+    guessView.textField.enabled = NO;
+
     // Get the model
     BaseGame *gameData = [GameState sharedInstance].gameData;
     
@@ -200,20 +214,7 @@
     
     // Did they answer it right?
     if ([gameData.board.chain isWordSolved:self.guessLocation.row]) {
-    
-        CGSize size = [self contentSize];
-        CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:RAND_SUPERLATIVE fntFile:@"Arial.fnt"];
-        [self addChild:feedTxt z:50];
-        
-        [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
-        [feedTxt setColor:ccRED];
-        [feedTxt runAction:[CCSequence actions:[CCFadeIn
-                                                actionWithDuration:.5],
-                            [CCDelayTime actionWithDuration:.25],[CCFadeOut
-                                                                  actionWithDuration:.5],
-                            [CCCallFuncN actionWithTarget:self selector:@
-                             selector(removeSprite:)],
-                            nil]];
+        [self animateGuess:YES];
     }
     else {
         if ([gameData isGameOverWithSender:self]) {
@@ -222,15 +223,62 @@
             [self prepareSceneForPop]; //well... almost nothing
         }
         else {
-            [self didCompleteGuess];
+            [self animateGuess:NO];
         }
     }
 }
 
--(void)removeSprite:(CCNode *)n {
-    [self removeChild:n cleanup:YES];
+
+#pragma mark - 
+#pragma mark - Animation
+-(void)animateGuess:(BOOL)solved {
+    
+    // TODO: Stop the timer while we do this
+    
+    
+    // First stop the last tile from animating
+    BoardRow *boardRow = (BoardRow*)[self getChildByTag:kTagBoardRow];
+    [[boardRow tileAtIndex:self.guessLocation.col] stopAnimating];
+    
+    // Tell the row to animate
+    [boardRow animateRowToIndex:(guessLocation.col + 1) solved:solved completion:^{
+            [self guessAnimationDidFinish:nil solved:solved];
+    }];
+    
+}
+
+-(void)guessAnimationDidFinish:(CCNode *)n solved:(BOOL)didSolve{
+    if (n) [self removeChild:n cleanup:YES]; 
+    [self showGuessFeedback:didSolve];
+}
+
+-(void)showGuessFeedback:(BOOL)solved {
+    
+    NSString *text = solved ? RAND_SUPERLATIVE : RAND_NOT_SUPERLATIVE;
+    ccColor3B color = solved ? ccGREEN : ccRED;
+    
+    CGSize size = [self contentSize];
+    CCLabelBMFont * feedTxt = [CCLabelBMFont labelWithString:text fntFile:@"Arial.fnt"];
+    feedTxt.opacity = 0;
+    [self addChild:feedTxt z:50];
+    
+    [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
+    [feedTxt setColor:color];
+    [feedTxt runAction:[CCSequence actions:[CCFadeIn
+                                            actionWithDuration:.25],
+                        [CCDelayTime actionWithDuration:1.0],[CCFadeOut
+                                                              actionWithDuration:.25],
+                        [CCCallFuncN actionWithTarget:self selector:@
+                         selector(guessFeedbackAnimationDidFinish:)],
+                        nil]];
+}
+-(void)guessFeedbackAnimationDidFinish:(CCNode *)node {
+    
+    if (node) [self removeChild:node cleanup:YES];
     [self didCompleteGuess];
 }
+
+#pragma mark -
 
 -(NSString*)visibleTextForRow:(NSUInteger)row {
     

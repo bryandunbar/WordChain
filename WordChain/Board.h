@@ -47,7 +47,7 @@
 -(NSString*)solvedTextForRow:(NSUInteger)row;
 -(NSUInteger)unsolvedCharactersForRow:(NSUInteger)row;
 -(BOOL)isLastLetterForWord:(BoardLocation*)boardLocation;
-
+-(NSUInteger)firstUnsolvedIndexForRow:(NSUInteger)row;
 
 -(void)newChain;
 

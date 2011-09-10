@@ -107,9 +107,11 @@
     }
 }
 -(void)stopAnimating {
-    [self stopAllActions];
-
+    if (tileState != TileStateAnimating) return;
+    
+    
     // Restore the tile state
+    [self stopAllActions];
     self.tileState = stateBeforeAnimation;
     
     // Unschedule
