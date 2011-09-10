@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		84068EE114059F5B000387EE /* WordChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84068EDF14059F5B000387EE /* WordChain.xcdatamodeld */; };
 		84068F061405A1E3000387EE /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84068F051405A1E3000387EE /* CoreData.framework */; };
+		8443C004141BA92F00F3D705 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8443C003141BA92F00F3D705 /* libsqlite3.0.dylib */; };
+		8443C028141BCC2600F3D705 /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 8443C027141BCC2600F3D705 /* WordChain.sqlite */; };
 		8445BC2B1414FE80000A5606 /* TimerLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8445BC2A1414FE80000A5606 /* TimerLayer.m */; };
 		8451688D1407FE4F00ECFCBA /* ChainWord.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688C1407FE4F00ECFCBA /* ChainWord.m */; };
 		845168901407FE5D00ECFCBA /* Word.m in Sources */ = {isa = PBXBuildFile; fileRef = 8451688F1407FE5D00ECFCBA /* Word.m */; };
 		846BFD4A140CFE1300568B02 /* GameState.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD49140CFE1300568B02 /* GameState.m */; };
 		846BFD4E140CFE4800568B02 /* GCDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 846BFD4D140CFE4800568B02 /* GCDatabase.m */; };
-		8475FDCE1415699A003BC57A /* WordChain.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 8475FDCD14156999003BC57A /* WordChain.sqlite */; };
 		847911BB140AFD5400EEBE1C /* GuessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847911B9140AFD5400EEBE1C /* GuessView.m */; };
 		847911BC140AFD5400EEBE1C /* GuessView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847911BA140AFD5400EEBE1C /* GuessView.xib */; };
 		847BF2A71412801200871965 /* GuessLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BF2A41412801200871965 /* GuessLayer.m */; };
@@ -169,6 +170,8 @@
 		84068EE014059F5B000387EE /* WordChain.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WordChain.xcdatamodel; sourceTree = "<group>"; };
 		84068EE31405A0BC000387EE /* WordChain 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WordChain 2.xcdatamodel"; sourceTree = "<group>"; };
 		84068F051405A1E3000387EE /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		8443C003141BA92F00F3D705 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
+		8443C027141BCC2600F3D705 /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		8445BC291414FE80000A5606 /* TimerLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimerLayer.h; sourceTree = "<group>"; };
 		8445BC2A1414FE80000A5606 /* TimerLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimerLayer.m; sourceTree = "<group>"; };
 		8451688B1407FE4F00ECFCBA /* ChainWord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChainWord.h; sourceTree = "<group>"; };
@@ -179,7 +182,6 @@
 		846BFD49140CFE1300568B02 /* GameState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameState.m; sourceTree = "<group>"; };
 		846BFD4C140CFE4800568B02 /* GCDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCDatabase.h; sourceTree = "<group>"; };
 		846BFD4D140CFE4800568B02 /* GCDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCDatabase.m; sourceTree = "<group>"; };
-		8475FDCD14156999003BC57A /* WordChain.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = WordChain.sqlite; sourceTree = "<group>"; };
 		847911B8140AFD5400EEBE1C /* GuessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuessView.h; sourceTree = "<group>"; };
 		847911B9140AFD5400EEBE1C /* GuessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuessView.m; sourceTree = "<group>"; };
 		847911BA140AFD5400EEBE1C /* GuessView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GuessView.xib; sourceTree = "<group>"; };
@@ -471,6 +473,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8443C004141BA92F00F3D705 /* libsqlite3.0.dylib in Frameworks */,
 				84068F061405A1E3000387EE /* CoreData.framework in Frameworks */,
 				E3B503131403D24000D96AE6 /* QuartzCore.framework in Frameworks */,
 				E3B503151403D24000D96AE6 /* OpenGLES.framework in Frameworks */,
@@ -535,6 +538,7 @@
 		E3B503031403D24000D96AE6 = {
 			isa = PBXGroup;
 			children = (
+				8443C003141BA92F00F3D705 /* libsqlite3.0.dylib */,
 				E3B503221403D24000D96AE6 /* WordChain */,
 				E3B503111403D24000D96AE6 /* Frameworks */,
 				E3B5030F1403D24000D96AE6 /* Products */,
@@ -593,7 +597,7 @@
 		E3B503231403D24000D96AE6 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				8475FDCD14156999003BC57A /* WordChain.sqlite */,
+				8443C027141BCC2600F3D705 /* WordChain.sqlite */,
 				E38D251A1410243100D98509 /* Fonts */,
 				84B82BC41407BF3C003F3A1C /* words.txt */,
 				E3F468E214068344003BFBBF /* Images */,
@@ -1032,13 +1036,13 @@
 				E35F84211411A6F20024F8A2 /* Arial-hd.png in Resources */,
 				E35F84221411A6F20024F8A2 /* Arial.fnt in Resources */,
 				E35F84231411A6F20024F8A2 /* Arial.png in Resources */,
-				8475FDCE1415699A003BC57A /* WordChain.sqlite in Resources */,
 				84FCD82B1418316A00D00A35 /* spritesheet_ipad.plist in Resources */,
 				84FCD82C1418316A00D00A35 /* spritesheet_ipad.png in Resources */,
 				84FCD82D1418316A00D00A35 /* spritesheet_iphone-hd.plist in Resources */,
 				84FCD82E1418316A00D00A35 /* spritesheet_iphone-hd.png in Resources */,
 				84FCD82F1418316A00D00A35 /* spritesheet_iphone.plist in Resources */,
 				84FCD8301418316A00D00A35 /* spritesheet_iphone.png in Resources */,
+				8443C028141BCC2600F3D705 /* WordChain.sqlite in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

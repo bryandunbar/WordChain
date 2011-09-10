@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "ChainWord.h"
 #import "Word.h"
+#import "sqlite3.h"
 
 @interface Chain ()
 @property (nonatomic,retain) NSArray *words;
@@ -118,11 +119,11 @@
     [request setResultType:NSDictionaryResultType];
     
     NSExpression *keyPathExpression = [NSExpression expressionForKeyPath:@"retrieveCount"];
-    NSExpression *maxExpression = [NSExpression expressionForFunction:@"min:"
+    NSExpression *minExpression = [NSExpression expressionForFunction:@"min:"
                                                                   arguments:[NSArray arrayWithObject:keyPathExpression]];
     NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
     [expressionDescription setName:@"minRetrieveCount"];
-    [expressionDescription setExpression:maxExpression];
+    [expressionDescription setExpression:minExpression];
     [expressionDescription setExpressionResultType:NSInteger16AttributeType];
     
     [request setPropertiesToFetch:[NSArray arrayWithObject:expressionDescription]];
@@ -140,30 +141,39 @@
     }
 }
 
+
 -(void)markWordsAsRetrieved:(NSArray *) wordsToUpdate {
-    NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
-	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
-                                                   inManagedObjectContext:self.moc]; 
-	[request setEntity:chainEntity];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+
+    NSString *databasePath = [documentsDirectory stringByAppendingPathComponent: @"WordChain.sqlite"];
+    sqlite3 *database;
+    sqlite3_stmt *update_statement;
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"word.id IN %@",wordsToUpdate];
-    [request setPredicate:predicate];        
+    NSString *sqlString = [NSString stringWithFormat:@"update zchainword set zretrievecount = zretrievecount + 1 where zword in (select z_pk from zword where zid in (%@))", [wordsToUpdate componentsJoinedByString:@","]];
+    const char *sql = [sqlString UTF8String];
     
-    NSError *error;
-    
-    NSArray *chainWords = [self.moc executeFetchRequest:request error:&error]; 
-    for (ChainWord *cw in chainWords) {        
-        //Randomization: up the chain's retrieve count by 1
-        [cw setRetrieveCount:[NSNumber numberWithInt:([cw.retrieveCount intValue] + 1)] ];
-        if (![self.moc save:&error]) {
-            // Handle the error.
-            NSLog(@"Error Updating chainWord");
-            NSLog(@"Error: %@",error);
+    if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK) {
+        if (sqlite3_prepare_v2(database, sql, -1, &update_statement, NULL) == SQLITE_OK) {
+            int status = sqlite3_step(update_statement);
+            if (status == SQLITE_DONE) {
+                //do nothing
+            }
+            else {
+                NSLog(@"Failed to update for query: %@", sqlString);  
+                NSLog(@"Error: failed to insert into the database with message '%s'.", sqlite3_errmsg(database));
+                NSLog(@"status = %d",status);
+            }
+            sqlite3_finalize(update_statement);
+            sqlite3_close(database);
+        }
+        else {
+            NSLog(@"Failed to prepare the update statement for query: %@", sqlString);           
         }
     }
-    
-    [request release];
-    
+    else {
+        NSLog(@"Failed to connect to sqlite database at path: %@", databasePath);
+    }
 }
 
 -(NSArray *)wordsFromChain:(int)chain {
@@ -192,17 +202,9 @@
         }
         [wordsToPlay addObject:w.wordTwo];
         [wordsToUpdate addObject:w.id];
-        
-        //Randomization: up the chain's retrieve count by 1
-        [cw setRetrieveCount:[NSNumber numberWithInt:([cw.retrieveCount intValue] + 1)] ];
-        if (![self.moc save:&error]) {
-            // Handle the error.
-            NSLog(@"Error Adding chainWord");
-            NSLog(@"Error: %@",error);
-        }
         index++;
     }
-    //[self markWordsAsRetrieved:wordsToUpdate];
+    [self markWordsAsRetrieved:wordsToUpdate];
     
     [request release];
     return wordsToPlay;

@@ -66,7 +66,7 @@
 	
     
     // Put down default db if it doesn't already exist
-    // chain candidates - 9/5/11 = 4035
+    // chain candidates - 9/5/11 = 4977
     bool shouldLoadDatabase = FALSE;
     if (!shouldLoadDatabase) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
