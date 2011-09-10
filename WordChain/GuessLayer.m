@@ -233,15 +233,18 @@
 #pragma mark - Animation
 -(void)animateGuess:(BOOL)solved {
     
-    // TODO: Stop the timer while we do this
-    
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    BoardRow *boardRow = (BoardRow*)[self getChildByTag:kTagBoardRow];
+    BOOL isLastLetter = [gameData.board isLastLetterForWord:guessLocation];
     
     // First stop the last tile from animating
-    BoardRow *boardRow = (BoardRow*)[self getChildByTag:kTagBoardRow];
-    [[boardRow tileAtIndex:self.guessLocation.col] stopAnimating];
+    if (isLastLetter) {
+        [[boardRow tileAtIndex:self.guessLocation.col] stopAnimating];
+    }
     
     // Tell the row to animate
-    [boardRow animateRowToIndex:(guessLocation.col + 1) solved:solved completion:^{
+    int min = isLastLetter ? guessLocation.col : guessLocation.col + 1;
+    [boardRow animateRowToIndex:min solved:solved completion:^{
             [self guessAnimationDidFinish:nil solved:solved];
     }];
     
