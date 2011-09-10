@@ -262,7 +262,7 @@
     feedTxt.opacity = 0;
     [self addChild:feedTxt z:50];
     
-    [feedTxt setPosition:ccp(size.width / 2, size.height - 60)];
+    [feedTxt setPosition:ccp(size.width / 2, size.height - feedTxt.contentSize.height)];
     [feedTxt setColor:color];
     [feedTxt runAction:[CCSequence actions:[CCFadeIn
                                             actionWithDuration:.25],
