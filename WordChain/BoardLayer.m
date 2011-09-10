@@ -212,17 +212,27 @@
         board.isNew = NO;
         
         // Solve the first and last words
-        [board.chain solveWordAtIndex:0];
-        [board.chain solveWordAtIndex:[board.chain length] - 1];
-        [board updateGameData];
+        int firstRowIdx = 0; int lastRowIdx = [board.chain length] - 1;
+        [board.chain solveWordAtIndex:firstRowIdx];
+        [board.chain solveWordAtIndex:lastRowIdx];
         
-        // Refresh the UI
-        [self updateBoard];
-        [self updateHud];
-        [self updateTimer];
+        // Animate the two solved rows
+        BoardRow *firstRow = (BoardRow*)[self getChildByTag:kRowTagStart + firstRowIdx];
+        BoardRow *lastRow = (BoardRow*)[self getChildByTag:kRowTagStart + lastRowIdx];
+        [firstRow animateRowToIndex:0 solved:YES completion:^{
+            [board updateGameData];
+
+            // Refresh the UI
+            [self updateBoard];
+            [self updateHud];
+            [self updateTimer];
+            
+            // Start the timer
+            [[GameScene timerLayer] startTimer];
+        }];
+        [lastRow animateRowToIndex:0 solved:YES completion:nil];
         
-        // Start the timer
-        [[GameScene timerLayer] startTimer];
+        
     }                         
 }
 
