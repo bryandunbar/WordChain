@@ -190,9 +190,15 @@
 }
 
 -(void)didCompleteGuess {
-    [self prepareSceneForPop];
-    GuessScene *guessScene = (GuessScene*)self.parent;
-    [guessScene.delegate guessDidComplete];            
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    if ([gameData isGameOverWithSender:self]) {
+        //do nothing
+        [self prepareSceneForPop]; //well... almost nothing
+    } else {
+        [self prepareSceneForPop];
+        GuessScene *guessScene = (GuessScene*)self.parent;
+        [guessScene.delegate guessDidComplete];            
+    }
 }
 
 -(void)didCompleteGame {
@@ -201,6 +207,9 @@
 }
 
 -(void)didGuess:(GuessView*)gv guess:(NSString *)g {
+
+    // Once they guess stop the timer
+    [timerLayer stopTimer];
 
     // Don't allow a second guess
     guessView.button.enabled = NO;
@@ -213,13 +222,13 @@
     [gameData guess:g forWordAtIndex:self.guessLocation.row];
     
     // Did they answer it right?
-    if ([gameData.board.chain isWordSolved:self.guessLocation.row]) {
+    if ([gameData.board.chain isWordSolved:self.guessLocation.row] ||
+        gameData.board.isNew) {
         [self animateGuess:YES];
     }
     else {
         if ([gameData isGameOverWithSender:self]) {
             //do nothing
-            [timerLayer stopTimer];
             [self prepareSceneForPop]; //well... almost nothing
         }
         else {
@@ -269,7 +278,7 @@
     [feedTxt setColor:color];
     [feedTxt runAction:[CCSequence actions:[CCFadeIn
                                             actionWithDuration:.25],
-                        [CCDelayTime actionWithDuration:1.0],[CCFadeOut
+                        [CCDelayTime actionWithDuration:.25],[CCFadeOut
                                                               actionWithDuration:.25],
                         [CCCallFuncN actionWithTarget:self selector:@
                          selector(guessFeedbackAnimationDidFinish:)],
