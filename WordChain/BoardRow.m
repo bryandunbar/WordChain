@@ -29,9 +29,16 @@
     return self;
 }
 
--(void)setTiles:(NSMutableArray *)tiles {
+-(CCArray*)tiles {
+    CCArray *arr = [CCArray arrayWithCapacity:BOARD_GRID_COLUMNS];
+    for (int i = 0; i < BOARD_GRID_COLUMNS; i++) {
+        [arr addObject:[self getChildByTag:kTileStartingTag + i]];
+    }
+    return arr;
+}
+-(void)setTiles:(CCArray*)tileArray {
     
-    for (int i = 0; i < [tiles count]; i++) {
+    for (int i = 0; i < [tileArray count]; i++) {
         
         int tag = kTileStartingTag + i;
         
@@ -40,11 +47,9 @@
             [self removeChildByTag:tag cleanup:YES];
         
         // Add it back
-        Tile *tile = [tiles objectAtIndex:i];
+        Tile *tile = [tileArray objectAtIndex:i];
         tile.position = ccp((i * tile.boundingBox.size.width), 0);
         [self addChild:tile z:5 tag:tag];
-        
-        
     }
 }
         

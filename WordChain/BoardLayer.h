@@ -32,6 +32,7 @@
     NSMutableArray *animatingRows;
 }
 
+
 -(void)guessDidComplete;
 -(void)gameDidComplete;
     

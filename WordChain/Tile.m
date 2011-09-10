@@ -9,6 +9,7 @@
 #import "Tile.h"
 #import "GameState.h"
 @interface Tile()
+-(void)updateLabelWithRandomLetter:(ccTime)delta;
 @end
 
 @implementation Tile
@@ -68,6 +69,8 @@
     } else if (newState == TileStateInitialized) {
         [self.sprite setDisplayFrame:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"unsolved_tile.png"]];
         self.label.visible = NO;
+    } else if (newState == TileStateAnimating) {
+        self.label.visible = YES;
     }
 }
 
@@ -77,11 +80,56 @@
     [self.label setString:newLetter];
 }
 
+#pragma mark -
+#pragma mark Animation
+-(void)startAnimating {
+    
+    [self stopAllActions];
+    
+    // Save the previous state
+    stateBeforeAnimation = self.tileState;
+    self.tileState = TileStateAnimating;
+    
+    // Schedule updates
+    [self schedule:@selector(updateLabelWithRandomLetter:) interval:kAnimationInterval];
+    
+    
+}
+-(void)startAnimatingWithDelay:(ccTime)delay {
+    [self stopAllActions];
+    
+    if (delay > 0) {
+        id delayAction = [CCDelayTime actionWithDuration:delay];
+        id callFunc = [CCCallFunc actionWithTarget:self selector:@selector(startAnimating)];
+        [self runAction:[CCSequence actions:delayAction, callFunc, nil]];
+    } else {
+        [self startAnimating];
+    }
+}
+-(void)stopAnimating {
+    [self stopAllActions];
+
+    // Restore the tile state
+    self.tileState = stateBeforeAnimation;
+    
+    // Unschedule
+    [self unschedule:@selector(updateLabelWithRandomLetter:)];
+    
+    // Replace the original letter
+    [self.label setString:self.letter];
+}
+-(void)updateLabelWithRandomLetter:(ccTime)delta {
+    static NSString *LETTER_STRING = @"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    [self.label setString:[LETTER_STRING substringWithRange:[LETTER_STRING rangeOfComposedCharacterSequenceAtIndex:arc4random() % [LETTER_STRING length]]]];
+
+}
+                                    
+                                    
+
+#pragma mark -
 -(void)dealloc {
     [super dealloc];
     [letter release];
-    [sprite release];
-    [label release];
 }
 -(CGRect) rect {
     CGSize s = [self.sprite.texture contentSizeInPixels];

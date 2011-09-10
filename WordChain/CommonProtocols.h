@@ -20,7 +20,8 @@ typedef enum {
     TileStateSelectable,
     TileStatePlayed,
     TileStateSolved,
-    TileStateUnused
+    TileStateUnused,
+    TileStateAnimating
 } TileState;
 
 typedef enum {

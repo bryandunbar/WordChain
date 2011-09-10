@@ -22,7 +22,9 @@
 }
 
 @property (nonatomic,retain) CCSprite *sprite;
-@property (nonatomic,assign) NSMutableArray *tiles;
+@property (nonatomic,assign) CCArray *tiles;
 @property (nonatomic,assign) BoardRowState state;
 @property (nonatomic,assign) int row;
+
+
 @end

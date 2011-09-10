@@ -23,6 +23,9 @@
 -(CGPoint)locationForRow:(BoardRow*)row;
 -(int)rowPadding;
 
+-(void)startTileAnimation:(BoardRow*)row;
+-(void)stopTileAnimation;
+
 @property (nonatomic,retain) NSMutableArray *animatingRows;
 @end
 
@@ -109,6 +112,21 @@
     return ccp(kRowInset, self.contentSize.height - (boardRow.boundingBox.size.height * boardRow.row) - ([self rowPadding] * (boardRow.row + 1)));
 
 }
+-(void)startTileAnimation:(BoardRow *)row {
+    for (Tile* tile in row.tiles) {
+        [tile startAnimating];
+    }
+}
+-(void)stopTileAnimation {
+    for (id child in self.children) {
+        if ([child isKindOfClass:[BoardRow class]]) {
+            BoardRow *row = (BoardRow*)child;
+            for (Tile* tile in row.tiles) {
+                [tile stopAnimating];
+            }
+        }
+    }
+}
 -(void)animateBoard:(BoardRowAnimation)boardRowAnimation {
     
     // Stop timer while we are doing this
@@ -120,7 +138,8 @@
         // Grab the row
         int tag = kRowTagStart + row;
         BoardRow *boardRow = (BoardRow*)[self getChildByTag:tag];
-        
+        [self startTileAnimation:boardRow];
+
         // Determine where the row should end up, this is the same for all animation types
         CGPoint finalRestingPlace = [self locationForRow:boardRow];
         
@@ -181,10 +200,12 @@
 -(void)boardRowAnimationComplete:(void*)data {
     
     [animatingRows removeObject:data];
-    
+
     // Are all the board row animations complete?
     if ([animatingRows count] == 0) {
-    
+
+        [self stopTileAnimation];
+        
         // Done animating the board in, set the board to not new and start the round
         BaseGame *gameData = [GameState sharedInstance].gameData;
         Board *board = gameData.board;
@@ -220,7 +241,7 @@
         boardRow.row = row;
         
         // Populate the row with tiles
-        NSMutableArray *tileArray = [NSMutableArray arrayWithCapacity:BOARD_GRID_COLUMNS];
+        CCArray *tileArray = [CCArray arrayWithCapacity:BOARD_GRID_COLUMNS];
         for (int col = 0; col < BOARD_GRID_COLUMNS; col++) {
             
             // Get the tilestate

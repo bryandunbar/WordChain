@@ -202,7 +202,7 @@
         }
         index++;
     }
-    [self markWordsAsRetrieved:wordsToUpdate];
+    //[self markWordsAsRetrieved:wordsToUpdate];
     
     [request release];
     return wordsToPlay;
