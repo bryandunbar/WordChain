@@ -182,7 +182,7 @@
 #if GAME_AUTOROTATION == kGameAutorotationUIViewController
 	[director setDeviceOrientation:kCCDeviceOrientationPortrait];
 #else
-	[director setDeviceOrientation:kCCDeviceOrientationLandscapeLeft];
+    [director setDeviceOrientation:ORIENTATION];
 #endif
 	
 	[director setAnimationInterval:1.0/60];

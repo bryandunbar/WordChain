@@ -18,6 +18,7 @@
 }
 
 -(void)updateHud;
+-(void)layoutHud;
 -(NSString*)fontName;
 
 

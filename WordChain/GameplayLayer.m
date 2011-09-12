@@ -7,17 +7,16 @@
 //
 
 #import "GameplayLayer.h"
-
+#import "GameConfig.h"
 @implementation GameplayLayer
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithColor:ccc4(255, 0, 0, 255)];
     if (self != nil) {
         
         
         // Load the main Texture Atlas
-        // TODO: Sprites for other devices
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"spritesheet_ipad.plist"];
             spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"spritesheet_ipad.png"];
@@ -27,24 +26,18 @@
         }
         [self addChild:spriteSheet z:0];
         
-        CGSize screenSize = [CCDirector sharedDirector].winSize;
-
-        
-        // Create the board, inset it a bit
+        // Create the board
         BoardLayer *boardLayer = [BoardLayer node];
-        boardLayer.contentSize = CGSizeMake((screenSize.width * 2 / 3),screenSize.height);
-        boardLayer.position = ccp(0,0);
-        [self addChild:boardLayer];
-        //[self addChild:board z:0 tag:kBoardTag];
+        [self addChild:boardLayer z:0 tag:kTagBoard];
         
-        [self scheduleUpdate];
     }
     
     return self;
 }
 
-#pragma mark Update Method
--(void) update:(ccTime)deltaTime {
+-(void)setContentSize:(CGSize)contentSize {
+    [super setContentSize:contentSize];
+    [[self getChildByTag:kTagBoard] setContentSize:contentSize];
 }
 
 @end

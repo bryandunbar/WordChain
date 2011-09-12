@@ -26,6 +26,11 @@
     return self;
 }
 
+-(void)setContentSize:(CGSize)contentSize {
+    [super setContentSize:contentSize];
+    [self layoutHud];
+}
+
 -(void)updateHud {
     if (!isHudInitialized) {
         [self createHud];
@@ -45,5 +50,8 @@
     } else {
         return @"Arial.fnt";
     }
+}
+-(void)layoutHud {
+    
 }
 @end

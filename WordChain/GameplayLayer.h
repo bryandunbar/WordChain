@@ -9,7 +9,9 @@
 #import "CCLayer.h"
 #import "BoardLayer.h"
 
-@interface GameplayLayer : CCLayer {
+#define kTagBoard 1
+
+@interface GameplayLayer : CCLayerColor {
     CCSpriteBatchNode *spriteSheet;
 }
 

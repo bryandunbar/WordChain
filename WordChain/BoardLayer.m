@@ -69,6 +69,11 @@
     }
 }
 
+-(void)setContentSize:(CGSize)contentSize {
+    [super setContentSize:contentSize];
+    [self layoutBoard];
+}
+
 #pragma mark -
 #pragma mark Guess Scene Delegate methods
 
@@ -93,12 +98,7 @@
         Tile *tile = [self tileAtLocation:boardLocation];
         
         CGPoint touchLocation = [tile convertTouchToNodeSpace:touch];
-        CCLOG(@"touchLocaton = %@", NSStringFromCGPoint(touchLocation));
-        CCLOG(@"tile.rect = %@", NSStringFromCGRect([tile rect]));
-        CCLOG(@"tile.boundingBox = %@", NSStringFromCGRect([tile boundingBox]));
-        
         if (CGRectContainsPoint(tile.boundingBox, touchLocation)) {            
-            CCLOG(@"Touched Tile: row = %i, col = %i", tile.row, tile.col);
             [self playTile:tile];
             return YES;
         }
@@ -146,13 +146,17 @@
         // Determine the starting position
         CGPoint startingPoint = CGPointZero;
         
+        
+        CCLOG(@"self.contentSize = %@", NSStringFromCGSize(self.contentSize));
+        CCLOG(@"boardRow.boundingBox = %@", NSStringFromCGRect(boardRow.boundingBox));
+        
         // start_x
         if (boardRowAnimation == BoardRowAnimationLeftTop || boardRowAnimation == BoardRowAnimationLeftBottom) {
-            startingPoint.x = -1 * boardRow.boundingBox.size.width;
+            startingPoint.x = self.position.x - boardRow.boundingBox.size.width;
         } else if (boardRowAnimation == BoardRowAnimationRightTop || boardRowAnimation == BoardRowAnimationRightBottom) {
-            startingPoint.x = boardRow.boundingBox.size.width + self.contentSize.width;
+            startingPoint.x = self.position.x + self.contentSize.width;
         } else if (boardRowAnimation == BoardRowAnimationAlternatingLeftRightTop || boardRowAnimation == BoardRowAnimationAlternatingLeftRightBottom) {
-            startingPoint.x = (row % 2 == 0 ? -1 * boardRow.boundingBox.size.width : boardRow.boundingBox.size.width + self.contentSize.width);
+            startingPoint.x = (row % 2 == 0 ? self.position.x - boardRow.boundingBox.size.width : self.position.x + self.contentSize.width);
         } else if (boardRowAnimation == BoardRowAnimationTop || boardRowAnimation == BoardRowAnimationBottom) {
             startingPoint.x = kRowInset;
         }
@@ -161,9 +165,9 @@
         if (boardRowAnimation > BoardRowAnimationBottom) {
             startingPoint.y = finalRestingPlace.y;
         } else if (boardRowAnimation == BoardRowAnimationTop) {
-            startingPoint.y = self.contentSize.height + 2 * boardRow.boundingBox.size.height;
+            startingPoint.y = self.contentSize.height + boardRow.boundingBox.size.height;
         } else if (boardRowAnimation == BoardRowAnimationBottom) {
-            startingPoint.y = -2 * boardRow.boundingBox.size.height;
+            startingPoint.y = self.position.y;
         }
             
 
@@ -248,9 +252,14 @@
 
     for (int row = 0; row < BOARD_GRID_ROWS; row++) {
         
-        // Create a new row
-        BoardRow *boardRow = [BoardRow node];
-        boardRow.row = row;
+        BoardRow *boardRow = (BoardRow*)[self getChildByTag:kRowTagStart + row];
+        if (boardRow == nil) {
+        
+            // Create a new row
+            BoardRow *boardRow = [BoardRow node];
+            boardRow.row = row;
+            [self addChild:boardRow z:0 tag:kRowTagStart + row];
+        }
         
         // Populate the row with tiles
         CCArray *tileArray = [CCArray arrayWithCapacity:BOARD_GRID_COLUMNS];
@@ -271,7 +280,7 @@
         if (!board.isNew) {
             boardRow.position = [self locationForRow:boardRow];
         }
-        [self addChild:boardRow z:0 tag:kRowTagStart + row];
+        
     }
 }
 

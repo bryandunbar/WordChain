@@ -8,62 +8,77 @@
 
 #import "TwoPlayerHud.h"
 #import "TwoPlayerGame.h"
-#import "TimerLayer.h"
+#import "GameConfig.h"
 
 #define ACTIVE_PLAYER_COLOR ccc3(255, 0, 0)
-#define INACTIVE_PLAYER_COLOR ccc3(255, 255, 255)
+#define INACTIVE_PLAYER_COLOR ccc3(200, 200, 200)
 
 @implementation TwoPlayerHud
-@synthesize player1Label, player1Score, player2Label, player2Score, round;
+@synthesize player1Label, player1Score, player2Label, player2Score, round, timerLayer;
 
 -(void)createHud {
     
-    
-    float scale = 0.5;
-    
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    [self setContentSize:CGSizeMake(winSize.width / 3, winSize.height)];
-    self.position = ccp(winSize.width - self.contentSize.width, 0);
-    CGSize hudSize = self.contentSize;
-    
+    // Create the labels
     self.player1Label = [CCLabelBMFont labelWithString:@"Player1" fntFile:[self fontName]];
-    player1Label.anchorPoint = ccp(0,1);
-    player1Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding);
     [self addChild:player1Label];
     
     self.player1Score = [CCLabelBMFont labelWithString:@"Player2" fntFile:[self fontName]];
-    player1Score.anchorPoint = ccp(1,1);
-    player1Score.position = ccp(hudSize.width - kHudLabelPadding,hudSize.height - kHudLabelPadding);
     [self addChild:player1Score];
     
     self.player2Label = [CCLabelBMFont labelWithString:@"0" fntFile:[self fontName]];
-    player2Label.anchorPoint = ccp(0,1);
-    player2Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding - (player2Label.contentSize.height * scale));
     [self addChild:player2Label];
     
     self.player2Score = [CCLabelBMFont labelWithString:@"0" fntFile:[self fontName]];
-    player2Score.anchorPoint = ccp(1,1);
-    player2Score.position = ccp(hudSize.width - kHudLabelPadding,hudSize.height - kHudLabelPadding - (player2Score.contentSize.height * scale));
     [self addChild:player2Score];
     
     self.round = [CCLabelBMFont labelWithString:@"Round 1" fntFile:[self fontName]];
-    round.anchorPoint = ccp(0,0);
-    round.position = ccp(kHudLabelPadding, kHudLabelPadding);
     [self addChild:round];
         
-    TimerLayer *timerLayer = [TimerLayer node];
+    
+    // Create the timer
+    self.timerLayer = [TimerLayer node];
     [self addChild:timerLayer z:10 tag:kTimerLayerTag];
     
-    timerLayer.anchorPoint = ccp(1,1);
-    timerLayer.position = ccp(hudSize.width - (hudSize.width * .75),hudSize.height - (hudSize.height * .4));
-
-    // TODO: Get the font sizes right
-    player1Label.scale = player1Score.scale = player2Label.scale = player2Score.scale = round.scale = scale;
-
+    // Position everything
+    [self layoutHud];
     isHudInitialized = YES;
     
 }
 
+// Position everything
+-(void)layoutHud {
+    CGSize hudSize = self.contentSize;
+    float scale = 0.5;
+    
+    player1Label.anchorPoint = ccp(0,1);
+    player1Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding);
+    
+    player1Score.anchorPoint = ccp(1,1);
+    player1Score.position = ccp(hudSize.width - kHudLabelPadding,player1Label.position.y);
+
+    player2Label.anchorPoint = ccp(0,1);
+    player2Label.position = ccp(kHudLabelPadding, hudSize.height - kHudLabelPadding - (player2Label.contentSize.height * scale));
+    
+    player2Score.anchorPoint = ccp(1,1);
+    player2Score.position = ccp(hudSize.width - kHudLabelPadding,player2Label.position.y);
+
+    round.anchorPoint = ccp(0,0);
+    round.position = ccp(kHudLabelPadding, kHudLabelPadding);
+
+    
+    if (ORIENTATION == kCCDeviceOrientationPortrait) {
+        // Put the timer in the bottom right
+        timerLayer.position = ccp(hudSize.width - timerLayer.contentSize.width, timerLayer.contentSize.height / 2);
+    } else {
+        // Put in in the middle
+        timerLayer.position = ccp(hudSize.width / 2, hudSize.height / 2);
+    }
+    
+    // TODO: Get the font sizes right
+    player1Label.scale = player1Score.scale = player2Label.scale = player2Score.scale = round.scale = scale;
+
+
+}
 -(void)doUpdateHud {
     TwoPlayerGame *gameData = [TwoPlayerGame currentGame];
     

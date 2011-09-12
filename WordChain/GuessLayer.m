@@ -15,6 +15,7 @@
 #import "GuessScene.h"
 #import "TimerLayer.h"
 #import "BoardRow.h"
+#import "GameConfig.h"
 
 @interface GuessLayer ()
 -(void)promptForGuess;
@@ -42,13 +43,16 @@
 {
     self = [super init];
     if (self) {
+
+        // Create the time, it will be positioned in promptForGuess
+        timerLayer = [TimerLayer node];
+        timerLayer.delegate = self;
+
         // Initialization code here.
         self.guessLocation = location;
         [self promptForGuess];
         
         // Show the timer
-        timerLayer = [TimerLayer node];
-        timerLayer.delegate = self;
         [self addChild:timerLayer z:0 tag:kTimerLayerTag];
         [timerLayer startTimer];
     }
@@ -95,15 +99,23 @@
         
         label = [CCLabelTTF labelWithString:[labelText lowercaseString] fontName:@"Marker Felt" fontSize:[self fontSize]]; 
         [label setColor:ccc3(255, 255, 255)];
-        label.anchorPoint = ccp(0,0.5);
-        int ypos = self.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
-        ypadding += 3;
-        [label setPosition:ccp(5,ypos)];
+        
+        // TODO: This needs to be better
+        if (ORIENTATION == kCCDeviceOrientationPortrait) {
+            label.anchorPoint = ccp(0,0.5);
+            int ypos = boardRow.position.y - boardRow.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
+            ypadding += 3;
+            [label setPosition:ccp(5,ypos)];
+        } else {        
+            label.anchorPoint = ccp(0,0.5);
+            int ypos = self.contentSize.height - 20 - (row * [label boundingBox].size.height + 0) - ypadding;
+            ypadding += 3;
+            [label setPosition:ccp(5,ypos)];
+        }
         
         [self addChild:label];    
         
     }
-
 }
 
 -(void)layoutGuessTiles {
@@ -122,7 +134,7 @@
     Board *board = gameData.board;
     
     // Create a board row and position it
-    BoardRow *boardRow = [BoardRow node];
+    boardRow = [BoardRow node];
     boardRow.position = ccp(position_x, position_y);
     
      // Add a tile at every position
@@ -152,28 +164,40 @@
         
         // Animate the tile as well
         [[boardRow tileAtIndex:self.guessLocation.col] startAnimating];
-    }                             
+    }        
+    
+    // Position the timer
+    if (ORIENTATION == kCCDeviceOrientationPortrait) {
+        timerLayer.position = ccp(self.contentSize.width - timerLayer.contentSize.width / 2, boardRow.position.y - boardRow.contentSize.height - timerLayer.contentSize.height);
+    } else {
+        timerLayer.position = ccp(self.contentSize.width + timerLayer.contentSize.width, boardRow.position.y - timerLayer.contentSize.height / 2);
+    }
     
 
 }
 
 -(void)promptForGuess {
         
+    // Position the boardrow
+    [self layoutGuessTiles];
+
+    // Position the chain words
+    [self layoutGameWords];
+
+    
+    // Create the guess view and hidden text field to show the keyboard
     if (!guessView) {
         self.guessView = (GuessView*)[[[NSBundle mainBundle] loadNibNamed:@"GuessView" owner:self options:nil] objectAtIndex:0];
         guessView.delegate = self;
     }
-    [self layoutGameWords];
-
-    
-    [self layoutGuessTiles];
     if (!hiddenTextField) {
         self.hiddenTextField = [[UITextField alloc] initWithFrame:CGRectZero];
         [[[[CCDirector sharedDirector] openGLView] window] addSubview:hiddenTextField];
         hiddenTextField.inputAccessoryView = guessView;
     }
-    self.guessView.textField.text = [self visibleTextForRow:self.guessLocation.row];
+
     // Set the text and show the keyboard
+    self.guessView.textField.text = [self visibleTextForRow:self.guessLocation.row];
     [hiddenTextField becomeFirstResponder];
     [guessView.textField becomeFirstResponder];
 }

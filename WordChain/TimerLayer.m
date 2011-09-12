@@ -13,7 +13,7 @@
 @synthesize timerLabel=_timerLabel, delegate=_delegate;
 
 -(id)init {
-    if ((self = [super initWithColor:ccc4(0, 0, 0, 255)])) {
+    if ((self = [super init])) {
         isTimerInitialized = NO;
         [self updateTimer];
     }
@@ -46,26 +46,17 @@
 }
 
 -(void)createTimer {
-    // eventually this will go away
-    BaseGame *gameData = [GameState sharedInstance].gameData;
-    //gameData.timer = 60;
 
-    isTimerInitialized = TRUE;
-    float scale = 1;
-    
-    CGSize winSize = [CCDirector sharedDirector].winSize;
-    //[self setContentSize:CGSizeMake(winSize.width / 3, winSize.height)];
-    [self setContentSize:CGSizeMake(winSize.width / 6, winSize.height * .25)];
-    //[self setContentSize:CGSizeMake(30, 30)];
-    self.position = ccp(winSize.width - self.contentSize.width, winSize.height - (winSize.height * .35));
-    CGSize hudSize = self.contentSize;
-    
-    self.timerLabel = [CCLabelBMFont labelWithString:[NSString stringWithFormat:@"%d",gameData.timer] fntFile:[self fontName]];    
-    self.timerLabel.anchorPoint = ccp(0,1);
-    self.timerLabel.position = ccp(kTimerLabelPadding, hudSize.height - kTimerLabelPadding);
+    self.timerLabel = [CCLabelBMFont labelWithString:@"60" fntFile:[self fontName]];    
     [self addChild:self.timerLabel];
+    self.contentSize = self.timerLabel.contentSize;
     
-    self.timerLabel.scale = scale;
+    isTimerInitialized = YES;
+
+}
+
+-(CGRect)boundingBox {
+    return self.timerLabel.boundingBox;
 }
 
 -(void) decrementTimer: (ccTime) dt {

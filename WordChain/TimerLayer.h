@@ -16,7 +16,7 @@
 
 @end
 
-@interface TimerLayer : CCLayerColor {
+@interface TimerLayer : CCLayer {
     bool isTimerInitialized;
     CCLabelBMFont *_timerLabel;
     id<TimerLayerDelegate> _delegate;

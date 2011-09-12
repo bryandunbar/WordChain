@@ -25,4 +25,6 @@
 #define GAME_AUTOROTATION kGameAutorotationNone
 
 
+#define ORIENTATION kCCDeviceOrientationPortrait
+//#define ORIENTATION kCCDeviceOrientationLandscapeLeft
 #endif // __GAME_CONFIG_H

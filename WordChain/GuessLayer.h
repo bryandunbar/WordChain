@@ -10,7 +10,7 @@
 #import "GuessView.h"
 #import "Board.h"
 #import "TimerLayer.h"
-
+#import "BoardRow.h"
 #define kTagBoardRow 1000
 
 @interface GuessLayer : CCLayer <GuessViewDelegate, TimerLayerDelegate, UIAlertViewDelegate> {
@@ -18,6 +18,7 @@
     UITextField *hiddenTextField;
     BoardLocation *guessLocation;
     TimerLayer *timerLayer;
+    BoardRow *boardRow;
 }
 +(id)nodeWithGuessLocation:(BoardLocation *)location;
 -(void)handleTimerExpired;

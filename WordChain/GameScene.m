@@ -8,6 +8,7 @@
 
 #import "GameScene.h"
 #import "GameState.h"
+#import "GameConfig.h"
 
 @implementation GameScene
 
@@ -18,7 +19,6 @@
         
         // Gameplay Layer
         GameplayLayer *gameplayLayer = [GameplayLayer node];
-        [self addChild:gameplayLayer z:5 tag:kGameLayerTag];
         
         // Hud Layer
         GameModes gameMode = [GameState sharedInstance].gameMode;
@@ -33,6 +33,25 @@
                 break;
         }
         
+        // Size and position the nodes
+        CGSize screenSize = [CCDirector sharedDirector].winSize;
+        if (ORIENTATION == kCCDeviceOrientationPortrait) {
+            gameplayLayer.contentSize = CGSizeMake(screenSize.width, screenSize.width);
+            gameplayLayer.position = ccp(0, screenSize.height - gameplayLayer.contentSize.height);
+            
+            hudLayer.contentSize = CGSizeMake(screenSize.width, screenSize.height - gameplayLayer.contentSize.height);
+            hudLayer.position = ccp(0,0);
+        } else {
+            gameplayLayer.contentSize = CGSizeMake(screenSize.height,screenSize.height);
+            gameplayLayer.position = ccp(0,0);
+            
+            hudLayer.contentSize = CGSizeMake(screenSize.width - gameplayLayer.contentSize.width, screenSize.height);
+            hudLayer.position = ccp(gameplayLayer.contentSize.width,0);
+
+        }
+        
+         // Add the nodes
+        [self addChild:gameplayLayer z:0 tag:kGameLayerTag];
         [self addChild:hudLayer z:5 tag:kHudLayerTag];
         
     }
