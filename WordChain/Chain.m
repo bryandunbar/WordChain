@@ -215,47 +215,37 @@
     return wordsToPlay;
 }
 
--(int)randomChainFromChains:(NSArray *)chains {
-    int randomIndex =  arc4random() % [chains count];
-    ChainWord * chainWord = (ChainWord *)[chains objectAtIndex:randomIndex];
-    return [chainWord.chain intValue];
-}
-
--(NSArray *)chainCandidatesForLevel:(int)lvl withRetrieveCount:(int)retrieveCount{
-    // return a list of distinct chains in order to randomize them
-    // it is ordered by retrieveCount to lessen the duplicate plays
-    // not setting this yet though...
-    
+- (int)randomChainForLevel:(int)lvl withRetrieveCount:(int)retrieveCount {
+    // replaces chainCandidatesForLevel and randomChainFromChains
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
                                                    inManagedObjectContext:self.moc]; 
 	[request setEntity:chainEntity];
     
+    NSDictionary * entityProperties = [chainEntity propertiesByName];
+    NSPropertyDescription * chainProperty = [entityProperties objectForKey:@"chain"];
+    [request setReturnsDistinctResults:YES];
+    NSArray * tempPropertyArray = [NSArray arrayWithObject:chainProperty];
+
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:
                               [NSString stringWithFormat:@"level == %d and retrieveCount = %d",lvl, retrieveCount]];
     [request setPredicate:predicate];
-    
-    // this will lessen the likelihood of repeating results
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"retrieveCount" ascending:YES];
-    
-    NSDictionary * entityProperties = [chainEntity propertiesByName];
-    NSPropertyDescription * chainProperty = [entityProperties objectForKey:@"chain"];
-    NSPropertyDescription * countProperty = [entityProperties objectForKey:@"retrieveCount"];
-    NSArray * tempPropertyArray = [NSArray arrayWithObjects:chainProperty, countProperty, nil];
-    [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch:tempPropertyArray];
-    
-    [request setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];
-    [sortDescriptor release];
-    
     NSError *error;
-    return [[[self.moc executeFetchRequest:request error:&error] copy] autorelease];   
+    NSUInteger numChains = [self.moc countForFetchRequest:request error:&error];    
+    NSUInteger offset = numChains - (arc4random() % numChains);
+    NSLog(@"Chain Candidates = %d",numChains);
+    [request setFetchOffset:offset];
+    [request setFetchLimit:1];
+    [request setPropertiesToFetch:tempPropertyArray];
+
+    NSArray* chains = [self.moc executeFetchRequest:request error:&error];
+    ChainWord * chainWord = (ChainWord *)[chains objectAtIndex:0];
+    return [chainWord.chain intValue];
 }
 
 -(NSArray *)wordsForLevel:(int)lvl {
-    NSArray *chainCandidates = [self chainCandidatesForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
-    NSLog(@"Total Chain Candidates = %d",[chainCandidates count]);
-    int chainToSelect = [self randomChainFromChains:chainCandidates];
+    int chainToSelect = [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
     return [self wordsFromChain:chainToSelect];
 }
 
