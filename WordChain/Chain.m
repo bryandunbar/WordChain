@@ -28,11 +28,11 @@
         AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         self.moc = appDelegate.managedObjectContext;
     
-        // First and last start as solved
+        // Grab the words
         self.words = [self wordsForLevel:4];
+        
+        
         self.solvedIndices = [NSMutableArray arrayWithCapacity:[self.words count]];
-//        [self solveWordAtIndex:0];
-//        [self solveWordAtIndex:[self.words count] - 1];
         NSLog(@"words = %@",self.words);
     }
     
@@ -204,7 +204,12 @@
         [wordsToUpdate addObject:w.id];
         index++;
     }
-    [self markWordsAsRetrieved:wordsToUpdate];
+
+    // This update does not need to run right away
+    dispatch_queue_t queue = dispatch_queue_create("com.coolios.queue.chain", 0ul);
+    dispatch_async(queue, ^{
+        [self markWordsAsRetrieved:wordsToUpdate];
+    });
     
     [request release];
     return wordsToPlay;
