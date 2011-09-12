@@ -204,6 +204,8 @@
     // Are all the board row animations complete?
     if ([animatingRows count] == 0) {
 
+        // Important, stop tile animations before doing any other calls here,
+        // because we need to reset the tile states to their real values
         [self stopTileAnimation];
         
         // Done animating the board in, set the board to not new and start the round
