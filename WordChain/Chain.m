@@ -11,6 +11,7 @@
 #import "ChainWord.h"
 #import "Word.h"
 #import "sqlite3.h"
+#import "GameState.h"
 
 @interface Chain ()
 @property (nonatomic,retain) NSArray *words;
@@ -110,6 +111,8 @@
 #pragma mark Chain Loading Stuff
 
 -(int)minRetrieveCountForAllChains {
+    NSDate *methodStart = [NSDate date];
+
     // Randomization logic: get minimum retrieve count (words that haven't been played yet)
 
     NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
@@ -131,6 +134,10 @@
     NSError *error;
     
     NSArray *objects = [self.moc executeFetchRequest:request error:&error];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];    
+    NSLog(@"min retrieve count time: %f",executionTime);
+
     if (objects == nil || [objects count] < 1) {
         // Handle the error.
         return 0;
@@ -177,6 +184,7 @@
 }
 
 -(NSArray *)wordsFromChain:(int)chain {
+    NSDate *methodStart = [NSDate date];
     NSFetchRequest *request = [[NSFetchRequest alloc] init]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
                                                    inManagedObjectContext:self.moc]; 
@@ -212,10 +220,16 @@
     });
     
     [request release];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];    
+    NSLog(@"words from chain time: %f",executionTime);
+
     return wordsToPlay;
 }
 
 - (int)randomChainForLevel:(int)lvl withRetrieveCount:(int)retrieveCount {
+    NSDate *methodStart = [NSDate date];
+
     // replaces chainCandidatesForLevel and randomChainFromChains
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease]; 
 	NSEntityDescription *chainEntity = [NSEntityDescription entityForName:@"ChainWord" 
@@ -241,12 +255,35 @@
 
     NSArray* chains = [self.moc executeFetchRequest:request error:&error];
     ChainWord * chainWord = (ChainWord *)[chains objectAtIndex:0];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];    
+    NSLog(@"random chain count time: %f",executionTime);
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    gameData.nextChain = [chainWord.chain intValue];
     return [chainWord.chain intValue];
 }
 
 -(NSArray *)wordsForLevel:(int)lvl {
-    int chainToSelect = [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
-    return [self wordsFromChain:chainToSelect];
+    BaseGame *gameData = [GameState sharedInstance].gameData;
+    int chainToSelect;
+    //TODO: a problem in minChain = 0... may need to go high like 9999999
+    if (gameData.nextChain == 0) {
+        chainToSelect = [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
+        NSLog(@"!! NO next chain found: %d",gameData.nextChain);
+    }
+    else {
+       chainToSelect = gameData.nextChain;
+       NSLog(@"next chain found: %d",gameData.nextChain);
+    }
+    NSArray *wordList = [self wordsFromChain:chainToSelect];
+    gameData.nextChain = 0;
+    // This update does not need to run right away
+    dispatch_queue_t queue = dispatch_queue_create("com.coolios.queue.chain.nextChain", 0ul);
+    dispatch_async(queue, ^{
+        [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
+    });
+    
+   return wordList;
 }
 
 - (void)encodeWithCoder: (NSCoder *)coder

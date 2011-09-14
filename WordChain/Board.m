@@ -53,7 +53,13 @@
     
     // Instatiate a new chain and initialize the board
     isNew = YES;
+    NSDate *methodStart = [NSDate date];
+    
     self.chain = [[Chain alloc] init];
+    NSDate *methodFinish = [NSDate date];
+    NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];    
+    NSLog(@"NEW CHAIN TIME: %f",executionTime);
+
     [self updateTileStates]; 
 }
 

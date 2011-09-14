@@ -9,7 +9,7 @@
 #import "BaseGame.h"
 
 @implementation BaseGame
-@synthesize board, round, timer;
+@synthesize board, round, timer, nextChain;
 - (id)init
 {
     self = [super init];
@@ -58,6 +58,7 @@
     [encoder encodeInt:round forKey:@"Round"];
     [encoder encodeInt:timer forKey:@"Timer"];
     [encoder encodeObject:board forKey:@"Board"];
+    [encoder encodeInt:nextChain forKey:@"NextChain"];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder {
@@ -65,6 +66,7 @@
         self.round = [decoder decodeIntForKey:@"Round"];
         self.timer = [decoder decodeIntForKey:@"Timer"];
         self.board = [decoder decodeObjectForKey:@"Board"];
+        self.nextChain = [decoder decodeIntForKey:@"NextChain"];
     }
     return self;
 }

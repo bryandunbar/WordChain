@@ -32,6 +32,7 @@
     self.player2Score = 0;
     self.player1 = @"Player 1";
     self.player2 = @"Player 2";
+    self.nextChain = 0;
 }
 
 // Convenience method for grabbing the shared game state as a two player game

@@ -20,6 +20,9 @@
     // The countdown timer for round
     int timer;
 
+    // The id of the next random chain
+    int nextChain;
+    
     /** The Board **/
     Board *board;
  
@@ -27,6 +30,8 @@
 
 @property (nonatomic,assign) int round;
 @property (nonatomic,assign) int timer;
+@property (nonatomic,assign) int nextChain;
+
 @property (nonatomic,retain) Board *board;
 
 
