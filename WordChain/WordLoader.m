@@ -9,6 +9,7 @@
 #import "WordLoader.h"
 #import "Word.h"
 #import "ChainWord.h"
+#import "sqlite3.h"
 
 @implementation WordLoader
 @synthesize moc=_moc;
@@ -226,6 +227,53 @@
     return ([checkWords count] < 1);
 }
 
+-(void)createIndexes {
+    NSLog(@"start creating indexes...");
+    NSString *databasePath = [[NSBundle mainBundle] 
+                                  pathForResource:@"WordChain" ofType:@"sqlite"];
+
+    sqlite3 *database;
+    sqlite3_stmt *update_statement;
+    
+    NSString *index1String = @"CREATE INDEX idx_chain on zchainword (zchain)";
+    const char *sql1 = [index1String UTF8String];
+    NSString *index2String = @"CREATE INDEX idx_level_retrievecount on zchainword (zretrievecount, zlevel)";
+    const char *sql2 = [index2String UTF8String];
+    NSString *sql3String = @"VACUUM";
+    const char *sql3 = [sql3String UTF8String];
+    
+    if(sqlite3_open([databasePath UTF8String], &database) == SQLITE_OK) {
+        if (sqlite3_exec(database,sql1, NULL, NULL, NULL) == SQLITE_OK) {
+            NSLog(@"Index 1 Created");
+        }
+        else {
+            NSLog(@"Failed to add index 1: %@", index1String);  
+            NSLog(@"Error: failed to create index 1 with message '%s'.", sqlite3_errmsg(database));
+        }
+        if (sqlite3_exec(database,sql2, NULL, NULL, NULL) == SQLITE_OK) {
+            NSLog(@"Index 2 Created");
+        }
+        else {
+            NSLog(@"Failed to add index 2: %@", index2String);  
+            NSLog(@"Error: failed to create index 2 with message '%s'.", sqlite3_errmsg(database));
+        }
+        
+        if (sqlite3_exec(database,sql3, NULL, NULL, NULL) == SQLITE_OK) {
+            NSLog(@"VACUUM COMPLETED");
+        }
+        else {
+            NSLog(@"Failed to complete vacuum: %@", sql3String);  
+            NSLog(@"Error: failed to complete vacuum with message '%s'.", sqlite3_errmsg(database));
+        }
+        
+        sqlite3_finalize(update_statement);
+        sqlite3_close(database);
+    }
+    else {
+        NSLog(@"Failed to connect to sqlite database at path: %@", databasePath);
+    }
+}
+
 - (void)loadChains {
     if ([self shouldLoadWords]) {
         NSLog(@"Loading: Level %d...",0);
@@ -234,6 +282,7 @@
             NSLog(@"Loading: Level %d...",x);
             [self loadChainsForLevel:x];
         }
+        [self createIndexes];
     }
 }
 

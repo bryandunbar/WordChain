@@ -20,6 +20,7 @@
 
 -(NSString*)wordAtIndex:(NSUInteger)idx;
 -(NSString*)letterForWord:(NSUInteger)wordIdx atIndex:(NSUInteger)idx;
+- (int)randomChainForLevel:(int)lvl withRetrieveCount:(int)retrieveCount;
 
 -(BOOL)guess:(NSString*)g forWordAtIndex:(NSUInteger)idx;
 -(BOOL)isWordSolved:(NSUInteger)idx;

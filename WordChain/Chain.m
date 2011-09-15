@@ -201,6 +201,7 @@
     
     NSArray *chainWords = [self.moc executeFetchRequest:request error:&error]; 
     int index = 0;
+    int level = 5;
     NSMutableArray *wordsToPlay = [NSMutableArray arrayWithCapacity:6];
     NSMutableArray *wordsToUpdate = [NSMutableArray arrayWithCapacity:6];
     for (ChainWord *cw in chainWords) {
@@ -210,6 +211,7 @@
         }
         [wordsToPlay addObject:w.wordTwo];
         [wordsToUpdate addObject:w.id];
+        level = [cw.level intValue];
         index++;
     }
 
@@ -217,8 +219,8 @@
     dispatch_queue_t queue = dispatch_queue_create("com.coolios.queue.chain", 0ul);
     dispatch_async(queue, ^{
         [self markWordsAsRetrieved:wordsToUpdate];
+        [self randomChainForLevel:level withRetrieveCount:[self minRetrieveCountForAllChains]];
     });
-    
     [request release];
     NSDate *methodFinish = [NSDate date];
     NSTimeInterval executionTime = [methodFinish timeIntervalSinceDate:methodStart];    
@@ -267,7 +269,7 @@
     BaseGame *gameData = [GameState sharedInstance].gameData;
     int chainToSelect;
     //TODO: a problem in minChain = 0... may need to go high like 9999999
-    if (gameData.nextChain == 0) {
+    if (gameData.nextChain ==  0) {
         chainToSelect = [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
         NSLog(@"!! NO next chain found: %d",gameData.nextChain);
     }
@@ -277,11 +279,6 @@
     }
     NSArray *wordList = [self wordsFromChain:chainToSelect];
     gameData.nextChain = 0;
-    // This update does not need to run right away
-    dispatch_queue_t queue = dispatch_queue_create("com.coolios.queue.chain.nextChain", 0ul);
-    dispatch_async(queue, ^{
-        [self randomChainForLevel:lvl withRetrieveCount:[self minRetrieveCountForAllChains]];
-    });
     
    return wordList;
 }
